@@ -1,0 +1,14 @@
+@import "./template.css";
+
+.console-centering main {
+  width: 100%;
+  max-width: 720px;
+  margin: auto;
+  padding-top: 24px;
+}
+
+.console-centering header {
+  width: auto;
+  padding: 0px 0 24px 0;
+  background-color: inherit;
+}

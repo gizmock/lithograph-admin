@@ -1,0 +1,74 @@
+@import "./template.css";
+
+footer {
+  z-index: 5;
+}
+
+.dark-body .console-with-sidebar aside,
+.dark-body .console-with-sidebar footer,
+.dark-body .console-drawer {
+  background-color: #394b59;
+}
+
+.console-with-sidebar header,
+.console-with-sidebar aside,
+.console-drawer {
+  padding: 24px 24px 0px 24px !important;
+}
+
+.console-with-sidebar main,
+.console-drawer {
+  padding: 24px 24px 48px 24px !important;
+}
+
+.console-with-sidebar header > *:not(:last-child),
+.console-with-sidebar main > *:not(:last-child),
+.console-with-sidebar aside > *:not(:last-child),
+.console-drawer > * {
+  margin-bottom: 16px;
+}
+
+.console-with-sidebar footer {
+  position: fixed;
+  bottom: 0%;
+  width: 100%;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  font-size: 12px;
+}
+
+/* For mobile */
+@media only screen and (max-width: 768px) {
+  .console-with-sidebar {
+    display: block;
+  }
+
+  .console-with-sidebar aside {
+    display: none;
+  }
+}
+
+/* For desktop */
+@media only screen and (min-width: 769px) {
+  .console-with-sidebar {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .console-with-sidebar header,
+  .console-drawer {
+    display: none;
+  }
+
+  .console-with-sidebar aside {
+    width: 300px;
+    min-height: calc(100vh - 24px);
+    overflow-y: scroll;
+  }
+
+  .console-with-sidebar main {
+    width: calc(100% - 300px);
+    overflow-y: scroll;
+  }
+}

@@ -1,0 +1,17 @@
+.pageEditorPanelDesktop,
+.pageEditorPanelMobile {
+  display: none;
+  margin-right: 16px;
+}
+
+@media screen and (max-width: 768px) {
+  .pageEditorPanelMobile {
+    display: inline-block;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .pageEditorPanelDesktop {
+    display: inline-block;
+  }
+}
