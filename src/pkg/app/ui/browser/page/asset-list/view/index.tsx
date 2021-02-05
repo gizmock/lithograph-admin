@@ -1,10 +1,10 @@
 import { useDidMount, useWillUnmount } from "beautiful-react-hooks";
 import { useContext, useState } from "react";
-import { StorageObject } from "../../../../../domain/model/file-storage";
-import { AssetListActionContext, AssetListStateContext } from "./context";
-import { AssetControlButton } from "./view/control-button";
-import { AssetList } from "./view/object-list";
-import { PrefixBreadcrumbs } from "./view/prefix-breadcrumbs";
+import { StorageObject } from "../../../../../../domain/model/file-storage";
+import { AssetListActionContext, AssetListStateContext } from "../context";
+import { AssetControlButton } from "./control-button";
+import { AssetList } from "./object-list";
+import { PrefixBreadcrumbs } from "./prefix-breadcrumbs";
 
 export const AssetListView = () => {
   const state = useContext(AssetListStateContext);
