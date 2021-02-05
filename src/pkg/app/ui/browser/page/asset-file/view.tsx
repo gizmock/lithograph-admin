@@ -12,7 +12,7 @@ export const AssetFileView = () => {
 
   useDidMount(async () => {
     try {
-      await action.read();
+      await action.load();
     } catch {
       GlobalToaster.show({
         intent: Intent.DANGER,

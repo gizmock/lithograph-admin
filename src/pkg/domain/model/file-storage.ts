@@ -1,3 +1,7 @@
+export const ASSET_ROOT = "public/asset/";
+
+export const ATTACHMENT_ROOT = "public/attachment/";
+
 type StorageObjectMeta = {
   readonly lastModified?: Date;
   readonly size?: number;

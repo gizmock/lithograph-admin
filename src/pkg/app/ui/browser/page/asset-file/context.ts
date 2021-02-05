@@ -12,7 +12,7 @@ export const AssetFileStateContext = createContext({} as AssetFileState);
 export type AssetFileAction = {
   backToList: () => void;
   download: () => void;
-  read: () => Promise<void>;
+  load: () => Promise<void>;
 };
 
 export const AssetFileActionContext = createContext({} as AssetFileAction);

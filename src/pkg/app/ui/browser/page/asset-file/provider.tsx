@@ -1,21 +1,21 @@
 import { useContext, useState } from "react";
-import { useHistory } from "react-router";
-import {
-  FileStorage,
-  StorageObject,
-} from "../../../../../domain/model/file-storage";
-import { AssetListPath } from "../../route-path";
+import { useHistory, useParams } from "react-router";
+import { StorageObject } from "../../../../../domain/model/file-storage";
+import { InfraContext } from "../../context";
+import { AssetFilePathParam, AssetListPath } from "../../route-path";
 import { AssetFileActionContext, AssetFileStateContext } from "./context";
 
 export const AssetFileStateProvider = (props: {
-  path: string;
   children: React.ReactNode;
 }) => {
+  const params = useParams<AssetFilePathParam>();
+  const path = decodeURIComponent(params.path);
   const [obj, setObj] = useState(undefined as StorageObject | undefined);
+
   return (
     <AssetFileStateContext.Provider
       value={{
-        path: props.path,
+        path: path,
         obj: obj,
         setObj: setObj,
       }}
@@ -26,9 +26,9 @@ export const AssetFileStateProvider = (props: {
 };
 
 export const AssetFileActionProvider = (props: {
-  storage: FileStorage;
   children: React.ReactNode;
 }) => {
+  const storage = useContext(InfraContext).fileStorage;
   const state = useContext(AssetFileStateContext);
   const history = useHistory();
 
@@ -37,11 +37,11 @@ export const AssetFileActionProvider = (props: {
   };
 
   const download = async () => {
-    window.open(await props.storage.fileURL(state.obj!.path));
+    window.open(await storage.fileURL(state.obj!.path));
   };
 
-  const read = async () => {
-    state.setObj(await props.storage.get(state.path));
+  const load = async () => {
+    state.setObj(await storage.get(state.path));
   };
 
   return (
@@ -49,7 +49,7 @@ export const AssetFileActionProvider = (props: {
       value={{
         backToList: backToList,
         download: download,
-        read: read,
+        load: load,
       }}
     >
       {props.children}
