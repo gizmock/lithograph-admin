@@ -1,7 +1,7 @@
 import { useDidMount, useWillUnmount } from "beautiful-react-hooks";
 import { useContext, useState } from "react";
 import { useHistory, useLocation, useParams } from "react-router-dom";
-import { StorageObject } from "../../../../file-storage";
+import { StorageObject } from "../../../../../domain/model/file-storage";
 import { InfraContext } from "../../context";
 import {
   AssetFilePath,

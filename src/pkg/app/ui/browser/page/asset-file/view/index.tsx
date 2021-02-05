@@ -1,4 +1,4 @@
-import { StorageObject } from "../../../../../file-storage";
+import { StorageObject } from "../../../../../../domain/model/file-storage";
 import { BackToAssetListButton } from "./back-to-list";
 import { AssetDownloadButton } from "./download-button";
 import { AssetFileDetail } from "./file-detail";

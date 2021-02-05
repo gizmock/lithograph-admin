@@ -2,7 +2,7 @@ import { Intent } from "@blueprintjs/core";
 import { useDidMount } from "beautiful-react-hooks";
 import { useContext, useState } from "react";
 import { useParams } from "react-router";
-import { StorageObject } from "../../../../file-storage";
+import { StorageObject } from "../../../../../domain/model/file-storage";
 import { GlobalToaster } from "../../common/toaster";
 import { InfraContext } from "../../context";
 import { AssetFilePathParam } from "../../route-path";

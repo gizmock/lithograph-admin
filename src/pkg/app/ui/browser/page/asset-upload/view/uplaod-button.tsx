@@ -1,7 +1,7 @@
 import { Button, Intent } from "@blueprintjs/core";
 import { useContext } from "react";
 import { FileWithPath } from "react-dropzone";
-import { FileSaveProgress } from "../../../../../file-storage";
+import { FileSaveProgress } from "../../../../../../domain/model/file-storage";
 import { GlobalToaster } from "../../../common/toaster";
 import { InfraContext } from "../../../context";
 

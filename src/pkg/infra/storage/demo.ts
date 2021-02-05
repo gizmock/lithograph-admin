@@ -2,12 +2,20 @@ import {
   FileSaveProgress,
   FileStorage,
   StorageObject,
-} from "../../app/file-storage";
+} from "../../domain/model/file-storage";
 
 const STORAGE_DEMO_KEY = "console.storage-demo";
 
+type FileStorageDemoObject = {
+  path: string;
+  meta?: {
+    lastModified?: Date;
+    size?: number;
+  };
+};
+
 type FileStorageDemoData = {
-  objs: StorageObject[];
+  objs: FileStorageDemoObject[];
 };
 
 export class FileStorageDemo implements FileStorage {
@@ -18,7 +26,9 @@ export class FileStorageDemo implements FileStorage {
     const json = sessionStorage.getItem(STORAGE_DEMO_KEY);
     if (json) {
       const data = JSON.parse(json) as FileStorageDemoData;
-      data.objs.forEach((obj) => this.objs.add(obj));
+      data.objs.forEach((obj) =>
+        this.objs.add(new StorageObject(obj.path, obj.meta))
+      );
     }
   }
 
@@ -125,7 +135,13 @@ export class FileStorageDemo implements FileStorage {
   }
 
   private save() {
-    const data: FileStorageDemoData = { objs: Array.from(this.objs) };
+    const objs = Array.from(this.objs).map((obj) => {
+      return {
+        path: obj.path,
+        meta: obj.meta,
+      } as FileStorageDemoObject;
+    });
+    const data: FileStorageDemoData = { objs: objs };
     sessionStorage.setItem(STORAGE_DEMO_KEY, JSON.stringify(data));
   }
 }

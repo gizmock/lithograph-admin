@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FileWithPath } from "react-dropzone";
-import { FileSaveProgress } from "../../../../../file-storage";
+import { FileSaveProgress } from "../../../../../../domain/model/file-storage";
 import { AssetUploadButton } from "./uplaod-button";
 import { AssetUploadList } from "./upload-list";
 import { AssetUploadProgress } from "./upload-progress";

@@ -1,5 +1,8 @@
 import { Intent, ProgressBar } from "@blueprintjs/core";
-import { FileSaveProgress, StorageObject } from "../../../../../file-storage";
+import {
+  FileSaveProgress,
+  StorageObject,
+} from "../../../../../../domain/model/file-storage";
 
 type Props = {
   progress?: FileSaveProgress;

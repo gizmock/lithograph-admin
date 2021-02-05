@@ -1,6 +1,6 @@
 import { Classes } from "@blueprintjs/core";
 import prettyBytes from "pretty-bytes";
-import { StorageObject } from "../../../../../file-storage";
+import { StorageObject } from "../../../../../../domain/model/file-storage";
 
 type Props = {
   obj?: StorageObject;

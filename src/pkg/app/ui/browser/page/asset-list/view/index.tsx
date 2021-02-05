@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { StorageObject } from "../../../../../file-storage";
+import { StorageObject } from "../../../../../../domain/model/file-storage";
 import { InfraContext } from "../../../context";
 import { AssetControlButton } from "../view/control-button";
 import { AssetList } from "../view/object-list";

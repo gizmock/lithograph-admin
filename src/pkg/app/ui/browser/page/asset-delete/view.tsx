@@ -8,7 +8,7 @@ import {
 } from "@blueprintjs/core";
 import { useDidMount } from "beautiful-react-hooks";
 import { useContext, useState } from "react";
-import { StorageObject } from "../../../../file-storage";
+import { StorageObject } from "../../../../../domain/model/file-storage";
 import { BreakWordDiv } from "../../common/break-word-div";
 import { GlobalToaster } from "../../common/toaster";
 import { AssetDeleteActionContext, AssetDeleteStateContext } from "./context";
@@ -74,8 +74,8 @@ export const AssetDeleteView = () => {
             progress.error
               ? Intent.DANGER
               : progress.complete
-                ? Intent.SUCCESS
-                : Intent.PRIMARY
+              ? Intent.SUCCESS
+              : Intent.PRIMARY
           }
           animate={false}
           stripes={false}

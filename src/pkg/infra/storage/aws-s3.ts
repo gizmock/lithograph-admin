@@ -4,7 +4,7 @@ import {
   FileSaveProgress,
   FileStorage,
   StorageObject,
-} from "../../app/file-storage";
+} from "../../domain/model/file-storage";
 
 const S3_DELIMITER = StorageObject.delimiter;
 const UPLOAD_STORAGE_CLASS = "INTELLIGENT_TIERING";

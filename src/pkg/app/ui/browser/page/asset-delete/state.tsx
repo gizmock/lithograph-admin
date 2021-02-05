@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { StorageObject } from "../../../../file-storage";
+import { StorageObject } from "../../../../../domain/model/file-storage";
 import { AssetDeleteStateContext } from "./context";
 
 type Props = {

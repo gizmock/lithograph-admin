@@ -1,6 +1,6 @@
 import { Button } from "@blueprintjs/core";
 import { useContext } from "react";
-import { StorageObject } from "../../../../../file-storage";
+import { StorageObject } from "../../../../../../domain/model/file-storage";
 import { InfraContext } from "../../../context";
 
 type Props = {

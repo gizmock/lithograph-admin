@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FileWithPath } from "react-dropzone";
 import { useParams } from "react-router";
-import { StorageObject } from "../../../../file-storage";
+import { StorageObject } from "../../../../../domain/model/file-storage";
 import { AssetUploadPathParam } from "../../route-path";
 import { AssetUploadView } from "./view";
 

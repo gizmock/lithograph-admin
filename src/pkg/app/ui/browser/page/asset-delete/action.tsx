@@ -1,6 +1,9 @@
 import { useContext } from "react";
 import { useHistory } from "react-router";
-import { FileStorage, StorageObject } from "../../../../file-storage";
+import {
+  FileStorage,
+  StorageObject,
+} from "../../../../../domain/model/file-storage";
 import { AssetListPath } from "../../route-path";
 import { AssetDeleteActionContext, AssetDeleteStateContext } from "./context";
 

@@ -1,5 +1,5 @@
 import { Button, ButtonGroup, Classes } from "@blueprintjs/core";
-import { StorageObject } from "../../../../../file-storage";
+import { StorageObject } from "../../../../../../domain/model/file-storage";
 
 type Props = {
   initialized: boolean;
