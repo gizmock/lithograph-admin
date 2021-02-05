@@ -2,8 +2,10 @@ import { useContext } from "react";
 import { useParams } from "react-router";
 import { InfraContext } from "../../context";
 import { AssetDeletePathParam } from "../../route-path";
-import { AssetDeleteActionProvider } from "./action";
-import { AssetDeleteStateProvider } from "./state";
+import {
+  AssetDeleteActionProvider,
+  AssetDeleteStateProvider,
+} from "./provider";
 import { AssetDeleteView } from "./view";
 
 export const AssetDeletePage = () => {

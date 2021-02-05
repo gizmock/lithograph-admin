@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useHistory } from "react-router";
 import {
   FileStorage,
@@ -7,12 +7,31 @@ import {
 import { AssetListPath } from "../../route-path";
 import { AssetDeleteActionContext, AssetDeleteStateContext } from "./context";
 
-type Props = {
-  storage: FileStorage;
+export const AssetDeleteStateProvider = (props: {
+  prefix: string;
   children: React.ReactNode;
+}) => {
+  const [objs, setObjs] = useState([] as StorageObject[]);
+  const [checkedObjs, setCheckedObjs] = useState([] as StorageObject[]);
+  return (
+    <AssetDeleteStateContext.Provider
+      value={{
+        prefix: props.prefix,
+        objs: objs,
+        setObjs: setObjs,
+        checkedObjs: checkedObjs,
+        setCheckedObjs: setCheckedObjs,
+      }}
+    >
+      {props.children}
+    </AssetDeleteStateContext.Provider>
+  );
 };
 
-export const AssetDeleteActionProvider = (props: Props) => {
+export const AssetDeleteActionProvider = (props: {
+  storage: FileStorage;
+  children: React.ReactNode;
+}) => {
   const state = useContext(AssetDeleteStateContext);
   const storage = props.storage;
 
