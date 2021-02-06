@@ -1,12 +1,13 @@
 import { Button } from "@blueprintjs/core";
+import { useContext } from "react";
 import { useHistory } from "react-router";
 import { AssetListPath } from "../../../route-path";
+import { AssetUploadStateContext } from "../context";
 
-type Props = {
-  prefix: string;
-};
+export const AssetUploadTo = () => {
+  const state = useContext(AssetUploadStateContext);
+  const history = useHistory();
 
-export const AssetUploadTo = (props: Props) => {
   return (
     <>
       <h2>アップロード先</h2>
@@ -17,23 +18,16 @@ export const AssetUploadTo = (props: Props) => {
           wordBreak: "break-all",
         }}
       >
-        {props.prefix}
+        {state.prefix}
       </div>
       <div>
-        <CancelButton prefix={props.prefix} />
+        <Button
+          onClick={() => history.push(AssetListPath.makeURI(state.prefix!))}
+          style={{ marginRight: "16px" }}
+        >
+          戻る
+        </Button>
       </div>
     </>
-  );
-};
-
-const CancelButton = (props: Props) => {
-  const history = useHistory();
-  return (
-    <Button
-      onClick={() => history.push(AssetListPath.makeURI(props.prefix))}
-      style={{ marginRight: "16px" }}
-    >
-      戻る
-    </Button>
   );
 };

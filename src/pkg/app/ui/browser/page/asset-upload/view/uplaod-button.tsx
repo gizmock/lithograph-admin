@@ -1,38 +1,24 @@
 import { Button, Intent } from "@blueprintjs/core";
 import { useContext } from "react";
-import { FileWithPath } from "react-dropzone";
-import { FileSaveProgress } from "../../../../../../domain/model/file-storage";
+import { StorageObject } from "../../../../../../domain/model/file-storage";
 import { GlobalToaster } from "../../../common/toaster";
 import { InfraContext } from "../../../context";
+import { AssetUploadStateContext } from "../context";
 
-type Props = {
-  prefix: string;
-  delimiter: string;
-  files: FileWithPath[];
-  clearFiles: () => void;
-  uploadCallback?: (progress: FileSaveProgress) => void;
-};
+export const AssetUploadButton = () => {
+  const state = useContext(AssetUploadStateContext);
 
-export const AssetUploadButton = (props: Props) => {
-  return (
-    <div>
-      <UploadButton {...props} />
-    </div>
-  );
-};
-
-const UploadButton = (props: Props) => {
-  const files = props.files;
-  const prefix = props.prefix;
+  const files = state.files;
+  const prefix = state.prefix;
   const storage = useContext(InfraContext).fileStorage;
   const onClick = async () => {
     for (const file of files) {
       // erase first delimiter
-      const path = file.path!.startsWith(props.delimiter)
+      const path = file.path!.startsWith(StorageObject.delimiter)
         ? file.path!.slice(1)
         : file.path!;
       try {
-        await storage.saveFile(prefix + path, file, props.uploadCallback);
+        await storage.saveFile(prefix + path, file, state.setProgress);
       } catch {
         GlobalToaster.show({
           intent: Intent.DANGER,
@@ -44,7 +30,7 @@ const UploadButton = (props: Props) => {
       intent: Intent.SUCCESS,
       message: "ファイルを全てアップロードしました",
     });
-    props.clearFiles();
+    state.setFiles([]);
   };
   return (
     <Button

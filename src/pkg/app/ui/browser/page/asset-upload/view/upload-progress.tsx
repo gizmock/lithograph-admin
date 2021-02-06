@@ -1,16 +1,11 @@
 import { Intent, ProgressBar } from "@blueprintjs/core";
-import {
-  FileSaveProgress,
-  StorageObject,
-} from "../../../../../../domain/model/file-storage";
+import { useContext } from "react";
+import { StorageObject } from "../../../../../../domain/model/file-storage";
+import { AssetUploadStateContext } from "../context";
 
-type Props = {
-  progress?: FileSaveProgress;
-};
-
-export const AssetUploadProgress = (props: Props) => {
+export const AssetUploadProgress = () => {
   const head = <h2>アップロード状況</h2>;
-  const progress = props.progress;
+  const progress = useContext(AssetUploadStateContext).progress;
 
   if (!progress) {
     return <>{head}</>;

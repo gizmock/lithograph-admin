@@ -1,15 +1,15 @@
 import { Card, Elevation } from "@blueprintjs/core";
-import Dropzone, { FileWithPath } from "react-dropzone";
+import { useContext } from "react";
+import Dropzone from "react-dropzone";
+import { AssetUploadStateContext } from "../context";
 
-type Props = {
-  setFiles: (files: FileWithPath[]) => void;
-};
+export const AssetUploadSelector = () => {
+  const state = useContext(AssetUploadStateContext);
 
-export const AssetUploadSelector = (props: Props) => {
   return (
     <>
       <h2>ファイル選択</h2>
-      <Dropzone onDrop={props.setFiles}>
+      <Dropzone onDrop={state.setFiles}>
         {({ getRootProps, getInputProps }) => (
           <div {...getRootProps()}>
             <DropArea />

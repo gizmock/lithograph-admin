@@ -1,14 +1,12 @@
 import { Button, Collapse, Pre } from "@blueprintjs/core";
-import { useState } from "react";
-import { FileWithPath } from "react-dropzone";
+import { useContext, useState } from "react";
+import { AssetUploadStateContext } from "../context";
 
-type Props = {
-  files: FileWithPath[];
-};
-
-export const AssetUploadList = (props: Props) => {
+export const AssetUploadList = () => {
+  const state = useContext(AssetUploadStateContext);
+  const files = state.files;
   const [openedList, setOpenedList] = useState(false);
-  const files = props.files;
+
   return (
     <>
       <div>{files.length} 個選択</div>
