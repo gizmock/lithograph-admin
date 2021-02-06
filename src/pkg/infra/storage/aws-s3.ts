@@ -6,7 +6,7 @@ import {
   StorageObject,
 } from "../../domain/model/file-storage";
 
-const S3_DELIMITER = StorageObject.delimiter;
+const S3_DELIMITER = "/";
 const UPLOAD_STORAGE_CLASS = "INTELLIGENT_TIERING";
 
 export class FileStorageS3 implements FileStorage {
@@ -84,13 +84,13 @@ export class FileStorageS3 implements FileStorage {
   async removeDirectory(prefix: string): Promise<void> {
     const objs = await this.list(prefix);
     for (const obj of objs) {
-      if (obj.directory) {
+      if (obj.isDirectory()) {
         // remove child files
-        await this.removeDirectory(obj.path);
+        await this.removeDirectory(obj.path());
         // remove self directory
-        await this.removeFile(obj.path);
+        await this.removeFile(obj.path());
       } else {
-        await this.removeFile(obj.path);
+        await this.removeFile(obj.path());
       }
     }
     // remove self directory

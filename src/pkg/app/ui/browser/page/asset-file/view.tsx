@@ -41,25 +41,29 @@ export const AssetFileView = () => {
 
 const Detail = (props: { obj?: StorageObject }) => {
   const obj = props.obj;
+  const lastModified = obj?.lastModified();
   const dateTime = (() => {
-    if (obj?.meta?.lastModified) {
-      const date = new Date(obj?.meta?.lastModified);
+    if (lastModified) {
+      const date = new Date(lastModified);
       return date.toLocaleDateString() + " " + date.toLocaleTimeString();
     } else {
       return "不明";
     }
   })();
-  const size = (() => {
-    if (obj?.meta?.size) {
-      return prettyBytes(obj.meta.size);
+
+  const size = obj?.size();
+  const sizeName = (() => {
+    if (size) {
+      return prettyBytes(size);
     } else {
       return "不明";
     }
   })();
+
   return (
     <>
       <h2 className={obj ? "" : Classes.SKELETON}>
-        {obj ? obj.name : "loading"}
+        {obj ? obj.name() : "loading"}
       </h2>
       <h3>パス</h3>
       <div
@@ -70,12 +74,12 @@ const Detail = (props: { obj?: StorageObject }) => {
           wordBreak: "break-all",
         }}
       >
-        {obj ? obj.path : "loading"}
+        {obj ? obj.path() : "loading"}
       </div>
       <h3>最終更新</h3>
-      <div className={!obj ? Classes.SKELETON : ""}>{dateTime}</div>
+      <div className={obj ? "" : Classes.SKELETON}>{dateTime}</div>
       <h3>サイズ</h3>
-      <div className={!obj ? Classes.SKELETON : ""}>{size}</div>
+      <div className={obj ? "" : Classes.SKELETON}>{sizeName}</div>
     </>
   );
 };

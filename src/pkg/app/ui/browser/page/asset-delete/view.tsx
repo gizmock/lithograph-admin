@@ -37,12 +37,12 @@ export const AssetDeleteView = () => {
 
   const remove = async () => {
     for (const obj of state.checkedObjs) {
-      setProgress({ name: obj.name, complete: false });
+      setProgress({ name: obj.name(), complete: false });
       try {
         await action.remove(obj);
-        setProgress({ name: obj.name, complete: true });
+        setProgress({ name: obj.name(), complete: true });
       } catch {
-        setProgress({ name: obj.name, error: true });
+        setProgress({ name: obj.name(), error: true });
         return;
       }
     }
@@ -119,7 +119,7 @@ const AssetDeleteFileList = () => {
       {state.objs.map((obj) => {
         return (
           <Checkbox
-            key={obj.path}
+            key={obj.path()}
             disabled={disabled}
             checked={checkedPaths.includes(obj.path)}
             onChange={(e) => {
@@ -132,9 +132,9 @@ const AssetDeleteFileList = () => {
           >
             <Icon
               style={{ marginRight: "12px" }}
-              icon={obj.directory ? "folder-close" : "document"}
+              icon={obj.isDirectory() ? "folder-close" : "document"}
             />
-            {obj.name}
+            {obj.name()}
           </Checkbox>
         );
       })}

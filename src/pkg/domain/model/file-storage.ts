@@ -1,6 +1,29 @@
+export const PATH_DELIMITER = "/";
 export const ASSET_ROOT = "public/asset/";
-
 export const ATTACHMENT_ROOT = "public/attachment/";
+
+class ObjectPath {
+  private static readonly directoryNamePosition = 2;
+  private static readonly fileNamePosition = 1;
+
+  readonly path: string;
+
+  constructor(path: string) {
+    this.path = path;
+  }
+
+  isDirectory() {
+    return this.path.endsWith(PATH_DELIMITER);
+  }
+
+  name() {
+    const split = this.path.split(PATH_DELIMITER);
+    const position = this.isDirectory()
+      ? split.length - ObjectPath.directoryNamePosition
+      : split.length - ObjectPath.fileNamePosition;
+    return split[position];
+  }
+}
 
 type StorageObjectMeta = {
   readonly lastModified?: Date;
@@ -8,20 +31,32 @@ type StorageObjectMeta = {
 };
 
 export class StorageObject {
-  static readonly delimiter = "/";
-
-  readonly path: string;
-  readonly name: string;
-  readonly directory: boolean;
-  readonly meta?: StorageObjectMeta;
+  private readonly objectPath: ObjectPath;
+  private readonly meta?: StorageObjectMeta;
 
   constructor(path: string, meta?: StorageObjectMeta) {
-    this.path = path;
-    this.directory = path.endsWith(StorageObject.delimiter);
+    this.objectPath = new ObjectPath(path);
     this.meta = meta;
-    const split = this.path.split(StorageObject.delimiter);
-    const position = this.directory ? split.length - 2 : split.length - 1;
-    this.name = split[position];
+  }
+
+  isDirectory() {
+    return this.objectPath.isDirectory();
+  }
+
+  path() {
+    return this.objectPath.path;
+  }
+
+  name() {
+    return this.objectPath.name();
+  }
+
+  lastModified() {
+    return this.meta?.lastModified;
+  }
+
+  size() {
+    return this.meta?.size;
   }
 }
 

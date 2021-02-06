@@ -1,6 +1,9 @@
 import { useContext, useState } from "react";
 import { useHistory, useParams } from "react-router";
-import { StorageObject } from "../../../../../domain/model/file-storage";
+import {
+  PATH_DELIMITER,
+  StorageObject,
+} from "../../../../../domain/model/file-storage";
 import { InfraContext } from "../../context";
 import { AssetFilePathParam, AssetListPath } from "../../route-path";
 import { AssetFileActionContext, AssetFileStateContext } from "./context";
@@ -37,7 +40,7 @@ export const AssetFileActionProvider = (props: {
   };
 
   const download = async () => {
-    window.open(await storage.fileURL(state.obj!.path));
+    window.open(await storage.fileURL(state.obj!.path()));
   };
 
   const load = async () => {
@@ -58,7 +61,7 @@ export const AssetFileActionProvider = (props: {
 };
 
 function makePrefix(path: string) {
-  const delimiter = StorageObject.delimiter;
+  const delimiter = PATH_DELIMITER;
   const names = path.split(delimiter);
   const prefix =
     names.filter((_, index) => index < names.length - 1).join(delimiter) +

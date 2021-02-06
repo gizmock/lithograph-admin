@@ -1,6 +1,6 @@
 import { Button, Intent } from "@blueprintjs/core";
 import { useContext } from "react";
-import { StorageObject } from "../../../../../../domain/model/file-storage";
+import { PATH_DELIMITER } from "../../../../../../domain/model/file-storage";
 import { GlobalToaster } from "../../../common/toaster";
 import { InfraContext } from "../../../context";
 import { AssetUploadStateContext } from "../context";
@@ -14,7 +14,7 @@ export const AssetUploadButton = () => {
   const onClick = async () => {
     for (const file of files) {
       // erase first delimiter
-      const path = file.path!.startsWith(StorageObject.delimiter)
+      const path = file.path!.startsWith(PATH_DELIMITER)
         ? file.path!.slice(1)
         : file.path!;
       try {

@@ -33,11 +33,11 @@ export const AssetList = () => {
       {state.objs.map((obj) => {
         return (
           <Button
-            key={obj.path}
-            icon={obj.directory ? "folder-close" : "document"}
+            key={obj.path()}
+            icon={obj.isDirectory() ? "folder-close" : "document"}
             onClick={() => action.openObject(obj)}
           >
-            {obj.name}
+            {obj.name()}
           </Button>
         );
       })}

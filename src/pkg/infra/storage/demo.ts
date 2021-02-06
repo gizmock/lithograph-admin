@@ -1,6 +1,7 @@
 import {
   FileSaveProgress,
   FileStorage,
+  PATH_DELIMITER,
   StorageObject,
 } from "../../domain/model/file-storage";
 
@@ -34,7 +35,7 @@ export class FileStorageDemo implements FileStorage {
 
   async get(path: string): Promise<StorageObject> {
     for (const obj of Array.from(this.objs)) {
-      if (obj.path === path) {
+      if (obj.path() === path) {
         return obj;
       }
     }
@@ -43,19 +44,19 @@ export class FileStorageDemo implements FileStorage {
 
   async list(prefix: string): Promise<StorageObject[]> {
     return Array.from(this.objs)
-      .filter((obj) => obj.path.startsWith(prefix))
+      .filter((obj) => obj.path().startsWith(prefix))
       .filter((obj) => {
-        const name = obj.path.replaceAll(prefix, "");
+        const name = obj.path().replaceAll(prefix, "");
         if (name === "") {
           return false;
         }
-        const belowJudgeCount = name.endsWith(StorageObject.delimiter) ? 2 : 1;
-        return name.split(StorageObject.delimiter).length === belowJudgeCount;
+        const belowJudgeCount = name.endsWith(PATH_DELIMITER) ? 2 : 1;
+        return name.split(PATH_DELIMITER).length === belowJudgeCount;
       })
       .map((obj) => {
-        return new StorageObject(obj.path, {
-          lastModified: obj.meta?.lastModified,
-          size: obj.meta?.size,
+        return new StorageObject(obj.path(), {
+          lastModified: obj.lastModified(),
+          size: obj.size(),
         });
       });
   }
@@ -69,8 +70,8 @@ export class FileStorageDemo implements FileStorage {
 
   async makeDirectory(path: string): Promise<void> {
     let makePath = "";
-    for (const name of path.split(StorageObject.delimiter)) {
-      makePath += name + StorageObject.delimiter;
+    for (const name of path.split(PATH_DELIMITER)) {
+      makePath += name + PATH_DELIMITER;
       if (this.includesPath(makePath)) {
         continue;
       }
@@ -93,7 +94,7 @@ export class FileStorageDemo implements FileStorage {
     blob: Blob,
     callback?: (progress: FileSaveProgress) => void
   ): Promise<void> {
-    const names = path.split(StorageObject.delimiter);
+    const names = path.split(PATH_DELIMITER);
     let current = "";
     for (let i = 0; i < names.length; i++) {
       let size = undefined as number | undefined;
@@ -101,7 +102,7 @@ export class FileStorageDemo implements FileStorage {
         current += names[i];
         size = blob.size;
       } else {
-        current += names[i] + StorageObject.delimiter;
+        current += names[i] + PATH_DELIMITER;
       }
       if (this.includesPath(current)) {
         continue;
@@ -130,15 +131,18 @@ export class FileStorageDemo implements FileStorage {
 
   private includesPath(path: string): boolean {
     return Array.from(this.objs)
-      .map((obj) => obj.path)
+      .map((obj) => obj.path())
       .includes(path);
   }
 
   private save() {
     const objs = Array.from(this.objs).map((obj) => {
       return {
-        path: obj.path,
-        meta: obj.meta,
+        path: obj.path(),
+        meta: {
+          lastModified: obj.lastModified(),
+          size: obj.size(),
+        },
       } as FileStorageDemoObject;
     });
     const data: FileStorageDemoData = { objs: objs };

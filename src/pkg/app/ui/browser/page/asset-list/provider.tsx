@@ -13,10 +13,16 @@ import {
 } from "../../route-path";
 import { AssetListActionContext, AssetListStateContext } from "./context";
 
+type LocalStateObject = {
+  path: string;
+  lastModified?: Date;
+  size?: number;
+};
+
 type LocationState =
   | {
       prefix?: string;
-      objs?: StorageObject[];
+      objs?: LocalStateObject[];
     }
   | undefined;
 
@@ -32,13 +38,19 @@ export const AssetListStateProvider = (props: {
       : params && params.prefix
       ? decodeURIComponent(params.prefix)
       : ASSET_ROOT;
-  const objs = state && state.objs ? state.objs : ([] as StorageObject[]);
+  const objs = state && state.objs ? state.objs : ([] as LocalStateObject[]);
 
   return (
     <AssetListStateContext.Provider
       value={{
         prefix: prefix,
-        objs: objs,
+        objs: objs.map(
+          (obj) =>
+            new StorageObject(obj.path, {
+              lastModified: obj.lastModified,
+              size: obj.size,
+            })
+        ),
       }}
     >
       {props.children}
@@ -60,20 +72,34 @@ export const AssetListActionProvider = (props: {
   });
 
   const load = async () => {
+    const objs = await storage.list(state.prefix);
     history.replace({
       state: {
         prefix: state.prefix,
-        objs: await storage.list(state.prefix),
+        objs: objs.map((obj) => {
+          return {
+            path: obj.path(),
+            lastModified: obj.lastModified(),
+            size: obj.size(),
+          } as LocalStateObject;
+        }),
       },
     });
   };
 
   const changePrefix = async (prefix: string) => {
+    const objs = await storage.list(prefix);
     history.push({
       pathname: AssetListPath.makeURI(prefix),
       state: {
         prefix: prefix,
-        objs: await storage.list(prefix),
+        objs: objs.map((obj) => {
+          return {
+            path: obj.path(),
+            lastModified: obj.lastModified(),
+            size: obj.size(),
+          } as LocalStateObject;
+        }),
       },
     });
   };
@@ -81,10 +107,10 @@ export const AssetListActionProvider = (props: {
   const openObject = async (obj?: StorageObject) => {
     if (!obj) {
       return;
-    } else if (obj.directory) {
-      await changePrefix(obj.path);
+    } else if (obj.isDirectory()) {
+      await changePrefix(obj.path());
     } else {
-      history.push(AssetFilePath.makeURI(obj.path));
+      history.push(AssetFilePath.makeURI(obj.path()));
     }
   };
 

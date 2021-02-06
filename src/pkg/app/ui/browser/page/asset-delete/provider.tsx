@@ -35,10 +35,10 @@ export const AssetDeleteActionProvider = (props: {
   const state = useContext(AssetDeleteStateContext);
 
   const remove = async (obj: StorageObject) => {
-    if (obj.directory) {
-      await storage.removeDirectory(obj.path);
+    if (obj.isDirectory()) {
+      await storage.removeDirectory(obj.path());
     } else {
-      await storage.removeFile(obj.path);
+      await storage.removeFile(obj.path());
     }
   };
 

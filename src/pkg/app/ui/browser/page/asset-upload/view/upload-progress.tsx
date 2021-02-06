@@ -1,6 +1,6 @@
 import { Intent, ProgressBar } from "@blueprintjs/core";
 import { useContext } from "react";
-import { StorageObject } from "../../../../../../domain/model/file-storage";
+import { PATH_DELIMITER } from "../../../../../../domain/model/file-storage";
 import { AssetUploadStateContext } from "../context";
 
 export const AssetUploadProgress = () => {
@@ -25,9 +25,7 @@ export const AssetUploadProgress = () => {
           wordBreak: "break-all",
         }}
       >
-        {progress.path
-          .split(StorageObject.delimiter)
-          .join(" " + StorageObject.delimiter + " ")}
+        {progress.path.split(PATH_DELIMITER).join(" " + PATH_DELIMITER + " ")}
       </div>
       <ProgressBar
         intent={complete ? Intent.SUCCESS : Intent.PRIMARY}
