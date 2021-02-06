@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { useHistory, useParams } from "react-router";
-import { StorageObject } from "../../../../../domain/model/file-storage";
+import { AssetObject } from "../../../../../domain/model/asset-object";
 import { InfraContext } from "../../context";
 import { AssetDeletePathParam, AssetListPath } from "../../route-path";
 import { AssetDeleteActionContext, AssetDeleteStateContext } from "./context";
@@ -11,8 +11,8 @@ export const AssetDeleteStateProvider = (props: {
   const params = useParams<AssetDeletePathParam>();
   const prefix = decodeURIComponent(params.prefix);
 
-  const [objs, setObjs] = useState([] as StorageObject[]);
-  const [checkedObjs, setCheckedObjs] = useState([] as StorageObject[]);
+  const [objs, setObjs] = useState([] as AssetObject[]);
+  const [checkedObjs, setCheckedObjs] = useState([] as AssetObject[]);
   return (
     <AssetDeleteStateContext.Provider
       value={{
@@ -34,7 +34,7 @@ export const AssetDeleteActionProvider = (props: {
   const storage = useContext(InfraContext).fileStorage;
   const state = useContext(AssetDeleteStateContext);
 
-  const remove = async (obj: StorageObject) => {
+  const remove = async (obj: AssetObject) => {
     if (obj.isDirectory()) {
       await storage.removeDirectory(obj.path());
     } else {

@@ -1,8 +1,7 @@
 export const PATH_DELIMITER = "/";
 export const ASSET_ROOT = "public/asset/";
-export const ATTACHMENT_ROOT = "public/attachment/";
 
-class ObjectPath {
+class AssetObjectPath {
   private static readonly directoryNamePosition = 2;
   private static readonly fileNamePosition = 1;
 
@@ -19,23 +18,23 @@ class ObjectPath {
   name() {
     const split = this.path.split(PATH_DELIMITER);
     const position = this.isDirectory()
-      ? split.length - ObjectPath.directoryNamePosition
-      : split.length - ObjectPath.fileNamePosition;
+      ? split.length - AssetObjectPath.directoryNamePosition
+      : split.length - AssetObjectPath.fileNamePosition;
     return split[position];
   }
 }
 
-type StorageObjectMeta = {
+type AssetObjectMeta = {
   readonly lastModified?: Date;
   readonly size?: number;
 };
 
-export class StorageObject {
-  private readonly objectPath: ObjectPath;
-  private readonly meta?: StorageObjectMeta;
+export class AssetObject {
+  private readonly objectPath: AssetObjectPath;
+  private readonly meta?: AssetObjectMeta;
 
-  constructor(path: string, meta?: StorageObjectMeta) {
-    this.objectPath = new ObjectPath(path);
+  constructor(path: string, meta?: AssetObjectMeta) {
+    this.objectPath = new AssetObjectPath(path);
     this.meta = meta;
   }
 
@@ -60,22 +59,22 @@ export class StorageObject {
   }
 }
 
-export type FileSaveProgress = {
+export type AssetSaveProgress = {
   path: string;
   total: number;
   loaded: number;
 };
 
 export interface FileStorage {
-  get(path: string): Promise<StorageObject>;
-  list(prefix: string): Promise<StorageObject[]>;
+  get(path: string): Promise<AssetObject>;
+  list(prefix: string): Promise<AssetObject[]>;
   fileURL(path: string): Promise<string>;
   makeDirectory(path: string): Promise<void>;
   removeDirectory(prefix: string): Promise<void>;
   saveFile(
     path: string,
     blob: Blob,
-    callback?: (progress: FileSaveProgress) => void
+    callback?: (progress: AssetSaveProgress) => void
   ): Promise<void>;
   removeFile(path: string): Promise<void>;
 }

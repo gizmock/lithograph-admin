@@ -1,10 +1,10 @@
 import { createContext } from "react";
-import { StorageObject } from "../../../../../domain/model/file-storage";
+import { AssetObject } from "../../../../../domain/model/asset-object";
 
 export type AssetFileState = {
   path: string;
-  obj?: StorageObject;
-  setObj: (obj: StorageObject) => void;
+  obj?: AssetObject;
+  setObj: (obj: AssetObject) => void;
 };
 
 export const AssetFileStateContext = createContext({} as AssetFileState);

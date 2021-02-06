@@ -1,10 +1,10 @@
 import { S3 } from "aws-sdk";
 import mime from "mime-types";
 import {
-  FileSaveProgress,
+  AssetSaveProgress,
   FileStorage,
-  StorageObject,
-} from "../../domain/model/file-storage";
+  AssetObject,
+} from "../../domain/model/asset-object";
 
 const S3_DELIMITER = "/";
 const UPLOAD_STORAGE_CLASS = "INTELLIGENT_TIERING";
@@ -18,18 +18,18 @@ export class FileStorageS3 implements FileStorage {
     this.bucket = bucket;
   }
 
-  async get(path: string): Promise<StorageObject> {
+  async get(path: string): Promise<AssetObject> {
     const res = await this.s3
       .headObject({ Bucket: this.bucket, Key: path })
       .promise();
-    return new StorageObject(path, {
+    return new AssetObject(path, {
       lastModified: res.LastModified,
       size: res.ContentLength,
     });
   }
 
-  async list(prefix: string): Promise<StorageObject[]> {
-    const objs = [] as StorageObject[];
+  async list(prefix: string): Promise<AssetObject[]> {
+    const objs = [] as AssetObject[];
     let truncated = true as boolean | undefined;
     let token = undefined as string | undefined;
     while (truncated) {
@@ -43,14 +43,14 @@ export class FileStorageS3 implements FileStorage {
         .promise();
       if (res.CommonPrefixes) {
         const prefixes = res.CommonPrefixes.map((p) => {
-          return new StorageObject(p.Prefix!);
+          return new AssetObject(p.Prefix!);
         });
         objs.push(...prefixes);
       }
       if (res.Contents) {
         const contents = res.Contents.filter((c) => c.Key !== prefix).map(
           (c) => {
-            return new StorageObject(c.Key!, {
+            return new AssetObject(c.Key!, {
               lastModified: c.LastModified,
               size: c.Size,
             });
@@ -100,7 +100,7 @@ export class FileStorageS3 implements FileStorage {
   async saveFile(
     path: string,
     blob: Blob,
-    callback?: (progress: FileSaveProgress) => void
+    callback?: (progress: AssetSaveProgress) => void
   ): Promise<void> {
     const type = mime.lookup(path);
     const managedUpload = this.s3.upload({

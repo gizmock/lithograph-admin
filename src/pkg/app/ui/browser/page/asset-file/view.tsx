@@ -2,7 +2,7 @@ import { Button, Classes, Intent } from "@blueprintjs/core";
 import { useDidMount } from "beautiful-react-hooks";
 import prettyBytes from "pretty-bytes";
 import { useContext } from "react";
-import { StorageObject } from "../../../../../domain/model/file-storage";
+import { AssetObject } from "../../../../../domain/model/asset-object";
 import { GlobalToaster } from "../../common/toaster";
 import { AssetFileActionContext, AssetFileStateContext } from "./context";
 
@@ -39,7 +39,7 @@ export const AssetFileView = () => {
   );
 };
 
-const Detail = (props: { obj?: StorageObject }) => {
+const Detail = (props: { obj?: AssetObject }) => {
   const obj = props.obj;
   const lastModified = obj?.lastModified();
   const dateTime = (() => {

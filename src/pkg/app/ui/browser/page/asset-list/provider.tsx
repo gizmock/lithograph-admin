@@ -3,8 +3,8 @@ import { useContext } from "react";
 import { useHistory, useLocation, useParams } from "react-router";
 import {
   ASSET_ROOT,
-  StorageObject,
-} from "../../../../../domain/model/file-storage";
+  AssetObject,
+} from "../../../../../domain/model/asset-object";
 import { InfraContext } from "../../context";
 import {
   AssetFilePath,
@@ -46,7 +46,7 @@ export const AssetListStateProvider = (props: {
         prefix: prefix,
         objs: objs.map(
           (obj) =>
-            new StorageObject(obj.path, {
+            new AssetObject(obj.path, {
               lastModified: obj.lastModified,
               size: obj.size,
             })
@@ -104,7 +104,7 @@ export const AssetListActionProvider = (props: {
     });
   };
 
-  const openObject = async (obj?: StorageObject) => {
+  const openObject = async (obj?: AssetObject) => {
     if (!obj) {
       return;
     } else if (obj.isDirectory()) {

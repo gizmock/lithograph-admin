@@ -2,8 +2,8 @@ import { useContext, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import {
   PATH_DELIMITER,
-  StorageObject,
-} from "../../../../../domain/model/file-storage";
+  AssetObject,
+} from "../../../../../domain/model/asset-object";
 import { InfraContext } from "../../context";
 import { AssetFilePathParam, AssetListPath } from "../../route-path";
 import { AssetFileActionContext, AssetFileStateContext } from "./context";
@@ -13,7 +13,7 @@ export const AssetFileStateProvider = (props: {
 }) => {
   const params = useParams<AssetFilePathParam>();
   const path = decodeURIComponent(params.path);
-  const [obj, setObj] = useState(undefined as StorageObject | undefined);
+  const [obj, setObj] = useState(undefined as AssetObject | undefined);
 
   return (
     <AssetFileStateContext.Provider

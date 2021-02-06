@@ -8,7 +8,7 @@ import {
 } from "@blueprintjs/core";
 import { useDidMount } from "beautiful-react-hooks";
 import { useContext, useState } from "react";
-import { StorageObject } from "../../../../../domain/model/file-storage";
+import { AssetObject } from "../../../../../domain/model/asset-object";
 import { BreakWordDiv } from "../../common/break-word-div";
 import { GlobalToaster } from "../../common/toaster";
 import { AssetDeleteActionContext, AssetDeleteStateContext } from "./context";
@@ -100,13 +100,13 @@ const AssetDeleteFileList = () => {
   const state = useContext(AssetDeleteStateContext);
   const [disabled, setDisabled] = useState(false);
 
-  const addCheck = (obj: StorageObject) => {
+  const addCheck = (obj: AssetObject) => {
     setDisabled(true);
     state.setCheckedObjs(state.checkedObjs.concat(obj));
     setDisabled(false);
   };
 
-  const removeCheck = (obj: StorageObject) => {
+  const removeCheck = (obj: AssetObject) => {
     setDisabled(true);
     state.setCheckedObjs(state.checkedObjs.filter((o) => o.path !== obj.path));
     setDisabled(false);

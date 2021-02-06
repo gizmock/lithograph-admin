@@ -1,9 +1,9 @@
 import {
-  FileSaveProgress,
+  AssetSaveProgress,
   FileStorage,
   PATH_DELIMITER,
-  StorageObject,
-} from "../../domain/model/file-storage";
+  AssetObject,
+} from "../../domain/model/asset-object";
 
 const STORAGE_DEMO_KEY = "console.storage-demo";
 
@@ -23,17 +23,17 @@ export class FileStorageDemo implements FileStorage {
   private readonly objs;
 
   constructor() {
-    this.objs = new Set<StorageObject>();
+    this.objs = new Set<AssetObject>();
     const json = sessionStorage.getItem(STORAGE_DEMO_KEY);
     if (json) {
       const data = JSON.parse(json) as FileStorageDemoData;
       data.objs.forEach((obj) =>
-        this.objs.add(new StorageObject(obj.path, obj.meta))
+        this.objs.add(new AssetObject(obj.path, obj.meta))
       );
     }
   }
 
-  async get(path: string): Promise<StorageObject> {
+  async get(path: string): Promise<AssetObject> {
     for (const obj of Array.from(this.objs)) {
       if (obj.path() === path) {
         return obj;
@@ -42,7 +42,7 @@ export class FileStorageDemo implements FileStorage {
     throw new Error("no such file");
   }
 
-  async list(prefix: string): Promise<StorageObject[]> {
+  async list(prefix: string): Promise<AssetObject[]> {
     return Array.from(this.objs)
       .filter((obj) => obj.path().startsWith(prefix))
       .filter((obj) => {
@@ -54,7 +54,7 @@ export class FileStorageDemo implements FileStorage {
         return name.split(PATH_DELIMITER).length === belowJudgeCount;
       })
       .map((obj) => {
-        return new StorageObject(obj.path(), {
+        return new AssetObject(obj.path(), {
           lastModified: obj.lastModified(),
           size: obj.size(),
         });
@@ -75,7 +75,7 @@ export class FileStorageDemo implements FileStorage {
       if (this.includesPath(makePath)) {
         continue;
       }
-      const obj = new StorageObject(makePath, {
+      const obj = new AssetObject(makePath, {
         lastModified: new Date(),
       });
       this.objs.add(obj);
@@ -92,7 +92,7 @@ export class FileStorageDemo implements FileStorage {
   async saveFile(
     path: string,
     blob: Blob,
-    callback?: (progress: FileSaveProgress) => void
+    callback?: (progress: AssetSaveProgress) => void
   ): Promise<void> {
     const names = path.split(PATH_DELIMITER);
     let current = "";
@@ -107,7 +107,7 @@ export class FileStorageDemo implements FileStorage {
       if (this.includesPath(current)) {
         continue;
       }
-      const obj = new StorageObject(current, {
+      const obj = new AssetObject(current, {
         lastModified: new Date(),
         size: size,
       });
@@ -124,7 +124,7 @@ export class FileStorageDemo implements FileStorage {
   }
 
   async removeFile(path: string): Promise<void> {
-    const obj = new StorageObject(path);
+    const obj = new AssetObject(path);
     this.objs.delete(obj);
     this.save();
   }

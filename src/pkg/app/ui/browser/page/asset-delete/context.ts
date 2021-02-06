@@ -1,18 +1,18 @@
 import { createContext } from "react";
-import { StorageObject } from "../../../../../domain/model/file-storage";
+import { AssetObject } from "../../../../../domain/model/asset-object";
 
 export type AssetDeleteState = {
   prefix: string;
-  objs: StorageObject[];
-  setObjs: (objs: StorageObject[]) => void;
-  checkedObjs: StorageObject[];
-  setCheckedObjs: (objs: StorageObject[]) => void;
+  objs: AssetObject[];
+  setObjs: (objs: AssetObject[]) => void;
+  checkedObjs: AssetObject[];
+  setCheckedObjs: (objs: AssetObject[]) => void;
 };
 
 export const AssetDeleteStateContext = createContext({} as AssetDeleteState);
 
 export type AssetDeleteAction = {
-  remove: (obj: StorageObject) => Promise<void>;
+  remove: (obj: AssetObject) => Promise<void>;
   refresh: () => Promise<void>;
   backToList: () => void;
 };

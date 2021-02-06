@@ -1,13 +1,13 @@
 import { createContext } from "react";
 import { FileWithPath } from "react-dropzone";
-import { FileSaveProgress } from "../../../../../domain/model/file-storage";
+import { AssetSaveProgress } from "../../../../../domain/model/asset-object";
 
 export type AssetUploadState = {
   prefix?: string;
   files: FileWithPath[];
   setFiles: (files: FileWithPath[]) => void;
-  progress?: FileSaveProgress;
-  setProgress: (progress: FileSaveProgress) => void;
+  progress?: AssetSaveProgress;
+  setProgress: (progress: AssetSaveProgress) => void;
 };
 
 export const AssetUploadStateContext = createContext({} as AssetUploadState);

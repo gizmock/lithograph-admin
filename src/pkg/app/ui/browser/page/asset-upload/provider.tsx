@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FileWithPath } from "react-dropzone";
 import { useParams } from "react-router";
-import { FileSaveProgress } from "../../../../../domain/model/file-storage";
+import { AssetSaveProgress } from "../../../../../domain/model/asset-object";
 import { AssetUploadPathParam } from "../../route-path";
 import { AssetUploadActionContext, AssetUploadStateContext } from "./context";
 
@@ -12,7 +12,7 @@ export const AssetUploadStateProvider = (props: {
   const prefix = decodeURIComponent(params.prefix);
   const [files, setFiles] = useState([] as FileWithPath[]);
   const [progress, setProgress] = useState(
-    undefined as FileSaveProgress | undefined
+    undefined as AssetSaveProgress | undefined
   );
 
   return (
