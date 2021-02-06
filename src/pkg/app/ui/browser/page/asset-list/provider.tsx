@@ -1,10 +1,7 @@
 import { useWillUnmount } from "beautiful-react-hooks";
 import { useContext } from "react";
 import { useHistory, useLocation, useParams } from "react-router";
-import {
-  ASSET_ROOT,
-  AssetObject,
-} from "../../../../../domain/model/asset-object";
+import { ASSET_ROOT, AssetObject } from "../../../../../domain/model/asset";
 import { InfraContext } from "../../context";
 import {
   AssetFilePath,

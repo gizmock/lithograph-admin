@@ -2,7 +2,7 @@ import { Button, Classes, Intent } from "@blueprintjs/core";
 import { useDidMount } from "beautiful-react-hooks";
 import prettyBytes from "pretty-bytes";
 import { useContext } from "react";
-import { AssetObject } from "../../../../../domain/model/asset-object";
+import { AssetObject } from "../../../../../domain/model/asset";
 import { GlobalToaster } from "../../common/toaster";
 import { AssetFileActionContext, AssetFileStateContext } from "./context";
 

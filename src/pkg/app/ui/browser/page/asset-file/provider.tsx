@@ -1,9 +1,6 @@
 import { useContext, useState } from "react";
 import { useHistory, useParams } from "react-router";
-import {
-  PATH_DELIMITER,
-  AssetObject,
-} from "../../../../../domain/model/asset-object";
+import { PATH_DELIMITER, AssetObject } from "../../../../../domain/model/asset";
 import { InfraContext } from "../../context";
 import { AssetFilePathParam, AssetListPath } from "../../route-path";
 import { AssetFileActionContext, AssetFileStateContext } from "./context";

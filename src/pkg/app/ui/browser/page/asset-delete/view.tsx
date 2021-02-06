@@ -8,7 +8,7 @@ import {
 } from "@blueprintjs/core";
 import { useDidMount } from "beautiful-react-hooks";
 import { useContext, useState } from "react";
-import { AssetObject } from "../../../../../domain/model/asset-object";
+import { AssetObject } from "../../../../../domain/model/asset";
 import { BreakWordDiv } from "../../common/break-word-div";
 import { GlobalToaster } from "../../common/toaster";
 import { AssetDeleteActionContext, AssetDeleteStateContext } from "./context";

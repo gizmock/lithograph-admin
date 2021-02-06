@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { AssetObject } from "../../../../../domain/model/asset-object";
+import { AssetObject } from "../../../../../domain/model/asset";
 
 export type AssetFileState = {
   path: string;

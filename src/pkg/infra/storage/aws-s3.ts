@@ -4,7 +4,7 @@ import {
   AssetSaveProgress,
   FileStorage,
   AssetObject,
-} from "../../domain/model/asset-object";
+} from "../../domain/model/asset";
 
 const S3_DELIMITER = "/";
 const UPLOAD_STORAGE_CLASS = "INTELLIGENT_TIERING";

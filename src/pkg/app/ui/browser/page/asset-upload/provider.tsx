@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FileWithPath } from "react-dropzone";
 import { useParams } from "react-router";
-import { AssetSaveProgress } from "../../../../../domain/model/asset-object";
+import { AssetSaveProgress } from "../../../../../domain/model/asset";
 import { AssetUploadPathParam } from "../../route-path";
 import { AssetUploadActionContext, AssetUploadStateContext } from "./context";
 

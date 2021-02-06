@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { Authorizer, AuthSession } from "../../authorizer";
-import { FileStorage } from "../../../domain/model/asset-object";
+import { FileStorage } from "../../../domain/model/asset";
 
 type ThemeContextValue = {
   darkMode: boolean;
