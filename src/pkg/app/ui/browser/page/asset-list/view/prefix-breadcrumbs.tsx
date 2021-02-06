@@ -9,15 +9,8 @@ export const PrefixBreadcrumbs = () => {
 
   const delimiter = StorageObject.delimiter;
   const split = state.prefix.split(delimiter);
-
   const makePositionPrefix = (index: number) => {
     return split.slice(0, index + 1).join(delimiter) + delimiter;
-  };
-
-  const onClick = (index: number) => {
-    return index === 0
-      ? undefined
-      : () => action.changePrefix(makePositionPrefix(index));
   };
 
   const items = split
@@ -25,7 +18,8 @@ export const PrefixBreadcrumbs = () => {
     .map((item, index) => {
       return {
         text: item,
-        onClick: onClick(index),
+        disabled: index === 0,
+        onClick: () => action.changePrefix(makePositionPrefix(index)),
       } as IBreadcrumbProps;
     });
 

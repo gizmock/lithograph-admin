@@ -6,7 +6,6 @@ import { AssetListActionContext, AssetListStateContext } from "../context";
 export const AssetList = () => {
   const state = useContext(AssetListStateContext);
   const action = useContext(AssetListActionContext);
-
   const [mounted, setMounted] = useState(true);
   const [initialized, setInitialized] = useState(false);
 
