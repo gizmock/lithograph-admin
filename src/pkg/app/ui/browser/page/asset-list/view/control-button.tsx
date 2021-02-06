@@ -1,17 +1,16 @@
 import { Button, ButtonGroup } from "@blueprintjs/core";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useHistory } from "react-router";
 import { AssetDeletePath, AssetUploadPath } from "../../../route-path";
+import { AssetListActionContext, AssetListStateContext } from "../context";
 import { MakeDirectoryDialog } from "./make-directory-dialog";
 
-type Props = {
-  prefix: string;
-  makeDirectory: (name: string) => Promise<void>;
-};
-
-export const AssetControlButton = (props: Props) => {
+export const AssetControlButton = () => {
   const [opendMakeDirectory, setOpendMakeDirectory] = useState(false);
   const history = useHistory();
+
+  const state = useContext(AssetListStateContext);
+  const action = useContext(AssetListActionContext);
 
   return (
     <>
@@ -21,13 +20,13 @@ export const AssetControlButton = (props: Props) => {
         </Button>
         <Button
           icon="cloud-upload"
-          onClick={() => history.push(AssetUploadPath.makeURI(props.prefix))}
+          onClick={() => history.push(AssetUploadPath.makeURI(state.prefix))}
         >
           アップロード
         </Button>
         <Button
           icon="trash"
-          onClick={() => history.push(AssetDeletePath.makeURI(props.prefix))}
+          onClick={() => history.push(AssetDeletePath.makeURI(state.prefix))}
         >
           削除
         </Button>
@@ -36,7 +35,7 @@ export const AssetControlButton = (props: Props) => {
       <MakeDirectoryDialog
         opend={opendMakeDirectory}
         close={() => setOpendMakeDirectory(false)}
-        makeDirectory={props.makeDirectory}
+        makeDirectory={action.makeDirectory}
       />
     </>
   );

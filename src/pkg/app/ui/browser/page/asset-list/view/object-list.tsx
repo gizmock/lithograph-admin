@@ -1,13 +1,26 @@
 import { Button, ButtonGroup, Classes } from "@blueprintjs/core";
-import { StorageObject } from "../../../../../../domain/model/file-storage";
+import { useDidMount, useWillUnmount } from "beautiful-react-hooks";
+import { useContext, useState } from "react";
+import { AssetListActionContext, AssetListStateContext } from "../context";
 
-type Props = {
-  initialized: boolean;
-  objs: StorageObject[];
-  onObjectClick: (obj?: StorageObject) => void;
-};
+export const AssetList = () => {
+  const state = useContext(AssetListStateContext);
+  const action = useContext(AssetListActionContext);
 
-export const AssetList = (props: Props) => {
+  const [mounted, setMounted] = useState(true);
+  const [initialized, setInitialized] = useState(false);
+
+  useDidMount(async () => {
+    await action.load();
+    if (mounted) {
+      setInitialized(true);
+    }
+  });
+
+  useWillUnmount(async () => {
+    setMounted(false);
+  });
+
   return (
     <ButtonGroup
       alignText="left"
@@ -16,14 +29,14 @@ export const AssetList = (props: Props) => {
       style={{
         width: "100%",
       }}
-      className={props.initialized ? "" : Classes.SKELETON}
+      className={initialized ? "" : Classes.SKELETON}
     >
-      {props.objs.map((obj) => {
+      {state.objs.map((obj) => {
         return (
           <Button
             key={obj.path}
             icon={obj.directory ? "folder-close" : "document"}
-            onClick={() => props.onObjectClick(obj)}
+            onClick={() => action.openObject(obj)}
           >
             {obj.name}
           </Button>

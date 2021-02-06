@@ -1,14 +1,14 @@
 import { Breadcrumbs, IBreadcrumbProps } from "@blueprintjs/core";
+import { useContext } from "react";
+import { StorageObject } from "../../../../../../domain/model/file-storage";
+import { AssetListActionContext, AssetListStateContext } from "../context";
 
-type Props = {
-  prefix: string;
-  delimiter: string;
-  onClick: (path: string) => void;
-};
+export const PrefixBreadcrumbs = () => {
+  const state = useContext(AssetListStateContext);
+  const action = useContext(AssetListActionContext);
 
-export const PrefixBreadcrumbs = (props: Props) => {
-  const delimiter = props.delimiter;
-  const split = props.prefix.split(delimiter);
+  const delimiter = StorageObject.delimiter;
+  const split = state.prefix.split(delimiter);
 
   const makePositionPrefix = (index: number) => {
     return split.slice(0, index + 1).join(delimiter) + delimiter;
@@ -17,7 +17,7 @@ export const PrefixBreadcrumbs = (props: Props) => {
   const onClick = (index: number) => {
     return index === 0
       ? undefined
-      : () => props.onClick(makePositionPrefix(index));
+      : () => action.changePrefix(makePositionPrefix(index));
   };
 
   const items = split
