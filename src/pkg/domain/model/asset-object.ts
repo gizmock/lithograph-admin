@@ -1,7 +1,7 @@
 export const PATH_DELIMITER = "/";
 export const ASSET_ROOT = "public/asset/";
 
-class AssetObjectPath {
+class AssetPath {
   private static readonly directoryNamePosition = 2;
   private static readonly fileNamePosition = 1;
 
@@ -18,23 +18,23 @@ class AssetObjectPath {
   name() {
     const split = this.path.split(PATH_DELIMITER);
     const position = this.isDirectory()
-      ? split.length - AssetObjectPath.directoryNamePosition
-      : split.length - AssetObjectPath.fileNamePosition;
+      ? split.length - AssetPath.directoryNamePosition
+      : split.length - AssetPath.fileNamePosition;
     return split[position];
   }
 }
 
-type AssetObjectMeta = {
+type AssetMeta = {
   readonly lastModified?: Date;
   readonly size?: number;
 };
 
 export class AssetObject {
-  private readonly objectPath: AssetObjectPath;
-  private readonly meta?: AssetObjectMeta;
+  private readonly objectPath: AssetPath;
+  private readonly meta?: AssetMeta;
 
-  constructor(path: string, meta?: AssetObjectMeta) {
-    this.objectPath = new AssetObjectPath(path);
+  constructor(path: string, meta?: AssetMeta) {
+    this.objectPath = new AssetPath(path);
     this.meta = meta;
   }
 

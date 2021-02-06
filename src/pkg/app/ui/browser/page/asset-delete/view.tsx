@@ -108,11 +108,13 @@ const AssetDeleteFileList = () => {
 
   const removeCheck = (obj: AssetObject) => {
     setDisabled(true);
-    state.setCheckedObjs(state.checkedObjs.filter((o) => o.path !== obj.path));
+    state.setCheckedObjs(
+      state.checkedObjs.filter((o) => o.path() !== obj.path())
+    );
     setDisabled(false);
   };
 
-  const checkedPaths = state.checkedObjs.map((o) => o.path);
+  const checkedPaths = state.checkedObjs.map((o) => o.path());
 
   return (
     <>
@@ -121,7 +123,7 @@ const AssetDeleteFileList = () => {
           <Checkbox
             key={obj.path()}
             disabled={disabled}
-            checked={checkedPaths.includes(obj.path)}
+            checked={checkedPaths.includes(obj.path())}
             onChange={(e) => {
               if (e.currentTarget.checked) {
                 addCheck(obj);
