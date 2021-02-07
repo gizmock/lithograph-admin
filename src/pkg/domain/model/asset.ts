@@ -1,6 +1,26 @@
 export const PATH_DELIMITER = "/";
 export const ASSET_ROOT = "public/asset/";
 
+export class AssetPrefix {
+  readonly prefix: string;
+
+  constructor(prefix: string) {
+    this.prefix = prefix;
+  }
+
+  names() {
+    return this.prefix.split(PATH_DELIMITER).filter((name) => name !== "");
+  }
+
+  getPositionPrefix(index: number) {
+    return (
+      this.names()
+        .slice(0, index + 1)
+        .join(PATH_DELIMITER) + PATH_DELIMITER
+    );
+  }
+}
+
 class AssetPath {
   private static readonly directoryNamePosition = 2;
   private static readonly fileNamePosition = 1;
