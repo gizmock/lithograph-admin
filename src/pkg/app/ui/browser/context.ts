@@ -1,6 +1,7 @@
 import { createContext } from "react";
 import { Authorizer, AuthSession } from "../../authorizer";
-import { FileStorage } from "../../../domain/model/asset";
+import { AssetStorage } from "../../../domain/model/asset";
+import { AsssetUsecase } from "../../../domain/usecase/asset";
 
 type ThemeContextValue = {
   darkMode: boolean;
@@ -22,9 +23,15 @@ type SessionContextValue = {
 
 export const SessionContext = createContext({} as SessionContextValue);
 
+type UsecaseContextValue = {
+  asset: AsssetUsecase;
+};
+
+export const UsecaseContext = createContext({} as UsecaseContextValue);
+
 type InfraContextValue = {
   authorizer: Authorizer;
-  fileStorage: FileStorage;
+  fileStorage: AssetStorage;
 };
 
 export const InfraContext = createContext({} as InfraContextValue);

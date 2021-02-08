@@ -1,6 +1,6 @@
 import {
   AssetSaveProgress,
-  FileStorage,
+  AssetStorage,
   PATH_DELIMITER,
   AssetObject,
 } from "../../domain/model/asset";
@@ -19,7 +19,7 @@ type FileStorageDemoData = {
   objs: FileStorageDemoObject[];
 };
 
-export class FileStorageDemo implements FileStorage {
+export class AssetStorageDemo implements AssetStorage {
   private readonly objs;
 
   constructor() {

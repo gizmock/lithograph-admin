@@ -85,7 +85,7 @@ export type AssetSaveProgress = {
   loaded: number;
 };
 
-export interface FileStorage {
+export interface AssetStorage {
   get(path: string): Promise<AssetObject>;
   list(prefix: string): Promise<AssetObject[]>;
   fileURL(path: string): Promise<string>;

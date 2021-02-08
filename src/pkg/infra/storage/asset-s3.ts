@@ -2,14 +2,14 @@ import { S3 } from "aws-sdk";
 import mime from "mime-types";
 import {
   AssetSaveProgress,
-  FileStorage,
+  AssetStorage,
   AssetObject,
 } from "../../domain/model/asset";
 
 const S3_DELIMITER = "/";
 const UPLOAD_STORAGE_CLASS = "INTELLIGENT_TIERING";
 
-export class FileStorageS3 implements FileStorage {
+export class AssetStorageS3 implements AssetStorage {
   private readonly s3: S3;
   private readonly bucket: string;
 

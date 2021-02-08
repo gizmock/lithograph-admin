@@ -1,28 +1,16 @@
-import {
-  Button,
-  ButtonGroup,
-  Checkbox,
-  Icon,
-  Intent,
-  ProgressBar,
-} from "@blueprintjs/core";
+import { Button, ButtonGroup, Checkbox, Icon, Intent } from "@blueprintjs/core";
 import { useDidMount } from "beautiful-react-hooks";
 import { useContext, useState } from "react";
 import { AssetObject } from "../../../../../domain/model/asset";
 import { BreakWordDiv } from "../../common/break-word-div";
 import { GlobalToaster } from "../../common/toaster";
+import { UsecaseContext } from "../../context";
 import { AssetDeleteActionContext, AssetDeleteStateContext } from "./context";
-
-type RemoveProgress = {
-  name: string;
-  complete?: boolean;
-  error?: boolean;
-};
 
 export const AssetDeleteView = () => {
   const state = useContext(AssetDeleteStateContext);
   const action = useContext(AssetDeleteActionContext);
-  const [progress, setProgress] = useState({} as RemoveProgress);
+  const usecase = useContext(UsecaseContext).asset;
 
   useDidMount(async () => {
     try {
@@ -36,16 +24,11 @@ export const AssetDeleteView = () => {
   });
 
   const remove = async () => {
-    for (const obj of state.checkedObjs) {
-      setProgress({ name: obj.name(), complete: false });
-      try {
-        await action.remove(obj);
-        setProgress({ name: obj.name(), complete: true });
-      } catch {
-        setProgress({ name: obj.name(), error: true });
-        return;
-      }
-    }
+    GlobalToaster.show({
+      intent: Intent.PRIMARY,
+      message: "削除を開始しました",
+    });
+    await usecase.removeSelected(state.checkedObjs);
     GlobalToaster.show({
       intent: Intent.SUCCESS,
       message: "全ての削除が完了しました",
@@ -67,21 +50,6 @@ export const AssetDeleteView = () => {
       >
         削除
       </Button>
-      <div>
-        <h3>{progress.name}</h3>
-        <ProgressBar
-          intent={
-            progress.error
-              ? Intent.DANGER
-              : progress.complete
-              ? Intent.SUCCESS
-              : Intent.PRIMARY
-          }
-          animate={false}
-          stripes={false}
-          value={progress.complete ? 1 : 0}
-        />
-      </div>
       <h2>選択</h2>
       <div>
         <ButtonGroup>

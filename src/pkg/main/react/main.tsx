@@ -1,9 +1,14 @@
 import AWS, { S3 } from "aws-sdk";
-import { InfraContext, SiteContext } from "../../app/ui/browser/context";
+import {
+  InfraContext,
+  SiteContext,
+  UsecaseContext,
+} from "../../app/ui/browser/context";
 import { AuthorizedPage } from "../../app/ui/browser/page/authorized";
+import { AsssetUsecase } from "../../domain/usecase/asset";
 import { AuthorizerCognito } from "../../infra/authorizer/aws-cognito";
 import { AmplifyAuthCredentials } from "../../infra/aws_credentials";
-import { FileStorageS3 } from "../../infra/storage/aws-s3";
+import { AssetStorageS3 } from "../../infra/storage/asset-s3";
 import { configure } from "../config";
 import { WrapWithAuth } from "./wrap/auth";
 import { WrapWithTheme } from "./wrap/theme";
@@ -20,7 +25,7 @@ const Main = () => {
   const credentialProvider = new AWS.CredentialProviderChain([
     () => new AmplifyAuthCredentials(),
   ]);
-  const fileStorage = new FileStorageS3(
+  const assetStorage = new AssetStorageS3(
     new S3({
       region: process.env.REACT_APP_AWS_REGION,
       credentialProvider: credentialProvider,
@@ -33,15 +38,21 @@ const Main = () => {
       <InfraContext.Provider
         value={{
           authorizer: authorizer,
-          fileStorage: fileStorage,
+          fileStorage: assetStorage,
         }}
       >
-        <WrapWithTheme>
-          <WrapWithAuth
-            authorizer={authorizer}
-            authorizedPageProvider={AuthorizedPage}
-          />
-        </WrapWithTheme>
+        <UsecaseContext.Provider
+          value={{
+            asset: new AsssetUsecase(assetStorage),
+          }}
+        >
+          <WrapWithTheme>
+            <WrapWithAuth
+              authorizer={authorizer}
+              authorizedPageProvider={AuthorizedPage}
+            />
+          </WrapWithTheme>
+        </UsecaseContext.Provider>
       </InfraContext.Provider>
     </SiteContext.Provider>
   );

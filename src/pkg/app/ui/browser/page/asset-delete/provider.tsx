@@ -34,14 +34,6 @@ export const AssetDeleteActionProvider = (props: {
   const storage = useContext(InfraContext).fileStorage;
   const state = useContext(AssetDeleteStateContext);
 
-  const remove = async (obj: AssetObject) => {
-    if (obj.isDirectory()) {
-      await storage.removeDirectory(obj.path());
-    } else {
-      await storage.removeFile(obj.path());
-    }
-  };
-
   const refresh = async () => {
     const objs = await storage.list(state.prefix);
     state.setObjs(objs);
@@ -56,7 +48,6 @@ export const AssetDeleteActionProvider = (props: {
   return (
     <AssetDeleteActionContext.Provider
       value={{
-        remove: remove,
         refresh: refresh,
         backToList: backToList,
       }}

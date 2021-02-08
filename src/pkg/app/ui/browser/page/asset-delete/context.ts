@@ -12,7 +12,6 @@ export type AssetDeleteState = {
 export const AssetDeleteStateContext = createContext({} as AssetDeleteState);
 
 export type AssetDeleteAction = {
-  remove: (obj: AssetObject) => Promise<void>;
   refresh: () => Promise<void>;
   backToList: () => void;
 };
