@@ -28,7 +28,15 @@ export const AssetDeleteView = () => {
       intent: Intent.PRIMARY,
       message: "削除を開始しました",
     });
-    await usecase.removeSelected(state.checkedObjs);
+    await usecase.removeSelected(
+      state.checkedObjs,
+      (data: { path: string }) => {
+        GlobalToaster.show({
+          intent: Intent.PRIMARY,
+          message: "削除 " + data.path,
+        });
+      }
+    );
     GlobalToaster.show({
       intent: Intent.SUCCESS,
       message: "全ての削除が完了しました",
