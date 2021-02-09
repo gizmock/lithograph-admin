@@ -1,6 +1,6 @@
 import { Intent, ProgressBar } from "@blueprintjs/core";
 import { useContext } from "react";
-import { PATH_DELIMITER } from "../../../../../../domain/model/asset";
+import { PATH_DELIMITER } from "../../../../../../../domain/model/asset";
 import { AssetUploadStateContext } from "../context";
 
 export const AssetUploadProgress = () => {

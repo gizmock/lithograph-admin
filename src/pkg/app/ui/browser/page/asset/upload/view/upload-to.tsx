@@ -1,7 +1,7 @@
 import { Button } from "@blueprintjs/core";
 import { useContext } from "react";
 import { useHistory } from "react-router";
-import { AssetListPath } from "../../../route-path";
+import { AssetListPath } from "../../../../route-path";
 import { AssetUploadStateContext } from "../context";
 
 export const AssetUploadTo = () => {

@@ -1,6 +1,6 @@
 import { Button, Classes, Dialog, InputGroup, Intent } from "@blueprintjs/core";
 import { useState } from "react";
-import { GlobalToaster } from "../../../common/toaster";
+import { GlobalToaster } from "../../../../common/toaster";
 
 type Props = {
   opend: boolean;

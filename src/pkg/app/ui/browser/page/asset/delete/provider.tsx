@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 import { useHistory, useParams } from "react-router";
-import { AssetObject } from "../../../../../domain/model/asset";
-import { InfraContext } from "../../context";
-import { AssetDeletePathParam, AssetListPath } from "../../route-path";
+import { AssetObject } from "../../../../../../domain/model/asset";
+import { InfraContext } from "../../../context";
+import { AssetDeletePathParam, AssetListPath } from "../../../route-path";
 import { AssetDeleteActionContext, AssetDeleteStateContext } from "./context";
 
 export const AssetDeleteStateProvider = (props: {

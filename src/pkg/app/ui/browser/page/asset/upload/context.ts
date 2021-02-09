@@ -1,6 +1,6 @@
 import { createContext } from "react";
 import { FileWithPath } from "react-dropzone";
-import { AssetSaveProgress } from "../../../../../domain/model/asset";
+import { AssetSaveProgress } from "../../../../../../domain/model/asset";
 
 export type AssetUploadState = {
   prefix?: string;

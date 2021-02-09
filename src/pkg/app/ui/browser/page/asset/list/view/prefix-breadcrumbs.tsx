@@ -1,6 +1,6 @@
 import { Breadcrumbs, IBreadcrumbProps } from "@blueprintjs/core";
 import { useContext } from "react";
-import { AssetPrefix } from "../../../../../../domain/model/asset";
+import { AssetPrefix } from "../../../../../../../domain/model/asset";
 import { AssetListActionContext, AssetListStateContext } from "../context";
 
 export const PrefixBreadcrumbs = () => {

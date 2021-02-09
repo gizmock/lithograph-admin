@@ -10,24 +10,9 @@ import {
 type ArticleData = {
   id: string;
   title?: string;
-  html?: string;
+  body?: string;
   openTime?: Date;
   created?: Date;
-};
-
-type CraeteNewArticleInput = {
-  id: string;
-  title: string;
-  html: string;
-  openTime: Date;
-};
-
-type GetArticleInput = {
-  id: string;
-};
-
-type GetArticleOutput = {
-  article: ArticleData;
 };
 
 export class ArticleUsecase {
@@ -37,22 +22,32 @@ export class ArticleUsecase {
     this.repository = repository;
   }
 
-  async createNewArticle(input: CraeteNewArticleInput): Promise<void> {
+  async editArticle(input: {
+    id: string;
+    title: string;
+    html: string;
+    openTime: Date;
+  }): Promise<void> {
     const id = new ArticleID(input.id);
     const created = new ArticleCreatedTime(new Date());
     const article = new Article(id, created);
     article.title = new ArticleTitle(input.title);
     article.body = new ArticleBody(input.html);
     article.openTime = new ArticleOpenTime(input.openTime);
-    this.repository.put(article);
+    await this.repository.put(article);
   }
 
-  async getArticle(input: GetArticleInput): Promise<GetArticleOutput> {
+  async getArticle(input: { id: string }): Promise<{ article: ArticleData }> {
     const id = new ArticleID(input.id);
     const article = await this.repository.get(id);
     return {
       article: createArticleData(article),
     };
+  }
+
+  async removeArticle(input: { id: string }): Promise<void> {
+    const id = new ArticleID(input.id);
+    await this.repository.remove(id);
   }
 }
 
@@ -60,7 +55,7 @@ function createArticleData(article: Article): ArticleData {
   return {
     id: article.id.value,
     title: article.title?.value,
-    html: article.body?.value,
+    body: article.body?.value,
     openTime: article.openTime?.value,
     created: article.created.value,
   };

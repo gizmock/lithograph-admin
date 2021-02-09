@@ -4,10 +4,10 @@ import { SideBar, useSideDrawer } from "../common/side";
 import * as RoutePath from "../route-path";
 import { ConsoleTemplate } from "../template/with-sidebar";
 import { AccountMain } from "./account";
-import { AssetDeletePage } from "./asset-delete";
-import { AssetFilePage } from "./asset-file";
-import { AssetListPage } from "./asset-list";
-import { AssetUploadPage } from "./asset-upload";
+import { AssetDeletePage } from "./asset/delete";
+import { AssetFilePage } from "./asset/file";
+import { AssetListPage } from "./asset/list";
+import { AssetUploadPage } from "./asset/upload";
 import { DashboardMain } from "./dashboard";
 import { NotFoundMain } from "./not-found";
 

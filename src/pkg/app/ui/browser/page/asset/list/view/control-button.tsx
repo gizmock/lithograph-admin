@@ -1,7 +1,7 @@
 import { Button, ButtonGroup } from "@blueprintjs/core";
 import { useContext, useState } from "react";
 import { useHistory } from "react-router";
-import { AssetDeletePath, AssetUploadPath } from "../../../route-path";
+import { AssetDeletePath, AssetUploadPath } from "../../../../route-path";
 import { AssetListActionContext, AssetListStateContext } from "../context";
 import { MakeDirectoryDialog } from "./make-directory-dialog";
 
