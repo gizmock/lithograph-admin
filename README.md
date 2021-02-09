@@ -1,3 +1,3 @@
 # lithograph-admin
 
-Serverless CMS admin console
+Serverless CMS admin console.
