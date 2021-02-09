@@ -1,15 +1,26 @@
-type ArticleMeta = {
-  readonly openTime: Date;
-  readonly title: string;
-  readonly body: string;
-};
+import {
+  ArticleID,
+  ArticleBody,
+  ArticleOpenTime,
+  ArticleTitle,
+  ArticleCreatedTime,
+} from "./article-value";
 
 export class Article {
-  readonly id: string;
-  readonly meta: ArticleMeta;
+  readonly id: ArticleID;
+  title?: ArticleTitle;
+  body?: ArticleBody;
+  openTime?: ArticleOpenTime;
+  created: ArticleCreatedTime;
 
-  constructor(id: string, meta: ArticleMeta) {
+  constructor(id: ArticleID, created: ArticleCreatedTime) {
     this.id = id;
-    this.meta = meta;
+    this.created = created;
   }
+}
+
+export interface ArticleRepository {
+  put(aritcle: Article): Promise<void>;
+  get(id: ArticleID): Promise<Article>;
+  remove(id: ArticleID): Promise<void>;
 }
