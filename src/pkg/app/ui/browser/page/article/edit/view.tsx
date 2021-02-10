@@ -22,6 +22,8 @@ export const ArticleEditView = () => {
   const title = useRef({ value: "" } as HTMLInputElement);
   const [body, setBody] = useState("");
 
+  // pretty(value)
+
   return (
     <>
       <h1>記事編集</h1>
@@ -34,7 +36,7 @@ export const ArticleEditView = () => {
           mode: "htmlmixed",
           theme: "material",
         }}
-        onBeforeChange={(editor, data, value) => {
+        onBeforeChange={(_1, _2, value) => {
           setBody(value);
         }}
       />

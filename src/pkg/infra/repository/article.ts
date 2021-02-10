@@ -18,6 +18,11 @@ export class ArticleRepositoryDynamoDB
   }
 
   async put(aritcle: Article): Promise<void> {
+    /**
+         Item: {
+          published: { N: page.published.getTime().toString() },
+        },
+     */
     console.log("test");
   }
 
@@ -72,6 +77,7 @@ function itemToArticleData(item: DynamoDB.AttributeMap) {
     title: item["title"].S!,
     body: item["body"].S!,
     openTime: new Date(),
+    // published: published ? new Date(parseInt(published)) : new Date(),
     created: new Date(),
   } as ArticleData;
 }
