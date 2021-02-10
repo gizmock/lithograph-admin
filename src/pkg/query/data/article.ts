@@ -11,6 +11,6 @@ export type ArticleList = {
 };
 
 export interface ArticleReadRepository {
-  get(id: string): Promise<ArticleData>;
+  get(id: string): Promise<ArticleData | undefined>;
   findByTitle(title: string): Promise<ArticleList>;
 }

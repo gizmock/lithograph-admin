@@ -4,6 +4,7 @@ import { SideBar, useSideDrawer } from "../common/side";
 import * as RoutePath from "../route-path";
 import { ConsoleTemplate } from "../template/with-sidebar";
 import { AccountMain } from "./account";
+import { ArticleEditPage } from "./article/edit";
 import { ArticleListPage } from "./article/list";
 import { AssetDeletePage } from "./asset/delete";
 import { AssetFilePage } from "./asset/file";
@@ -49,6 +50,10 @@ export const AuthorizedPage = () => {
           <Route
             path={RoutePath.ArticleListPath.getURI()}
             component={ArticleListPage}
+          />
+          <Route
+            path={RoutePath.ArticleEditPath.getURIPattern()}
+            component={ArticleEditPage}
           />
           <Route
             path={[RoutePath.AccountPath.getURI()]}

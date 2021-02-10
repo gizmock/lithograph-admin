@@ -23,7 +23,7 @@ export class ArticleRepositoryDynamoDB
 
   async remove(id: ArticleID): Promise<void> {}
 
-  async get(id: string): Promise<ArticleData> {
+  async get(id: string): Promise<ArticleData | undefined> {
     const res = await this.dynamodb
       .getItem({
         TableName: this.table,
@@ -32,7 +32,7 @@ export class ArticleRepositoryDynamoDB
       .promise();
     const item = res.Item;
     if (!item) {
-      throw new Error("Article data not found");
+      return undefined;
     }
     return itemToArticleData(item);
   }

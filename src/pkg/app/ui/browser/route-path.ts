@@ -71,4 +71,10 @@ export type AssetDeletePathParam = {
 
 export const ArticleListPath = new PathProvider("/article");
 
+export const ArticleEditPath = new PathProviderWithParam("/article-edit", "id");
+
+export type ArticleEditPathParam = {
+  id?: string;
+};
+
 export const AccountPath = new PathProvider("/account");
