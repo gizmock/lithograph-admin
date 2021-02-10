@@ -1,4 +1,4 @@
-import { Article, ArticleRepository } from "../model/article";
+import { Article, ArticleWriteRepository } from "../model/article";
 import {
   ArticleBody,
   ArticleCreatedTime,
@@ -7,18 +7,10 @@ import {
   ArticleTitle,
 } from "../model/article-value";
 
-type ArticleData = {
-  id: string;
-  title?: string;
-  body?: string;
-  openTime?: Date;
-  created?: Date;
-};
-
 export class ArticleUsecase {
-  private readonly repository: ArticleRepository;
+  private readonly repository: ArticleWriteRepository;
 
-  constructor(repository: ArticleRepository) {
+  constructor(repository: ArticleWriteRepository) {
     this.repository = repository;
   }
 
@@ -37,26 +29,8 @@ export class ArticleUsecase {
     await this.repository.put(article);
   }
 
-  async getArticle(input: { id: string }): Promise<{ article: ArticleData }> {
-    const id = new ArticleID(input.id);
-    const article = await this.repository.get(id);
-    return {
-      article: createArticleData(article),
-    };
-  }
-
   async removeArticle(input: { id: string }): Promise<void> {
     const id = new ArticleID(input.id);
     await this.repository.remove(id);
   }
-}
-
-function createArticleData(article: Article): ArticleData {
-  return {
-    id: article.id.value,
-    title: article.title?.value,
-    body: article.body?.value,
-    openTime: article.openTime?.value,
-    created: article.created.value,
-  };
 }
