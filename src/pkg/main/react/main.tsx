@@ -1,14 +1,17 @@
-import AWS, { S3 } from "aws-sdk";
+import AWS, { DynamoDB, S3 } from "aws-sdk";
 import {
   InfraContext,
   SiteContext,
   UsecaseContext,
 } from "../../app/ui/browser/context";
 import { AuthorizedPage } from "../../app/ui/browser/page/authorized";
+import { ArticleUsecase } from "../../domain/usecase/article";
 import { AsssetUsecase } from "../../domain/usecase/asset";
 import { AuthorizerCognito } from "../../infra/authorizer/aws-cognito";
 import { AmplifyAuthCredentials } from "../../infra/aws_credentials";
+import { ArticleRepositoryDynamoDB } from "../../infra/repository/article";
 import { AssetStorageS3 } from "../../infra/storage/asset-s3";
+import { ArticleQueryService } from "../../query/service/article";
 import { configure } from "../config";
 import { WrapWithAuth } from "./wrap/auth";
 import { WrapWithTheme } from "./wrap/theme";
@@ -25,12 +28,21 @@ const Main = () => {
   const credentialProvider = new AWS.CredentialProviderChain([
     () => new AmplifyAuthCredentials(),
   ]);
+
   const assetStorage = new AssetStorageS3(
     new S3({
       region: process.env.REACT_APP_AWS_REGION,
       credentialProvider: credentialProvider,
     }),
     process.env.REACT_APP_S3_BUCKET!
+  );
+
+  const articleRepository = new ArticleRepositoryDynamoDB(
+    new DynamoDB({
+      region: process.env.REACT_APP_AWS_REGION,
+      credentialProvider: credentialProvider,
+    }),
+    process.env.REACT_APP_DYNAMODB_ARTICLE_TABLE!
   );
 
   return (
@@ -44,6 +56,10 @@ const Main = () => {
         <UsecaseContext.Provider
           value={{
             asset: new AsssetUsecase(assetStorage),
+            article: {
+              usecase: new ArticleUsecase(articleRepository),
+              query: new ArticleQueryService(articleRepository),
+            },
           }}
         >
           <WrapWithTheme>

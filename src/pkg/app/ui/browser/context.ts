@@ -2,6 +2,8 @@ import { createContext } from "react";
 import { Authorizer, AuthSession } from "../../authorizer";
 import { AssetStorage } from "../../../domain/model/asset";
 import { AsssetUsecase } from "../../../domain/usecase/asset";
+import { ArticleUsecase } from "../../../domain/usecase/article";
+import { ArticleQueryService } from "../../../query/service/article";
 
 type ThemeContextValue = {
   darkMode: boolean;
@@ -25,6 +27,10 @@ export const SessionContext = createContext({} as SessionContextValue);
 
 type UsecaseContextValue = {
   asset: AsssetUsecase;
+  article: {
+    usecase: ArticleUsecase;
+    query: ArticleQueryService;
+  };
 };
 
 export const UsecaseContext = createContext({} as UsecaseContextValue);
