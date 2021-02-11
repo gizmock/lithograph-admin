@@ -1,12 +1,10 @@
+import { Button, InputGroup } from "@blueprintjs/core";
 import { useDidMount } from "beautiful-react-hooks";
-import "codemirror/lib/codemirror.css";
-import "codemirror/theme/material.css";
-import { useContext, useRef, useState } from "react";
-import { Controlled as CodeMirror } from "react-codemirror2";
+import pretty from "pretty";
+import { useContext } from "react";
 import { UsecaseContext } from "../../../context";
 import { ArticleEditStateContext } from "./context";
-import "./html-editor.css";
-require("codemirror/mode/htmlmixed/htmlmixed");
+import { HTMLEditor } from "./html-editor";
 
 export const ArticleEditView = () => {
   const state = useContext(ArticleEditStateContext);
@@ -15,31 +13,26 @@ export const ArticleEditView = () => {
   useDidMount(async () => {
     if (state.id) {
       const data = await query.getArticle(state.id);
-      state.setArticle(data);
+      if (data) {
+        state.setTitle(data.title);
+        state.setBody(data.body);
+      }
     }
   });
-
-  const title = useRef({ value: "" } as HTMLInputElement);
-  const [body, setBody] = useState("");
-
-  // pretty(value)
 
   return (
     <>
       <h1>記事編集</h1>
+
       <h2>タイトル</h2>
-      <input type={"text"} ref={title} />
-      <h2>本文</h2>
-      <CodeMirror
-        value={body}
-        options={{
-          mode: "htmlmixed",
-          theme: "material",
-        }}
-        onBeforeChange={(_1, _2, value) => {
-          setBody(value);
-        }}
+      <InputGroup
+        value={state.title}
+        onChange={(e) => state.setTitle(e.target.value)}
       />
+
+      <h2>本文</h2>
+      <Button onClick={() => state.setBody(pretty(state.body))}>整形</Button>
+      <HTMLEditor body={state.body} setBody={state.setBody} />
     </>
   );
 };

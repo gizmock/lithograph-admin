@@ -33,6 +33,7 @@ export class ArticleRepositoryDynamoDB
       .getItem({
         TableName: this.table,
         Key: { id: { S: id } },
+        ConsistentRead: true,
       })
       .promise();
     const item = res.Item;

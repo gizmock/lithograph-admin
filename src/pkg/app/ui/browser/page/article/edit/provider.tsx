@@ -1,18 +1,23 @@
 import { useState } from "react";
-import { ArticleData } from "../../../../../../query/data/article";
+import { useParams } from "react-router";
+import { ArticleEditPathParam } from "../../../route-path";
 import { ArticleEditActionContext, ArticleEditStateContext } from "./context";
 
 export const ArticleEditStateProvider = (props: {
   children: React.ReactNode;
 }) => {
-  const [article, setArticle] = useState(undefined as ArticleData | undefined);
+  const params = useParams<ArticleEditPathParam>();
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
 
   return (
     <ArticleEditStateContext.Provider
       value={{
-        id: "",
-        article: article,
-        setArticle: setArticle,
+        id: params.id,
+        title: title,
+        setTitle: setTitle,
+        body: body,
+        setBody: setBody,
       }}
     >
       {props.children}
