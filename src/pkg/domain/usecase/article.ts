@@ -1,9 +1,8 @@
 import { Article, ArticleWriteRepository } from "../model/article";
 import {
   ArticleBody,
-  ArticleCreatedTime,
   ArticleID,
-  ArticleOpenTime,
+  ArticlePublished,
   ArticleTitle,
 } from "../model/article-value";
 
@@ -14,18 +13,18 @@ export class ArticleUsecase {
     this.repository = repository;
   }
 
-  async editArticle(input: {
+  async saveArticle(input: {
     id: string;
     title: string;
-    html: string;
-    openTime: Date;
+    body: string;
+    published: Date;
   }): Promise<void> {
     const id = new ArticleID(input.id);
-    const created = new ArticleCreatedTime(new Date());
-    const article = new Article(id, created);
-    article.title = new ArticleTitle(input.title);
-    article.body = new ArticleBody(input.html);
-    article.openTime = new ArticleOpenTime(input.openTime);
+    const article = new Article(id, {
+      title: new ArticleTitle(input.title),
+      body: new ArticleBody(input.body),
+      published: new ArticlePublished(input.published),
+    });
     await this.repository.put(article);
   }
 

@@ -1,4 +1,4 @@
-import { Button, Intent } from "@blueprintjs/core";
+import { Button, H1, Intent } from "@blueprintjs/core";
 import { useContext, useState } from "react";
 import { InfraContext, SessionContext } from "../../context";
 
@@ -13,7 +13,7 @@ export const AccountMain = () => {
 
   return (
     <>
-      <h1>アカウント</h1>
+      <H1>アカウント</H1>
       <SignOutButton onClick={signOut} />
     </>
   );

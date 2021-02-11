@@ -17,13 +17,18 @@ export class ArticleRepositoryDynamoDB
     this.table = table;
   }
 
-  async put(aritcle: Article): Promise<void> {
-    /**
-         Item: {
-          published: { N: page.published.getTime().toString() },
+  async put(article: Article): Promise<void> {
+    await this.dynamodb
+      .putItem({
+        TableName: this.table,
+        Item: {
+          id: { S: article.id.value },
+          title: { S: article.title.value },
+          body: { S: article.body.value },
+          published: { N: article.published.value.getTime().toString() },
         },
-     */
-    console.log("test");
+      })
+      .promise();
   }
 
   async remove(id: ArticleID): Promise<void> {}
@@ -33,6 +38,7 @@ export class ArticleRepositoryDynamoDB
       .getItem({
         TableName: this.table,
         Key: { id: { S: id } },
+        ConsistentRead: true,
       })
       .promise();
     const item = res.Item;
@@ -76,8 +82,7 @@ function itemToArticleData(item: DynamoDB.AttributeMap) {
     id: item["id"].S!,
     title: item["title"].S!,
     body: item["body"].S!,
-    openTime: new Date(),
-    // published: published ? new Date(parseInt(published)) : new Date(),
+    published: new Date(parseInt(item["published"].N!)),
     created: new Date(),
   } as ArticleData;
 }

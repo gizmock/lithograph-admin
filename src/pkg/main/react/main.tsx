@@ -57,7 +57,7 @@ const Main = () => {
           value={{
             asset: new AsssetUsecase(assetStorage),
             article: {
-              usecase: new ArticleUsecase(articleRepository),
+              command: new ArticleUsecase(articleRepository),
               query: new ArticleQueryService(articleRepository),
             },
           }}

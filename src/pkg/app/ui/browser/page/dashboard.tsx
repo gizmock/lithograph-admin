@@ -1,7 +1,9 @@
+import { H1 } from "@blueprintjs/core";
+
 export const DashboardMain = () => {
   return (
     <>
-      <h1>ダッシュボード</h1>
+      <H1>ダッシュボード</H1>
     </>
   );
 };

@@ -1,14 +1,22 @@
 import { createContext } from "react";
-import { ArticleData } from "../../../../../../query/data/article";
 
 export type ArticleEditState = {
   id?: string;
-  article?: ArticleData;
-  setArticle: (articles?: ArticleData) => void;
+  blocking: boolean;
+  setBlocking: (blocking: boolean) => void;
+  title: string;
+  setTitle: (title: string) => void;
+  body: string;
+  setBody: (body: string) => void;
+  published: Date;
+  setPublished: (published: Date) => void;
 };
 
 export const ArticleEditStateContext = createContext({} as ArticleEditState);
 
-export type ArticleEditAction = {};
+export type ArticleEditAction = {
+  initializeArticle: () => Promise<void>;
+  saveArticle: () => Promise<void>;
+};
 
 export const ArticleEditActionContext = createContext({} as ArticleEditAction);

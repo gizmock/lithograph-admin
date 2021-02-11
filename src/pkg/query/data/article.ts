@@ -2,7 +2,7 @@ export type ArticleData = {
   readonly id: string;
   readonly title: string;
   readonly body: string;
-  readonly openTime: Date;
+  readonly published: Date;
   readonly created: Date;
 };
 
