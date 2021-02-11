@@ -22,15 +22,7 @@ export class ArticleBody {
   }
 }
 
-export class ArticleOpenTime {
-  readonly value: Date;
-
-  constructor(value: Date) {
-    this.value = value;
-  }
-}
-
-export class ArticleCreatedTime {
+export class ArticlePublished {
   readonly value: Date;
 
   constructor(value: Date) {

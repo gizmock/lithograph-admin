@@ -28,7 +28,7 @@ export const SessionContext = createContext({} as SessionContextValue);
 type UsecaseContextValue = {
   asset: AsssetUsecase;
   article: {
-    usecase: ArticleUsecase;
+    command: ArticleUsecase;
     query: ArticleQueryService;
   };
 };

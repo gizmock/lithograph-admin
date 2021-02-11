@@ -1,25 +1,32 @@
 import {
   ArticleID,
   ArticleBody,
-  ArticleOpenTime,
+  ArticlePublished,
   ArticleTitle,
-  ArticleCreatedTime,
 } from "./article-value";
 
 export class Article {
   readonly id: ArticleID;
-  title?: ArticleTitle;
-  body?: ArticleBody;
-  openTime?: ArticleOpenTime;
-  created: ArticleCreatedTime;
+  title: ArticleTitle;
+  body: ArticleBody;
+  published: ArticlePublished;
 
-  constructor(id: ArticleID, created: ArticleCreatedTime) {
+  constructor(
+    id: ArticleID,
+    values: {
+      title: ArticleTitle;
+      body: ArticleBody;
+      published: ArticlePublished;
+    }
+  ) {
     this.id = id;
-    this.created = created;
+    this.title = values.title;
+    this.body = values.body;
+    this.published = values.published;
   }
 }
 
 export interface ArticleWriteRepository {
-  put(aritcle: Article): Promise<void>;
+  put(article: Article): Promise<void>;
   remove(id: ArticleID): Promise<void>;
 }

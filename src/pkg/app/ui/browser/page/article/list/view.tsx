@@ -1,6 +1,14 @@
-import { Button, Card, ControlGroup, H5, InputGroup } from "@blueprintjs/core";
+import {
+  Button,
+  Card,
+  ControlGroup,
+  H5,
+  InputGroup,
+  Intent,
+} from "@blueprintjs/core";
 import { useDidMount } from "beautiful-react-hooks";
 import { useContext, useRef } from "react";
+import { useHistory } from "react-router";
 import { UsecaseContext } from "../../../context";
 import { ArticleEditPath } from "../../../route-path";
 import { ArticleListStateContext } from "./context";
@@ -9,6 +17,7 @@ export const ArticleListView = () => {
   const state = useContext(ArticleListStateContext);
   const query = useContext(UsecaseContext).article.query;
   const title = useRef({ value: "" } as HTMLInputElement);
+  const history = useHistory();
 
   const findArticlesByTitle = async (title: string) => {
     const result = await query.findByTitle(title);
@@ -22,6 +31,14 @@ export const ArticleListView = () => {
   return (
     <>
       <h1>記事一覧</h1>
+
+      <Button
+        intent={Intent.PRIMARY}
+        onClick={() => history.push(ArticleEditPath.getParentURI())}
+      >
+        作成
+      </Button>
+
       <ControlGroup>
         <InputGroup
           placeholder="タイトルで探す"
@@ -40,14 +57,14 @@ export const ArticleListView = () => {
       </ControlGroup>
 
       {state.articles.map((article) => {
-        const openTime = article.openTime;
+        const published = article.published;
         return (
           <Card key={article.id}>
             <H5>
               <a href={ArticleEditPath.makeURI(article.id)}>{article.title}</a>
             </H5>
             <div>
-              {openTime.toLocaleDateString()} {openTime.toLocaleTimeString()}
+              {published.toLocaleDateString()} {published.toLocaleTimeString()}
             </div>
           </Card>
         );

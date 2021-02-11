@@ -7,6 +7,7 @@
     "@aws-amplify/auth": "^3.4.18",
     "@aws-amplify/pubsub": "^3.2.16",
     "@blueprintjs/core": "^3.38.1",
+    "@blueprintjs/datetime": "^3.20.4",
     "@blueprintjs/popover2": "^0.1.2",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.3",
