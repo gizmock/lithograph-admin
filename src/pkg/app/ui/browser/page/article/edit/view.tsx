@@ -96,6 +96,13 @@ export const ArticleEditView = () => {
         <></>
       )}
 
+      <h2>タイトル</h2>
+      <InputGroup
+        disabled={blocking}
+        value={state.title}
+        onChange={(e) => state.setTitle(e.target.value)}
+      />
+
       <h2>公開日時</h2>
       <DatePicker
         highlightCurrentDay
@@ -103,13 +110,6 @@ export const ArticleEditView = () => {
         timePickerProps={{ showArrowButtons: true }}
         value={state.published}
         onChange={(date) => state.setPublished(date)}
-      />
-
-      <h2>タイトル</h2>
-      <InputGroup
-        disabled={blocking}
-        value={state.title}
-        onChange={(e) => state.setTitle(e.target.value)}
       />
 
       <h2>本文</h2>
