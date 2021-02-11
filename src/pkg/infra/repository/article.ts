@@ -33,7 +33,7 @@ export class ArticleRepositoryDynamoDB
           body: { S: article.body.value },
           published: { N: published },
           crossSearch: { S: CROSS_SEARCH_VALUE_ALL },
-          publisedSort: { S: published + "+" + id },
+          publishedSort: { S: published + "+" + id },
         },
       })
       .promise();
