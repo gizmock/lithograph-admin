@@ -1,5 +1,7 @@
 import { useContext, useState } from "react";
+import { useHistory } from "react-router";
 import { UsecaseContext } from "../../../context";
+import { ArticleEditPath } from "../../../route-path";
 import { ArticleEditActionContext, ArticleEditStateContext } from "./context";
 
 export const ArticleEditStateProvider = (props: {
@@ -37,6 +39,7 @@ export const ArticleEditActionProvider = (props: {
 }) => {
   const state = useContext(ArticleEditStateContext);
   const usecase = useContext(UsecaseContext).article;
+  const history = useHistory();
 
   const initializeArticle = async () => {
     state.setBlocking(true);
@@ -61,6 +64,7 @@ export const ArticleEditActionProvider = (props: {
         published: state.published,
       });
       props.setID(id);
+      history.push(ArticleEditPath.makeURI(id));
     } finally {
       state.setBlocking(false);
     }

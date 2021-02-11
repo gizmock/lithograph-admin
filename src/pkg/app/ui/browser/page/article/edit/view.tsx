@@ -78,7 +78,11 @@ export const ArticleEditView = () => {
           保存
         </Button>
 
-        <Button disabled={blocking} intent={Intent.DANGER} onClick={remove}>
+        <Button
+          disabled={blocking || !state.id}
+          intent={Intent.DANGER}
+          onClick={remove}
+        >
           削除
         </Button>
       </div>
