@@ -1,4 +1,11 @@
-import { Button, ButtonGroup, Checkbox, Icon, Intent } from "@blueprintjs/core";
+import {
+  Button,
+  ButtonGroup,
+  Checkbox,
+  H1,
+  Icon,
+  Intent,
+} from "@blueprintjs/core";
 import { useDidMount } from "beautiful-react-hooks";
 import { useContext, useState } from "react";
 import { AssetObject } from "../../../../../../domain/model/asset";
@@ -46,7 +53,7 @@ export const AssetDeleteView = () => {
 
   return (
     <>
-      <h1>ファイル削除</h1>
+      <H1>ファイル削除</H1>
       <h2>削除元</h2>
       <BreakWordDiv>{state.prefix}</BreakWordDiv>
       <Button onClick={action.backToList}>戻る</Button>

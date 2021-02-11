@@ -1,3 +1,4 @@
+import { H1 } from "@blueprintjs/core";
 import { AssetControlButton } from "./control-button";
 import { AssetList } from "./object-list";
 import { PrefixBreadcrumbs } from "./prefix-breadcrumbs";
@@ -5,7 +6,7 @@ import { PrefixBreadcrumbs } from "./prefix-breadcrumbs";
 export const AssetListView = () => {
   return (
     <>
-      <h1>ファイル一覧</h1>
+      <H1>ファイル一覧</H1>
       <div>
         <AssetControlButton />
       </div>

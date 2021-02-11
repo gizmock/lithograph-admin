@@ -1,3 +1,4 @@
+import { H1 } from "@blueprintjs/core";
 import { useContext } from "react";
 import { AssetUploadStateContext } from "../context";
 import { AssetUploadButton } from "./uplaod-button";
@@ -12,7 +13,7 @@ export const AssetUploadView = () => {
   if (!state.prefix) {
     return (
       <>
-        <h1>ファイルアップロード</h1>
+        <H1>ファイルアップロード</H1>
         不正なURLです
       </>
     );
@@ -20,7 +21,7 @@ export const AssetUploadView = () => {
 
   return (
     <>
-      <h1>ファイルアップロード</h1>
+      <H1>ファイルアップロード</H1>
       <AssetUploadTo />
       <AssetUploadSelector />
       <AssetUploadList />

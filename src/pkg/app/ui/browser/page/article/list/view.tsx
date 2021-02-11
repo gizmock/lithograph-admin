@@ -1,7 +1,9 @@
 import {
   Button,
+  ButtonGroup,
   Card,
   ControlGroup,
+  H1,
   H5,
   InputGroup,
   Intent,
@@ -30,7 +32,7 @@ export const ArticleListView = () => {
 
   return (
     <>
-      <h1>記事一覧</h1>
+      <H1>記事一覧</H1>
 
       <Button
         intent={Intent.PRIMARY}
@@ -55,20 +57,31 @@ export const ArticleListView = () => {
           onClick={() => findArticlesByTitle(title.current.value)}
         />
       </ControlGroup>
-
-      {state.articles.map((article) => {
-        const published = article.published;
-        return (
-          <Card key={article.id}>
-            <H5>
-              <a href={ArticleEditPath.makeURI(article.id)}>{article.title}</a>
-            </H5>
-            <div>
-              {published.toLocaleDateString()} {published.toLocaleTimeString()}
-            </div>
-          </Card>
-        );
-      })}
+      <ButtonGroup
+        alignText="left"
+        minimal
+        vertical
+        style={{
+          width: "100%",
+        }}
+      >
+        {state.articles.map((article) => {
+          const published = article.published;
+          return (
+            <Button
+              key={article.id}
+              onClick={() => history.push(ArticleEditPath.makeURI(article.id))}
+              style={{ marginBottom: "12px" }}
+            >
+              <H5>{article.title}</H5>
+              <div>
+                {published.toLocaleDateString()}{" "}
+                {published.toLocaleTimeString()}
+              </div>
+            </Button>
+          );
+        })}
+      </ButtonGroup>
     </>
   );
 };

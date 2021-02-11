@@ -1,15 +1,18 @@
-import { Button, InputGroup, Intent } from "@blueprintjs/core";
+import { Button, H1, InputGroup, Intent } from "@blueprintjs/core";
 import { DatePicker } from "@blueprintjs/datetime";
 import { useDidMount } from "beautiful-react-hooks";
 import pretty from "pretty";
 import { useContext } from "react";
+import { useHistory } from "react-router";
 import { GlobalToaster } from "../../../common/toaster";
+import { ArticleListPath } from "../../../route-path";
 import { ArticleEditActionContext, ArticleEditStateContext } from "./context";
 import { HTMLEditor } from "./html-editor";
 
 export const ArticleEditView = () => {
   const state = useContext(ArticleEditStateContext);
   const action = useContext(ArticleEditActionContext);
+  const history = useHistory();
 
   useDidMount(async () => {
     try {
@@ -41,14 +44,20 @@ export const ArticleEditView = () => {
 
   return (
     <>
-      <h1>記事編集</h1>
+      <H1>記事編集</H1>
 
       <div>
-        <Button>戻る</Button>
+        <Button onClick={() => history.push(ArticleListPath.getURI())}>
+          戻る
+        </Button>
       </div>
 
       <div>
-        <Button disabled={blocking} intent={Intent.PRIMARY} onClick={save}>
+        <Button
+          disabled={blocking || state.title === "" || state.body === ""}
+          intent={Intent.PRIMARY}
+          onClick={save}
+        >
           保存
         </Button>
       </div>

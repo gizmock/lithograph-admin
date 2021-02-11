@@ -1,4 +1,4 @@
-import { Button, Classes, Intent } from "@blueprintjs/core";
+import { Button, Classes, H1, Intent } from "@blueprintjs/core";
 import { useDidMount } from "beautiful-react-hooks";
 import prettyBytes from "pretty-bytes";
 import { useContext } from "react";
@@ -23,7 +23,7 @@ export const AssetFileView = () => {
 
   return (
     <>
-      <h1>ファイル</h1>
+      <H1>ファイル</H1>
       <div>
         <Detail obj={state.obj} />
       </div>
