@@ -26,6 +26,7 @@ export class ArticleRepositoryDynamoDB
           title: { S: article.title.value },
           body: { S: article.body.value },
           published: { N: article.published.value.getTime().toString() },
+          crossSearch: { BOOL: true },
         },
       })
       .promise();
