@@ -1,9 +1,9 @@
 import { createContext } from "react";
-import { ArticleData } from "../../../../../../query/data/article";
+import { ArticleSearchResult } from "../../../../../../query/data/article";
 
 export type ArticleListState = {
-  articles: ArticleData[];
-  setArticles: (articles: ArticleData[]) => void;
+  articles: ArticleSearchResult[];
+  setArticles: (articles: ArticleSearchResult[]) => void;
 };
 
 export const ArticleListStateContext = createContext({} as ArticleListState);

@@ -3,14 +3,19 @@ export type ArticleData = {
   readonly title: string;
   readonly body: string;
   readonly published: Date;
-  readonly created: Date;
 };
 
-export type ArticleList = {
-  datas: ArticleData[];
+export type ArticleSearchResult = {
+  readonly id: string;
+  readonly title: string;
+  readonly published: Date;
+};
+
+export type ArticleSearchResultList = {
+  results: ArticleSearchResult[];
 };
 
 export interface ArticleReadRepository {
   get(id: string): Promise<ArticleData | undefined>;
-  findByTitle(title: string): Promise<ArticleList>;
+  findByTitle(title: string): Promise<ArticleSearchResultList>;
 }
