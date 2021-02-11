@@ -39,7 +39,14 @@ export class ArticleRepositoryDynamoDB
       .promise();
   }
 
-  async remove(id: ArticleID): Promise<void> {}
+  async remove(id: ArticleID): Promise<void> {
+    await this.dynamodb
+      .deleteItem({
+        TableName: this.table,
+        Key: { id: { S: id.value } },
+      })
+      .promise();
+  }
 
   async get(id: string): Promise<ArticleData | undefined> {
     const res = await this.dynamodb

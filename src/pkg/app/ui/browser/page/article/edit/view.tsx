@@ -40,6 +40,21 @@ export const ArticleEditView = () => {
     }
   };
 
+  const remove = async () => {
+    try {
+      await action.removeArticle();
+      GlobalToaster.show({
+        intent: Intent.SUCCESS,
+        message: "記事を削除しました",
+      });
+    } catch {
+      GlobalToaster.show({
+        intent: Intent.DANGER,
+        message: "記事の削除に失敗しました",
+      });
+    }
+  };
+
   const blocking = state.blocking;
 
   return (
@@ -47,18 +62,24 @@ export const ArticleEditView = () => {
       <H1>記事編集</H1>
 
       <div>
-        <Button onClick={() => history.push(ArticleListPath.getURI())}>
+        <Button
+          onClick={() => history.push(ArticleListPath.getURI())}
+          style={{ marginRight: "12px" }}
+        >
           戻る
         </Button>
-      </div>
 
-      <div>
         <Button
           disabled={blocking || state.title === "" || state.body === ""}
           intent={Intent.PRIMARY}
           onClick={save}
+          style={{ marginRight: "12px" }}
         >
           保存
+        </Button>
+
+        <Button disabled={blocking} intent={Intent.DANGER} onClick={remove}>
+          削除
         </Button>
       </div>
 

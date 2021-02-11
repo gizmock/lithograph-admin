@@ -66,11 +66,21 @@ export const ArticleEditActionProvider = (props: {
     }
   };
 
+  const removeArticle = async () => {
+    state.setBlocking(true);
+    try {
+      await usecase.command.removeArticle({ id: state.id! });
+    } finally {
+      state.setBlocking(false);
+    }
+  };
+
   return (
     <ArticleEditActionContext.Provider
       value={{
         initializeArticle: initializeArticle,
         saveArticle: saveArticle,
+        removeArticle: removeArticle,
       }}
     >
       {props.children}

@@ -17,6 +17,7 @@ export const ArticleEditStateContext = createContext({} as ArticleEditState);
 export type ArticleEditAction = {
   initializeArticle: () => Promise<void>;
   saveArticle: () => Promise<void>;
+  removeArticle: () => Promise<void>;
 };
 
 export const ArticleEditActionContext = createContext({} as ArticleEditAction);
