@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { ArticleData } from "../../../../../../query/data/article";
+import { ArticleSearchResult } from "../../../../../../query/data/article";
 import { ArticleListActionContext, ArticleListStateContext } from "./context";
 
 export const ArticleListStateProvider = (props: {
   children: React.ReactNode;
 }) => {
-  const [articles, setArticles] = useState([] as ArticleData[]);
+  const [articles, setArticles] = useState([] as ArticleSearchResult[]);
 
   return (
     <ArticleListStateContext.Provider

@@ -23,7 +23,7 @@ export const ArticleListView = () => {
 
   const findArticlesByTitle = async (title: string) => {
     const result = await query.findByTitle(title);
-    state.setArticles(result.datas);
+    state.setArticles(result.results);
   };
 
   useDidMount(async () => {
