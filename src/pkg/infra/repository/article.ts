@@ -32,8 +32,8 @@ export class ArticleRepositoryDynamoDB
           title: { S: article.title.value },
           body: { S: article.body.value },
           published: { N: published },
-          crossSearch: { S: CROSS_SEARCH_VALUE_ALL },
-          publishedSort: { S: published + "+" + id },
+          crossSearchId: { S: CROSS_SEARCH_VALUE_ALL },
+          crossSearchSort: { S: published + "+" + id },
         },
       })
       .promise();
@@ -69,7 +69,7 @@ export class ArticleRepositoryDynamoDB
         TableName: this.table,
         IndexName: GSI_NAME_CROSS_SEARCH,
         ScanIndexForward: false,
-        KeyConditionExpression: "#crossSearch = :crossSearch",
+        KeyConditionExpression: "#crossSearchId = :crossSearchId",
         FilterExpression: "contains(#title, :title_value)",
         ExpressionAttributeNames: {
           "#crossSearch": "crossSearch",
