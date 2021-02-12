@@ -48,6 +48,7 @@ export const ArticleEditActionProvider = (props: {
       if (data) {
         state.setTitle(data.title);
         state.setBody(data.body);
+        state.setPublished(data.published);
       }
     }
     state.setBlocking(false);
