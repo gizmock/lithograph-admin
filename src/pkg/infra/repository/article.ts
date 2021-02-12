@@ -72,11 +72,11 @@ export class ArticleRepositoryDynamoDB
         KeyConditionExpression: "#crossSearchId = :crossSearchId",
         FilterExpression: "contains(#title, :title_value)",
         ExpressionAttributeNames: {
-          "#crossSearch": "crossSearch",
+          "#crossSearchId": "crossSearchId",
           "#title": "title",
         },
         ExpressionAttributeValues: {
-          ":crossSearch": { S: CROSS_SEARCH_VALUE_ALL },
+          ":crossSearchId": { S: CROSS_SEARCH_VALUE_ALL },
           ":title_value": { S: title },
         },
       })
