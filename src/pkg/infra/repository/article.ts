@@ -68,12 +68,10 @@ export class ArticleRepositoryDynamoDB
   async findByTitle(option: FindOption): Promise<ArticleSearchResult> {
     let keyConditionExpression =
       "#crossSearchId = :crossSearchId" + (option.lastFondPosition ? "" : "");
-
     const expressionAttributeNames: DynamoDB.ExpressionAttributeNameMap = {
       "#crossSearchId": "crossSearchId",
       "#title": "title",
     };
-
     const expressionAttributeValues: DynamoDB.ExpressionAttributeValueMap = {
       ":crossSearchId": { S: CROSS_SEARCH_VALUE_ALL },
       ":title_value": { S: option.title },
@@ -99,8 +97,6 @@ export class ArticleRepositoryDynamoDB
         Limit: option.limit ? option.limit : SEARCH_LIMIT,
       })
       .promise();
-
-    console.info(res.LastEvaluatedKey);
 
     const items = res.Items;
     if (!items) {
