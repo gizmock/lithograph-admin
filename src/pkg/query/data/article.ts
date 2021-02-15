@@ -13,12 +13,16 @@ export type ArticleSearchData = {
 
 export type ArticleSearchResult = {
   datas: ArticleSearchData[];
-  lastFoundKey?: string;
+  leadEvaluatedKey?: string;
+  lastEvaluatedKey?: string;
 };
 
 export type FindOption = {
   title: string;
-  lastFondPosition?: string;
+  paging?: {
+    boundaryKey?: string;
+    direction?: "before" | "after";
+  };
   limit?: number;
 };
 

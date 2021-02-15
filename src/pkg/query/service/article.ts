@@ -1,10 +1,4 @@
-import { ArticleReadRepository } from "../data/article";
-
-type FindOption = {
-  title: string;
-  lastFondPosition?: string;
-  limit?: number;
-};
+import { ArticleReadRepository, FindOption } from "../data/article";
 
 export class ArticleQueryService {
   private readonly respository: ArticleReadRepository;

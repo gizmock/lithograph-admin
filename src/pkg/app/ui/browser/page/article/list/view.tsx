@@ -1,7 +1,6 @@
 import {
   Button,
   ButtonGroup,
-  Card,
   ControlGroup,
   H1,
   H5,
@@ -11,23 +10,17 @@ import {
 import { useDidMount } from "beautiful-react-hooks";
 import { useContext, useRef } from "react";
 import { useHistory } from "react-router";
-import { UsecaseContext } from "../../../context";
 import { ArticleEditPath } from "../../../route-path";
-import { ArticleListStateContext } from "./context";
+import { ArticleListActionContext, ArticleListStateContext } from "./context";
 
 export const ArticleListView = () => {
   const state = useContext(ArticleListStateContext);
-  const query = useContext(UsecaseContext).article.query;
+  const action = useContext(ArticleListActionContext);
   const title = useRef({ value: "" } as HTMLInputElement);
   const history = useHistory();
 
-  const findArticlesByTitle = async (title: string) => {
-    const result = await query.findByTitle({ title: title });
-    state.setArticles(result.datas);
-  };
-
   useDidMount(async () => {
-    findArticlesByTitle(title.current.value);
+    action.findFirst();
   });
 
   return (
@@ -48,15 +41,29 @@ export const ArticleListView = () => {
           onKeyPress={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
-              findArticlesByTitle(title.current.value);
+              action.findAfter(title.current.value);
             }
           }}
         />
         <Button
           icon="arrow-right"
-          onClick={() => findArticlesByTitle(title.current.value)}
+          onClick={() => action.findAfter(title.current.value)}
         />
       </ControlGroup>
+
+      <ButtonGroup>
+        <Button
+          icon="arrow-left"
+          disabled={!state.hasPreview}
+          onClick={() => action.findBefore(title.current.value)}
+        />
+        <Button
+          icon="arrow-right"
+          disabled={!state.hasNext}
+          onClick={() => action.findAfter(title.current.value)}
+        />
+      </ButtonGroup>
+
       <ButtonGroup
         alignText="left"
         minimal
