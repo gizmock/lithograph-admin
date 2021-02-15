@@ -4,12 +4,14 @@ import { ArticleID } from "../../domain/model/article-value";
 import {
   ArticleData,
   ArticleReadRepository,
+  ArticleSearchData,
   ArticleSearchResult,
-  ArticleSearchResultList,
+  FindOption,
 } from "../../query/data/article";
 
 const GSI_NAME_CROSS_SEARCH = "CrossSearchGSI";
 const CROSS_SEARCH_VALUE_ALL = "all";
+const SEARCH_LIMIT = 20;
 
 export class ArticleRepositoryDynamoDB
   implements ArticleWriteRepository, ArticleReadRepository {
@@ -63,32 +65,51 @@ export class ArticleRepositoryDynamoDB
     return itemToArticleData(item);
   }
 
-  async findByTitle(title: string): Promise<ArticleSearchResultList> {
+  async findByTitle(option: FindOption): Promise<ArticleSearchResult> {
+    let keyConditionExpression =
+      "#crossSearchId = :crossSearchId" + (option.lastFondPosition ? "" : "");
+    const expressionAttributeNames: DynamoDB.ExpressionAttributeNameMap = {
+      "#crossSearchId": "crossSearchId",
+      "#title": "title",
+    };
+    const expressionAttributeValues: DynamoDB.ExpressionAttributeValueMap = {
+      ":crossSearchId": { S: CROSS_SEARCH_VALUE_ALL },
+      ":title_value": { S: option.title },
+    };
+
+    if (option.lastFondPosition) {
+      keyConditionExpression += " and #crossSearchSort < :crossSearchSort";
+      expressionAttributeNames["#crossSearchSort"] = "crossSearchSort";
+      expressionAttributeValues[":crossSearchSort"] = {
+        S: option.lastFondPosition,
+      };
+    }
+
     const res = await this.dynamodb
       .query({
         TableName: this.table,
         IndexName: GSI_NAME_CROSS_SEARCH,
         ScanIndexForward: false,
-        KeyConditionExpression: "#crossSearchId = :crossSearchId",
+        KeyConditionExpression: keyConditionExpression,
         FilterExpression: "contains(#title, :title_value)",
-        ExpressionAttributeNames: {
-          "#crossSearchId": "crossSearchId",
-          "#title": "title",
-        },
-        ExpressionAttributeValues: {
-          ":crossSearchId": { S: CROSS_SEARCH_VALUE_ALL },
-          ":title_value": { S: title },
-        },
+        ExpressionAttributeNames: expressionAttributeNames,
+        ExpressionAttributeValues: expressionAttributeValues,
+        Limit: option.limit ? option.limit : SEARCH_LIMIT,
       })
       .promise();
+
     const items = res.Items;
     if (!items) {
       return {
-        results: [],
+        datas: [],
       };
     }
+    const lastFoundKey = res.LastEvaluatedKey
+      ? res.LastEvaluatedKey["crossSearchSort"].S
+      : undefined;
     return {
-      results: itemToArticleSearchResults(items),
+      datas: itemToArticleSearchResults(items),
+      lastFoundKey: lastFoundKey,
     };
   }
 }
@@ -112,5 +133,5 @@ function itemToArticleSearchResult(item: DynamoDB.AttributeMap) {
     id: item["id"].S!,
     title: item["title"].S!,
     published: new Date(parseInt(item["published"].N!)),
-  } as ArticleSearchResult;
+  } as ArticleSearchData;
 }

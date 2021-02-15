@@ -22,8 +22,8 @@ export const ArticleListView = () => {
   const history = useHistory();
 
   const findArticlesByTitle = async (title: string) => {
-    const result = await query.findByTitle(title);
-    state.setArticles(result.results);
+    const result = await query.findByTitle({ title: title });
+    state.setArticles(result.datas);
   };
 
   useDidMount(async () => {
