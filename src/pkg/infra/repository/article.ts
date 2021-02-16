@@ -113,6 +113,9 @@ export class ArticleRepositoryDynamoDB
     if (!res.Items || res.Items.length === 0) {
       return {
         datas: [],
+        lastEvaluatedKey: res.LastEvaluatedKey
+          ? res.LastEvaluatedKey["crossSearchSort"].S
+          : undefined,
       };
     }
 
@@ -162,19 +165,21 @@ export class ArticleRepositoryDynamoDB
       })
       .promise();
 
+    const lastEvaluatedKey = res.LastEvaluatedKey
+      ? res.LastEvaluatedKey["crossSearchSort"].S
+      : undefined;
     if (!res.Items || res.Items.length === 0) {
       return {
         datas: [],
+        lastEvaluatedKey: lastEvaluatedKey,
       };
     }
 
     const items = res.Items.reverse();
     return {
       datas: itemToArticleSearchResults(items),
-      leadEvaluatedKey: res.LastEvaluatedKey
-        ? items[0]["crossSearchSort"].S
-        : undefined,
-      lastEvaluatedKey: items[items.length - 1]["crossSearchSort"].S,
+      leadEvaluatedKey: items[0]["crossSearchSort"].S,
+      lastEvaluatedKey: lastEvaluatedKey,
     };
   }
 }

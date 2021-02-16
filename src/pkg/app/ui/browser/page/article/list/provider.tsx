@@ -32,6 +32,7 @@ export const ArticleListActionProvider = (props: {
   const state = useContext(ArticleListStateContext);
   const query = useContext(UsecaseContext).article.query;
 
+  const [lastTitle, setLastTitle] = useState("");
   const [previewSearchKey, setPreviewSearchKey] = useState(
     undefined as string | undefined
   );
@@ -39,9 +40,9 @@ export const ArticleListActionProvider = (props: {
     undefined as string | undefined
   );
 
-  const findFirst = async () => {
+  const findFirst = async (title: string) => {
     const result = await query.findByTitleAfter({
-      title: "",
+      title: title,
     });
     setNextSearchKey(result.lastEvaluatedKey);
     state.setArticles(result.datas);
@@ -49,6 +50,10 @@ export const ArticleListActionProvider = (props: {
   };
 
   const findBefore = async (title: string) => {
+    if (title !== lastTitle) {
+      setPreviewSearchKey(undefined);
+      setLastTitle(title);
+    }
     const result = await query.findByTitleBefore({
       title: title,
       boundaryKey: previewSearchKey,
@@ -65,6 +70,10 @@ export const ArticleListActionProvider = (props: {
   };
 
   const findAfter = async (title: string) => {
+    if (title !== lastTitle) {
+      setNextSearchKey(undefined);
+      setLastTitle(title);
+    }
     const result = await query.findByTitleAfter({
       title: title,
       boundaryKey: nextSearchKey,

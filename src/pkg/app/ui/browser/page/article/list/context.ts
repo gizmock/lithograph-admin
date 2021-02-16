@@ -13,7 +13,7 @@ export type ArticleListState = {
 export const ArticleListStateContext = createContext({} as ArticleListState);
 
 export type ArticleListAction = {
-  findFirst: () => Promise<void>;
+  findFirst: (title: string) => Promise<void>;
   findBefore: (title: string) => Promise<void>;
   findAfter: (title: string) => Promise<void>;
 };
