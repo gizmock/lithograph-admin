@@ -11,7 +11,11 @@ export class ArticleQueryService {
     return await this.respository.get(id);
   }
 
-  async findByTitle(option: FindOption) {
-    return await this.respository.findByTitle(option);
+  async findByTitleBefore(option: FindOption) {
+    return await this.respository.findByTitle(option, "before");
+  }
+
+  async findByTitleAfter(option: FindOption) {
+    return await this.respository.findByTitle(option, "after");
   }
 }

@@ -40,7 +40,7 @@ export const ArticleListActionProvider = (props: {
   );
 
   const findFirst = async () => {
-    const result = await query.findByTitle({
+    const result = await query.findByTitleAfter({
       title: "",
     });
     setNextSearchKey(result.lastEvaluatedKey);
@@ -49,12 +49,9 @@ export const ArticleListActionProvider = (props: {
   };
 
   const findBefore = async (title: string) => {
-    const result = await query.findByTitle({
+    const result = await query.findByTitleBefore({
       title: title,
-      paging: {
-        boundaryKey: previewSearchKey,
-        direction: "before",
-      },
+      boundaryKey: previewSearchKey,
     });
     if (result.datas.length > 0) {
       state.setHasPreview(result.leadEvaluatedKey !== undefined);
@@ -68,12 +65,9 @@ export const ArticleListActionProvider = (props: {
   };
 
   const findAfter = async (title: string) => {
-    const result = await query.findByTitle({
+    const result = await query.findByTitleAfter({
       title: title,
-      paging: {
-        boundaryKey: nextSearchKey,
-        direction: "after",
-      },
+      boundaryKey: nextSearchKey,
     });
     if (result.datas.length > 0) {
       state.setHasPreview(result.leadEvaluatedKey !== undefined);

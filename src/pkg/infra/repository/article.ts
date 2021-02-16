@@ -11,7 +11,7 @@ import {
 
 const GSI_NAME_CROSS_SEARCH = "CrossSearchGSI";
 const CROSS_SEARCH_VALUE_ALL = "all";
-const DEFAULT_SEARCH_LIMIT = 10;
+const DEFAULT_SEARCH_LIMIT = 5;
 
 export class ArticleRepositoryDynamoDB
   implements ArticleWriteRepository, ArticleReadRepository {
@@ -65,7 +65,20 @@ export class ArticleRepositoryDynamoDB
     return itemToArticleData(item);
   }
 
-  async findByTitle(option: FindOption): Promise<ArticleSearchResult> {
+  async findByTitle(
+    option: FindOption,
+    direction: "before" | "after"
+  ): Promise<ArticleSearchResult> {
+    if (direction === "before") {
+      return this.findByTitleBefore(option);
+    } else {
+      return this.findByTitleAfter(option);
+    }
+  }
+
+  private async findByTitleAfter(
+    option: FindOption
+  ): Promise<ArticleSearchResult> {
     let keyConditionExpression = "#crossSearchId = :crossSearchId";
     const expressionAttributeNames: DynamoDB.ExpressionAttributeNameMap = {
       "#crossSearchId": "crossSearchId",
@@ -76,13 +89,11 @@ export class ArticleRepositoryDynamoDB
       ":title_value": { S: option.title },
     };
 
-    if (option.paging?.boundaryKey) {
-      const comparision = option.paging.direction === "before" ? ">" : "<";
-      keyConditionExpression +=
-        " and #crossSearchSort " + comparision + " :crossSearchSort";
+    if (option.boundaryKey) {
+      keyConditionExpression += " and #crossSearchSort < :crossSearchSort";
       expressionAttributeNames["#crossSearchSort"] = "crossSearchSort";
       expressionAttributeValues[":crossSearchSort"] = {
-        S: option.paging.boundaryKey,
+        S: option.boundaryKey,
       };
     }
 
@@ -90,7 +101,7 @@ export class ArticleRepositoryDynamoDB
       .query({
         TableName: this.table,
         IndexName: GSI_NAME_CROSS_SEARCH,
-        ScanIndexForward: option.paging?.direction === "before" ? true : false,
+        ScanIndexForward: false,
         KeyConditionExpression: keyConditionExpression,
         FilterExpression: "contains(#title, :title_value)",
         ExpressionAttributeNames: expressionAttributeNames,
@@ -105,25 +116,65 @@ export class ArticleRepositoryDynamoDB
       };
     }
 
-    const items =
-      option.paging?.direction === "before" ? res.Items.reverse() : res.Items;
-    const lastEvaluatedKey = res.LastEvaluatedKey
-      ? res.LastEvaluatedKey["crossSearchSort"].S
-      : undefined;
+    const items = res.Items;
     return {
       datas: itemToArticleSearchResults(items),
-      leadEvaluatedKey:
-        option.paging?.direction === "before"
-          ? lastEvaluatedKey
-            ? items[0]["crossSearchSort"].S
-            : undefined
-          : option.paging?.boundaryKey
-          ? items[0]["crossSearchSort"].S
-          : undefined,
-      lastEvaluatedKey:
-        option.paging?.direction === "before"
-          ? items[items.length - 1]["crossSearchSort"].S
-          : lastEvaluatedKey,
+      leadEvaluatedKey: option.boundaryKey
+        ? items[0]["crossSearchSort"].S
+        : undefined,
+      lastEvaluatedKey: res.LastEvaluatedKey
+        ? res.LastEvaluatedKey["crossSearchSort"].S
+        : undefined,
+    };
+  }
+
+  private async findByTitleBefore(
+    option: FindOption
+  ): Promise<ArticleSearchResult> {
+    let keyConditionExpression = "#crossSearchId = :crossSearchId";
+    const expressionAttributeNames: DynamoDB.ExpressionAttributeNameMap = {
+      "#crossSearchId": "crossSearchId",
+      "#title": "title",
+    };
+    const expressionAttributeValues: DynamoDB.ExpressionAttributeValueMap = {
+      ":crossSearchId": { S: CROSS_SEARCH_VALUE_ALL },
+      ":title_value": { S: option.title },
+    };
+
+    if (option.boundaryKey) {
+      keyConditionExpression += " and #crossSearchSort > :crossSearchSort";
+      expressionAttributeNames["#crossSearchSort"] = "crossSearchSort";
+      expressionAttributeValues[":crossSearchSort"] = {
+        S: option.boundaryKey,
+      };
+    }
+
+    const res = await this.dynamodb
+      .query({
+        TableName: this.table,
+        IndexName: GSI_NAME_CROSS_SEARCH,
+        ScanIndexForward: true,
+        KeyConditionExpression: keyConditionExpression,
+        FilterExpression: "contains(#title, :title_value)",
+        ExpressionAttributeNames: expressionAttributeNames,
+        ExpressionAttributeValues: expressionAttributeValues,
+        Limit: option.limit ? option.limit : DEFAULT_SEARCH_LIMIT,
+      })
+      .promise();
+
+    if (!res.Items || res.Items.length === 0) {
+      return {
+        datas: [],
+      };
+    }
+
+    const items = res.Items.reverse();
+    return {
+      datas: itemToArticleSearchResults(items),
+      leadEvaluatedKey: res.LastEvaluatedKey
+        ? items[0]["crossSearchSort"].S
+        : undefined,
+      lastEvaluatedKey: items[items.length - 1]["crossSearchSort"].S,
     };
   }
 }

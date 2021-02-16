@@ -19,14 +19,14 @@ export type ArticleSearchResult = {
 
 export type FindOption = {
   title: string;
-  paging?: {
-    boundaryKey?: string;
-    direction?: "before" | "after";
-  };
+  boundaryKey?: string;
   limit?: number;
 };
 
 export interface ArticleReadRepository {
   get(id: string): Promise<ArticleData | undefined>;
-  findByTitle(option: FindOption): Promise<ArticleSearchResult>;
+  findByTitle(
+    option: FindOption,
+    direction?: "before" | "after"
+  ): Promise<ArticleSearchResult>;
 }
