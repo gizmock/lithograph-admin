@@ -20,6 +20,8 @@ export const ArticleListStateProvider = (props: {
   );
 };
 
+const LIMIT = 10;
+
 export const ArticleListActionProvider = (props: {
   children: React.ReactNode;
 }) => {
@@ -30,6 +32,7 @@ export const ArticleListActionProvider = (props: {
     const result = await query.findByTitle({
       title: title,
       direction: "before",
+      limit: LIMIT,
     });
     state.setArticles(result.datas);
   };
@@ -40,6 +43,7 @@ export const ArticleListActionProvider = (props: {
       boundaryKey:
         state.articles.length > 0 ? state.articles[0].sortKey : undefined,
       direction: "after",
+      limit: LIMIT,
     });
     state.setArticles(result.datas);
   };
@@ -50,6 +54,7 @@ export const ArticleListActionProvider = (props: {
       title: title,
       boundaryKey: len > 0 ? state.articles[len - 1].sortKey : undefined,
       direction: "before",
+      limit: LIMIT,
     });
     state.setArticles(result.datas);
   };
