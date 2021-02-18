@@ -87,6 +87,12 @@ export const ArticleListView = () => {
           );
         })}
       </ButtonGroup>
+
+      {state.articles.length === 0 ? (
+        <>これ以上の検索結果はありませんでした</>
+      ) : (
+        <></>
+      )}
     </>
   );
 };
