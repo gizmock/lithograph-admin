@@ -54,13 +54,11 @@ export const ArticleListView = () => {
       <ButtonGroup>
         <Button
           icon="arrow-left"
-          disabled={!state.hasPreview}
-          onClick={() => action.findBefore(title.current.value)}
+          onClick={() => action.findAfter(title.current.value)}
         />
         <Button
           icon="arrow-right"
-          disabled={!state.hasNext}
-          onClick={() => action.findAfter(title.current.value)}
+          onClick={() => action.findBefore(title.current.value)}
         />
       </ButtonGroup>
 
