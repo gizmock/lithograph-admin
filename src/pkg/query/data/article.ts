@@ -9,20 +9,17 @@ export type ArticleSearchData = {
   readonly id: string;
   readonly title: string;
   readonly published: Date;
+  readonly sortKey: string;
 };
 
 export type ArticleSearchResult = {
   datas: ArticleSearchData[];
-  leadEvaluatedKey?: string;
-  lastEvaluatedKey?: string;
 };
 
 export type FindOption = {
   title: string;
-  paging?: {
-    boundaryKey?: string;
-    direction?: "before" | "after";
-  };
+  direction: "before" | "after";
+  boundaryKey?: string;
   limit?: number;
 };
 

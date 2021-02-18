@@ -7,18 +7,12 @@ export const ArticleListStateProvider = (props: {
   children: React.ReactNode;
 }) => {
   const [articles, setArticles] = useState([] as ArticleSearchData[]);
-  const [hasPreview, setHasPreview] = useState(false);
-  const [hasNext, setHasNext] = useState(false);
 
   return (
     <ArticleListStateContext.Provider
       value={{
         articles: articles,
         setArticles: setArticles,
-        hasPreview: hasPreview,
-        setHasPreview: setHasPreview,
-        hasNext: hasNext,
-        setHasNext: setHasNext,
       }}
     >
       {props.children}
@@ -26,64 +20,43 @@ export const ArticleListStateProvider = (props: {
   );
 };
 
+const LIMIT = 10;
+
 export const ArticleListActionProvider = (props: {
   children: React.ReactNode;
 }) => {
   const state = useContext(ArticleListStateContext);
   const query = useContext(UsecaseContext).article.query;
 
-  const [previewSearchKey, setPreviewSearchKey] = useState(
-    undefined as string | undefined
-  );
-  const [nextSearchKey, setNextSearchKey] = useState(
-    undefined as string | undefined
-  );
-
-  const findFirst = async () => {
-    const result = await query.findByTitle({
-      title: "",
-    });
-    setNextSearchKey(result.lastEvaluatedKey);
-    state.setArticles(result.datas);
-    state.setHasNext(result.lastEvaluatedKey !== undefined);
-  };
-
-  const findBefore = async (title: string) => {
+  const findFirst = async (title: string) => {
     const result = await query.findByTitle({
       title: title,
-      paging: {
-        boundaryKey: previewSearchKey,
-        direction: "before",
-      },
+      direction: "before",
+      limit: LIMIT,
     });
-    if (result.datas.length > 0) {
-      state.setHasPreview(result.leadEvaluatedKey !== undefined);
-      setPreviewSearchKey(result.leadEvaluatedKey);
-      setNextSearchKey(result.lastEvaluatedKey);
-      state.setArticles(result.datas);
-      state.setHasNext(result.lastEvaluatedKey !== undefined);
-    } else {
-      state.setHasPreview(false);
-    }
+    state.setArticles(result.datas);
   };
 
   const findAfter = async (title: string) => {
     const result = await query.findByTitle({
       title: title,
-      paging: {
-        boundaryKey: nextSearchKey,
-        direction: "after",
-      },
+      boundaryKey:
+        state.articles.length > 0 ? state.articles[0].sortKey : undefined,
+      direction: "after",
+      limit: LIMIT,
     });
-    if (result.datas.length > 0) {
-      state.setHasPreview(result.leadEvaluatedKey !== undefined);
-      setPreviewSearchKey(result.leadEvaluatedKey);
-      setNextSearchKey(result.lastEvaluatedKey);
-      state.setArticles(result.datas);
-      state.setHasNext(result.lastEvaluatedKey !== undefined);
-    } else {
-      state.setHasNext(false);
-    }
+    state.setArticles(result.datas);
+  };
+
+  const findBefore = async (title: string) => {
+    const len = state.articles.length;
+    const result = await query.findByTitle({
+      title: title,
+      boundaryKey: len > 0 ? state.articles[len - 1].sortKey : undefined,
+      direction: "before",
+      limit: LIMIT,
+    });
+    state.setArticles(result.datas);
   };
 
   return (

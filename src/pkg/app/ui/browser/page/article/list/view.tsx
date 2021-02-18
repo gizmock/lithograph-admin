@@ -20,7 +20,7 @@ export const ArticleListView = () => {
   const history = useHistory();
 
   useDidMount(async () => {
-    action.findFirst();
+    action.findFirst(title.current.value);
   });
 
   return (
@@ -41,26 +41,24 @@ export const ArticleListView = () => {
           onKeyPress={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
-              action.findAfter(title.current.value);
+              action.findFirst(title.current.value);
             }
           }}
         />
         <Button
           icon="arrow-right"
-          onClick={() => action.findAfter(title.current.value)}
+          onClick={() => action.findFirst(title.current.value)}
         />
       </ControlGroup>
 
       <ButtonGroup>
         <Button
           icon="arrow-left"
-          disabled={!state.hasPreview}
-          onClick={() => action.findBefore(title.current.value)}
+          onClick={() => action.findAfter(title.current.value)}
         />
         <Button
           icon="arrow-right"
-          disabled={!state.hasNext}
-          onClick={() => action.findAfter(title.current.value)}
+          onClick={() => action.findBefore(title.current.value)}
         />
       </ButtonGroup>
 
@@ -89,6 +87,12 @@ export const ArticleListView = () => {
           );
         })}
       </ButtonGroup>
+
+      {state.articles.length === 0 ? (
+        <>これ以上の検索結果はありませんでした</>
+      ) : (
+        <></>
+      )}
     </>
   );
 };
