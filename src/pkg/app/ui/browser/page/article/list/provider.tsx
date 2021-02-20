@@ -28,32 +28,29 @@ export const ArticleListActionProvider = (props: {
   const state = useContext(ArticleListStateContext);
   const query = useContext(UsecaseContext).article.query;
 
-  const findFirst = async (title: string) => {
-    const result = await query.findByTitle({
-      title: title,
+  const findFirst = async () => {
+    const result = await query.findByPublishedDate({
       direction: "before",
       limit: LIMIT,
     });
     state.setArticles(result.datas);
   };
 
-  const findAfter = async (title: string) => {
-    const result = await query.findByTitle({
-      title: title,
+  const findByPublishedDateBefore = async () => {
+    const len = state.articles.length;
+    const result = await query.findByPublishedDate({
+      boundaryKey: len > 0 ? state.articles[len - 1].sortKey : undefined,
+      direction: "before",
+      limit: LIMIT,
+    });
+    state.setArticles(result.datas);
+  };
+
+  const findByPublishedDateAfter = async () => {
+    const result = await query.findByPublishedDate({
       boundaryKey:
         state.articles.length > 0 ? state.articles[0].sortKey : undefined,
       direction: "after",
-      limit: LIMIT,
-    });
-    state.setArticles(result.datas);
-  };
-
-  const findBefore = async (title: string) => {
-    const len = state.articles.length;
-    const result = await query.findByTitle({
-      title: title,
-      boundaryKey: len > 0 ? state.articles[len - 1].sortKey : undefined,
-      direction: "before",
       limit: LIMIT,
     });
     state.setArticles(result.datas);
@@ -63,8 +60,8 @@ export const ArticleListActionProvider = (props: {
     <ArticleListActionContext.Provider
       value={{
         findFirst: findFirst,
-        findBefore: findBefore,
-        findAfter: findAfter,
+        findByPublishedDateBefore: findByPublishedDateBefore,
+        findByPublishedDateAfter: findByPublishedDateAfter,
       }}
     >
       {props.children}

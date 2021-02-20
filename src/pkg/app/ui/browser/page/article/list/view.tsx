@@ -20,7 +20,7 @@ export const ArticleListView = () => {
   const history = useHistory();
 
   useDidMount(async () => {
-    action.findFirst(title.current.value);
+    action.findFirst();
   });
 
   return (
@@ -41,24 +41,21 @@ export const ArticleListView = () => {
           onKeyPress={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
-              action.findFirst(title.current.value);
+              action.findFirst();
             }
           }}
         />
-        <Button
-          icon="arrow-right"
-          onClick={() => action.findFirst(title.current.value)}
-        />
+        <Button icon="arrow-right" onClick={() => action.findFirst()} />
       </ControlGroup>
 
       <ButtonGroup>
         <Button
           icon="arrow-left"
-          onClick={() => action.findAfter(title.current.value)}
+          onClick={() => action.findByPublishedDateAfter()}
         />
         <Button
           icon="arrow-right"
-          onClick={() => action.findBefore(title.current.value)}
+          onClick={() => action.findByPublishedDateBefore()}
         />
       </ButtonGroup>
 

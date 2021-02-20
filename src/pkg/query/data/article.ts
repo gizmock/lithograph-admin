@@ -16,8 +16,16 @@ export type ArticleSearchResult = {
   datas: ArticleSearchData[];
 };
 
-export type FindOption = {
+export type TitleFindOption = {
   title: string;
+  direction: "before" | "after";
+  boundaryKey?: string;
+  limit?: number;
+};
+
+export type PublishedDateFindOption = {
+  from?: Date;
+  to?: Date;
   direction: "before" | "after";
   boundaryKey?: string;
   limit?: number;
@@ -25,5 +33,8 @@ export type FindOption = {
 
 export interface ArticleReadRepository {
   get(id: string): Promise<ArticleData | undefined>;
-  findByTitle(option: FindOption): Promise<ArticleSearchResult>;
+  findByTitle(option: TitleFindOption): Promise<ArticleSearchResult>;
+  findByPublishedDate(
+    option: PublishedDateFindOption
+  ): Promise<ArticleSearchResult>;
 }

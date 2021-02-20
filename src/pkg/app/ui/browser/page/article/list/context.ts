@@ -9,9 +9,9 @@ export type ArticleListState = {
 export const ArticleListStateContext = createContext({} as ArticleListState);
 
 export type ArticleListAction = {
-  findFirst: (title: string) => Promise<void>;
-  findBefore: (title: string) => Promise<void>;
-  findAfter: (title: string) => Promise<void>;
+  findFirst: () => Promise<void>;
+  findByPublishedDateBefore: () => Promise<void>;
+  findByPublishedDateAfter: () => Promise<void>;
 };
 
 export const ArticleListActionContext = createContext({} as ArticleListAction);

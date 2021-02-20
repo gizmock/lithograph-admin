@@ -1,4 +1,8 @@
-import { ArticleReadRepository, FindOption } from "../data/article";
+import {
+  ArticleReadRepository,
+  PublishedDateFindOption,
+  TitleFindOption,
+} from "../data/article";
 
 export class ArticleQueryService {
   private readonly respository: ArticleReadRepository;
@@ -11,7 +15,11 @@ export class ArticleQueryService {
     return await this.respository.get(id);
   }
 
-  async findByTitle(option: FindOption) {
+  async findByTitle(option: TitleFindOption) {
     return await this.respository.findByTitle(option);
+  }
+
+  async findByPublishedDate(option: PublishedDateFindOption) {
+    return await this.respository.findByPublishedDate(option);
   }
 }
