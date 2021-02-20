@@ -6,6 +6,8 @@ import {
   H5,
   InputGroup,
   Intent,
+  Tab,
+  Tabs,
 } from "@blueprintjs/core";
 import { useDidMount } from "beautiful-react-hooks";
 import { useContext, useRef } from "react";
@@ -15,7 +17,6 @@ import { ArticleListActionContext, ArticleListStateContext } from "./context";
 
 export const ArticleListView = () => {
   const action = useContext(ArticleListActionContext);
-  const title = useRef({ value: "" } as HTMLInputElement);
   const history = useHistory();
 
   useDidMount(async () => {
@@ -33,7 +34,46 @@ export const ArticleListView = () => {
         作成
       </Button>
 
-      <ControlGroup>
+      <Tabs animate id="TabsExample">
+        <Tab
+          id="published-date"
+          title="公開日で検索"
+          panel={<SearchPanelPublishedDate />}
+        />
+        <Tab id="title" title="タイトルで検索" panel={<SearchPanelTitle />} />
+      </Tabs>
+
+      <ListArea />
+    </>
+  );
+};
+
+const SearchPanelPublishedDate = () => {
+  const action = useContext(ArticleListActionContext);
+
+  return (
+    <>
+      <ButtonGroup>
+        <Button
+          icon="arrow-left"
+          onClick={() => action.findByPublishedDateAfter()}
+        />
+        <Button
+          icon="arrow-right"
+          onClick={() => action.findByPublishedDateBefore()}
+        />
+      </ButtonGroup>
+    </>
+  );
+};
+
+const SearchPanelTitle = () => {
+  const action = useContext(ArticleListActionContext);
+  const title = useRef({ value: "" } as HTMLInputElement);
+
+  return (
+    <>
+      <ControlGroup style={{ marginBottom: "16px" }}>
         <InputGroup
           placeholder="タイトルで探す"
           inputRef={title}
@@ -57,8 +97,6 @@ export const ArticleListView = () => {
           onClick={() => action.findByPublishedDateBefore()}
         />
       </ButtonGroup>
-
-      <ListArea />
     </>
   );
 };
