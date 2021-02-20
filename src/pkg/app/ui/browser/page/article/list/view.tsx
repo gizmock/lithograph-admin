@@ -14,7 +14,6 @@ import { ArticleEditPath } from "../../../route-path";
 import { ArticleListActionContext, ArticleListStateContext } from "./context";
 
 export const ArticleListView = () => {
-  const state = useContext(ArticleListStateContext);
   const action = useContext(ArticleListActionContext);
   const title = useRef({ value: "" } as HTMLInputElement);
   const history = useHistory();
@@ -59,6 +58,17 @@ export const ArticleListView = () => {
         />
       </ButtonGroup>
 
+      <ListArea />
+    </>
+  );
+};
+
+const ListArea = () => {
+  const state = useContext(ArticleListStateContext);
+  const history = useHistory();
+
+  return (
+    <>
       <ButtonGroup
         alignText="left"
         minimal
