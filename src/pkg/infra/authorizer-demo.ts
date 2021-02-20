@@ -1,4 +1,4 @@
-import { AuthSession, Authorizer } from "../../app/authorizer";
+import { AuthSession, Authorizer } from "../app/authorizer";
 
 export class AuthorizerDemo implements Authorizer {
   async signIn(name: string): Promise<AuthSession> {

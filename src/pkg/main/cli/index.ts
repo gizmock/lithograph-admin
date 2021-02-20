@@ -1,5 +1,5 @@
 import { rootPath } from "get-root-path";
-import { AuthorizerCognito } from "../../infra/authorizer/aws-cognito";
+import { AuthorizerCognito } from "../../infra/authorizer-cognito";
 import run from "./command";
 import { configureFromEnv } from "./init";
 

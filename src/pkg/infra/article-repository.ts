@@ -1,14 +1,14 @@
 import { DynamoDB } from "aws-sdk";
 import { title } from "process";
-import { Article, ArticleWriteRepository } from "../../domain/model/article";
-import { ArticleID } from "../../domain/model/article-value";
+import { Article, ArticleWriteRepository } from "../domain/model/article";
+import { ArticleID } from "../domain/model/article-value";
 import {
   ArticleData,
   ArticleReadRepository,
   ArticleSearchResult,
   PublishedDateFindOption,
   TitleFindOption,
-} from "../../query/data/article";
+} from "../query/data/article";
 
 const GSI_NAME_TITLE_SEARCH = "TitleSearchGSI";
 const GSI_NAME_CROSS_SEARCH = "CrossSearchGSI";
