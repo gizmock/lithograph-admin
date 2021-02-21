@@ -6,6 +6,8 @@ import {
   H5,
   InputGroup,
   Intent,
+  Tab,
+  Tabs,
 } from "@blueprintjs/core";
 import { useDidMount } from "beautiful-react-hooks";
 import { useContext, useRef } from "react";
@@ -16,11 +18,10 @@ import { ArticleListActionContext, ArticleListStateContext } from "./context";
 export const ArticleListView = () => {
   const state = useContext(ArticleListStateContext);
   const action = useContext(ArticleListActionContext);
-  const title = useRef({ value: "" } as HTMLInputElement);
   const history = useHistory();
 
-  useDidMount(async () => {
-    action.findFirst(title.current.value);
+  useDidMount(() => {
+    action.findByPublishedDateBefore();
   });
 
   return (
@@ -34,34 +35,94 @@ export const ArticleListView = () => {
         作成
       </Button>
 
-      <ControlGroup>
+      <Tabs animate id="TabsExample">
+        <Tab
+          id="published-date"
+          title="公開日順で検索"
+          panel={<SearchPanelPublishedDate />}
+          onClickCapture={() => {
+            action.findByPublishedDateBefore(true);
+          }}
+        />
+        <Tab
+          id="title"
+          title="タイトルで検索"
+          panel={<SearchPanelTitle />}
+          onClickCapture={() => {
+            state.setArticles([]);
+          }}
+        />
+      </Tabs>
+
+      <ListArea />
+    </>
+  );
+};
+
+const SearchPanelPublishedDate = () => {
+  const action = useContext(ArticleListActionContext);
+
+  return (
+    <>
+      <ButtonGroup>
+        <Button
+          icon="arrow-left"
+          onClick={() => action.findByPublishedDateAfter()}
+        />
+        <Button
+          icon="arrow-right"
+          onClick={() => action.findByPublishedDateBefore()}
+        />
+      </ButtonGroup>
+    </>
+  );
+};
+
+const SearchPanelTitle = () => {
+  const action = useContext(ArticleListActionContext);
+  const title = useRef({ value: "" } as HTMLInputElement);
+
+  return (
+    <>
+      <ControlGroup style={{ marginBottom: "16px" }}>
         <InputGroup
-          placeholder="タイトルで探す"
+          placeholder="タイトルの開始文字"
           inputRef={title}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              action.findFirst(title.current.value);
+          onChange={() => {
+            if (title.current.value !== "") {
+              action.findByTitleAfter(title.current.value, true);
             }
           }}
         />
         <Button
           icon="arrow-right"
-          onClick={() => action.findFirst(title.current.value)}
+          disabled={title.current.value === ""}
+          onClick={() => action.findByTitleAfter(title.current.value, true)}
         />
       </ControlGroup>
 
       <ButtonGroup>
         <Button
           icon="arrow-left"
-          onClick={() => action.findAfter(title.current.value)}
+          disabled={title.current.value === ""}
+          onClick={() => action.findByTitleBefore(title.current.value)}
         />
         <Button
           icon="arrow-right"
-          onClick={() => action.findBefore(title.current.value)}
+          disabled={title.current.value === ""}
+          onClick={() => action.findByTitleAfter(title.current.value)}
         />
       </ButtonGroup>
+    </>
+  );
+};
 
+const ListArea = () => {
+  const state = useContext(ArticleListStateContext);
+  const history = useHistory();
+
+  return (
+    <>
       <ButtonGroup
         alignText="left"
         minimal

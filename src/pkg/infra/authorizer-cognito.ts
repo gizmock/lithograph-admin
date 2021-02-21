@@ -1,5 +1,5 @@
 import { Auth as Cognito, CognitoUser } from "@aws-amplify/auth";
-import { AuthStatus, AuthSession, Authorizer } from "../../app/authorizer";
+import { AuthStatus, AuthSession, Authorizer } from "../app/authorizer";
 
 type ChallengeName = "NEW_PASSWORD_REQUIRED";
 
