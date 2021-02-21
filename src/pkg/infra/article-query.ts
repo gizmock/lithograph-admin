@@ -9,7 +9,7 @@ import {
 
 const GSI_NAME_TITLE_SEARCH = "TitleSearchGSI";
 const GSI_NAME_CROSS_SEARCH = "CrossSearchGSI";
-const CROSS_SEARCH_VALUE_ALL = "all";
+const CROSS_SEARCH_VALUE_ARTICLE = "article";
 
 export class ArticleQueryServiceDynamoDB implements ArticleQueryService {
   private readonly dynamodb: DynamoDB;
@@ -105,7 +105,7 @@ export class ArticleQueryServiceDynamoDB implements ArticleQueryService {
       "#crossSearchId": "crossSearchId",
     };
     const expressionAttributeValues: DynamoDB.ExpressionAttributeValueMap = {
-      ":crossSearchId": { S: CROSS_SEARCH_VALUE_ALL },
+      ":crossSearchId": { S: CROSS_SEARCH_VALUE_ARTICLE },
     };
 
     if (boundaryKey) {

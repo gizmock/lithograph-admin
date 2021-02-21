@@ -2,7 +2,7 @@ import { DynamoDB } from "aws-sdk";
 import { Article, ArticleRepository } from "../domain/article";
 import { ArticleID } from "../domain/article-value";
 
-const CROSS_SEARCH_VALUE_ALL = "all";
+const CROSS_SEARCH_VALUE_ARTICLE = "article";
 
 export class ArticleRepositoryDynamoDB implements ArticleRepository {
   private readonly dynamodb: DynamoDB;
@@ -24,7 +24,7 @@ export class ArticleRepositoryDynamoDB implements ArticleRepository {
           title: { S: article.title.value },
           body: { S: article.body.value },
           published: { N: published },
-          crossSearchId: { S: CROSS_SEARCH_VALUE_ALL },
+          crossSearchId: { S: CROSS_SEARCH_VALUE_ARTICLE },
           crossSearchSort: { S: published + "+" + id },
           titleInitial: { S: article.title.value.slice(0, 1) },
         },

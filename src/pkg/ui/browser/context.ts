@@ -4,6 +4,7 @@ import { AssetStorage } from "../../domain/asset";
 import { AsssetUsecase } from "../../app/usecase/asset";
 import { ArticleUsecase } from "../../app/usecase/article";
 import { ArticleQueryService } from "../../app/query/article";
+import { TemplateUsecase } from "../../app/usecase/template";
 
 type ThemeContextValue = {
   darkMode: boolean;
@@ -28,8 +29,11 @@ export const SessionContext = createContext({} as SessionContextValue);
 type UsecaseContextValue = {
   asset: AsssetUsecase;
   article: {
-    command: ArticleUsecase;
+    usecase: ArticleUsecase;
     query: ArticleQueryService;
+  };
+  template: {
+    usecase: TemplateUsecase;
   };
 };
 

@@ -69,6 +69,15 @@ export type AssetDeletePathParam = {
   prefix: string;
 };
 
+export const TemplateEditPath = new PathProviderWithParam(
+  "/template-edit",
+  "id"
+);
+
+export type TemplateEditPathParam = {
+  id?: string;
+};
+
 export const ArticleListPath = new PathProvider("/article-list");
 
 export const ArticleEditPath = new PathProviderWithParam("/article-edit", "id");

@@ -16,6 +16,8 @@ import { WrapWithAuth } from "./wrap/auth";
 import { WrapWithTheme } from "./wrap/theme";
 import { ArticleQueryService } from "../../app/query/article";
 import { ArticleQueryServiceDynamoDB } from "../../infra/article-query";
+import { TemplateUsecase } from "../../app/usecase/template";
+import { TemplateRepositoryDynamoDB } from "../../infra/template-repository";
 
 const Main = () => {
   configure({
@@ -56,12 +58,17 @@ const Main = () => {
           value={{
             asset: new AsssetUsecase(assetStorage),
             article: {
-              command: new ArticleUsecase(
+              usecase: new ArticleUsecase(
                 new ArticleRepositoryDynamoDB(dynamodbAPI, dynamodbTable)
               ),
               query: new ArticleQueryServiceDynamoDB(
                 dynamodbAPI,
                 dynamodbTable
+              ),
+            },
+            template: {
+              usecase: new TemplateUsecase(
+                new TemplateRepositoryDynamoDB(dynamodbAPI, dynamodbTable)
               ),
             },
           }}

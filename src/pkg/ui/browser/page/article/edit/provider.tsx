@@ -58,7 +58,7 @@ export const ArticleEditActionProvider = (props: {
     state.setBlocking(true);
     try {
       const id = state.id ? state.id : props.provideNewID();
-      await usecase.command.saveArticle({
+      await usecase.usecase.saveArticle({
         id: id,
         title: state.title,
         body: state.body,
@@ -74,7 +74,7 @@ export const ArticleEditActionProvider = (props: {
   const removeArticle = async () => {
     state.setBlocking(true);
     try {
-      await usecase.command.removeArticle({ id: state.id! });
+      await usecase.usecase.removeArticle({ id: state.id! });
     } finally {
       state.setBlocking(false);
     }
