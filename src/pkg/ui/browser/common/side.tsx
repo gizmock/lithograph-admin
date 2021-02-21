@@ -80,6 +80,12 @@ const SideMenu = (props: { fill?: boolean; close?: () => void }) => {
         ファイル
       </Button>
       <Button
+        icon="code"
+        onClick={() => linkTo(RoutePath.TemplateListPath.getURI())}
+      >
+        テンプレート
+      </Button>
+      <Button
         icon="font"
         onClick={() => linkTo(RoutePath.ArticleListPath.getURI())}
       >

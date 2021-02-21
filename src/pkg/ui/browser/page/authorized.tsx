@@ -12,6 +12,8 @@ import { AssetListPage } from "./asset/list";
 import { AssetUploadPage } from "./asset/upload";
 import { DashboardMain } from "./dashboard";
 import { NotFoundMain } from "./not-found";
+import { TemplateEditPage } from "./template";
+import { TemplateListPage } from "./template/list-page";
 
 export const AuthorizedPage = () => {
   return (
@@ -46,6 +48,14 @@ export const AuthorizedPage = () => {
           <Route
             path={RoutePath.AssetDeletePath.getURIPattern()}
             component={AssetDeletePage}
+          />
+          <Route
+            path={RoutePath.TemplateListPath.getURI()}
+            component={TemplateListPage}
+          />
+          <Route
+            path={RoutePath.TemplateEditPath.getURIPattern()}
+            component={TemplateEditPage}
           />
           <Route
             path={RoutePath.ArticleListPath.getURI()}

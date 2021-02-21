@@ -1,7 +1,7 @@
 import { Button, FormGroup, Intent } from "@blueprintjs/core";
 import { useRef, useState } from "react";
-import { PasswordInputGroup } from "../../../common/password-input";
-import { GlobalToaster } from "../../../common/toaster";
+import { PasswordInputGroup } from "../../../../common/password-input";
+import { GlobalToaster } from "../../../../common/toaster";
 
 const toastCheckPassword = () => {
   GlobalToaster.show({

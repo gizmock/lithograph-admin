@@ -1,6 +1,6 @@
 import { Intent } from "@blueprintjs/core";
-import { Header } from "../../common/header";
-import { CenteringTemplate } from "../../template/centering";
+import { Header } from "../../../common/header";
+import { CenteringTemplate } from "../../../template/centering";
 import { FirstPasswordView } from "./view";
 
 const callout = {

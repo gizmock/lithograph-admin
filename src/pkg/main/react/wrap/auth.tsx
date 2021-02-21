@@ -1,10 +1,10 @@
 import { useDidMount } from "beautiful-react-hooks";
 import { useState } from "react";
 import { Authorizer, AuthSession } from "../../../app/authorizer";
-import { SessionContext } from "../../../presentation/browser/context";
-import { FirstPasswordPage } from "../../../presentation/browser/page/first-password";
-import { InitializePage } from "../../../presentation/browser/page/initialize";
-import { SignInPage } from "../../../presentation/browser/page/sign-in";
+import { SessionContext } from "../../../ui/browser/context";
+import { FirstPasswordPage } from "../../../ui/browser/page/unauthorized/first-password";
+import { InitializePage } from "../../../ui/browser/page/initialize";
+import { SignInPage } from "../../../ui/browser/page/unauthorized/sign-in";
 
 type Props = {
   authorizer: Authorizer;

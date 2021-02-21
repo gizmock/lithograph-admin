@@ -1,9 +1,11 @@
 import { createContext } from "react";
 import { Authorizer, AuthSession } from "../../app/authorizer";
 import { AssetStorage } from "../../domain/asset";
-import { AsssetUsecase } from "../../app/command/asset";
-import { ArticleUsecase } from "../../app/command/article-usecase";
+import { AsssetUsecase } from "../../app/usecase/asset";
+import { ArticleUsecase } from "../../app/usecase/article";
 import { ArticleQueryService } from "../../app/query/article";
+import { TemplateUsecase } from "../../app/usecase/template";
+import { TemplateQueryService } from "../../app/query/template";
 
 type ThemeContextValue = {
   darkMode: boolean;
@@ -28,8 +30,12 @@ export const SessionContext = createContext({} as SessionContextValue);
 type UsecaseContextValue = {
   asset: AsssetUsecase;
   article: {
-    command: ArticleUsecase;
+    usecase: ArticleUsecase;
     query: ArticleQueryService;
+  };
+  template: {
+    usecase: TemplateUsecase;
+    query: TemplateQueryService;
   };
 };
 

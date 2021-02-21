@@ -31,30 +31,10 @@ export type PublishedDateFindOption = {
   limit?: number;
 };
 
-export interface ArticleReadRepository {
+export interface ArticleQueryService {
   get(id: string): Promise<ArticleData | undefined>;
   findByTitle(option: TitleFindOption): Promise<ArticleSearchResult>;
   findByPublishedDate(
     option: PublishedDateFindOption
   ): Promise<ArticleSearchResult>;
-}
-
-export class ArticleQueryService {
-  private readonly respository: ArticleReadRepository;
-
-  constructor(respository: ArticleReadRepository) {
-    this.respository = respository;
-  }
-
-  async getArticle(id: string) {
-    return await this.respository.get(id);
-  }
-
-  async findByTitle(option: TitleFindOption) {
-    return await this.respository.findByTitle(option);
-  }
-
-  async findByPublishedDate(option: PublishedDateFindOption) {
-    return await this.respository.findByPublishedDate(option);
-  }
 }

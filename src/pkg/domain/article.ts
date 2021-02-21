@@ -26,7 +26,7 @@ export class Article {
   }
 }
 
-export interface ArticleWriteRepository {
+export interface ArticleRepository {
   put(article: Article): Promise<void>;
   remove(id: ArticleID): Promise<void>;
 }

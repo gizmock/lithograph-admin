@@ -1,4 +1,4 @@
-import { Article, ArticleWriteRepository } from "../../domain/article";
+import { Article, ArticleRepository } from "../../domain/article";
 import {
   ArticleBody,
   ArticleID,
@@ -7,9 +7,9 @@ import {
 } from "../../domain/article-value";
 
 export class ArticleUsecase {
-  private readonly repository: ArticleWriteRepository;
+  private readonly repository: ArticleRepository;
 
-  constructor(repository: ArticleWriteRepository) {
+  constructor(repository: ArticleRepository) {
     this.repository = repository;
   }
 

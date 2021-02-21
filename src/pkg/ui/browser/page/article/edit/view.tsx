@@ -7,7 +7,7 @@ import { useHistory } from "react-router";
 import { GlobalToaster } from "../../../common/toaster";
 import { ArticleListPath } from "../../../route-path";
 import { ArticleEditActionContext, ArticleEditStateContext } from "./context";
-import { HTMLEditor } from "./html-editor";
+import { HTMLEditor } from "../../../common/html-editor";
 
 export const ArticleEditView = () => {
   const state = useContext(ArticleEditStateContext);
