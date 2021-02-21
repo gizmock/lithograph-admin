@@ -5,8 +5,8 @@ import {
   UsecaseContext,
 } from "../../ui/browser/context";
 import { AuthorizedPage } from "../../ui/browser/page/authorized";
-import { ArticleUsecase } from "../../app/command/article-usecase";
-import { AsssetUsecase } from "../../app/command/asset";
+import { ArticleUsecase } from "../../app/usecase/article";
+import { AsssetUsecase } from "../../app/usecase/asset";
 import { AuthorizerCognito } from "../../infra/authorizer-cognito";
 import { AmplifyAuthCredentials } from "../../infra/aws_credentials";
 import { ArticleRepositoryDynamoDB } from "../../infra/article-repository";
@@ -15,6 +15,7 @@ import { configure } from "../config";
 import { WrapWithAuth } from "./wrap/auth";
 import { WrapWithTheme } from "./wrap/theme";
 import { ArticleQueryService } from "../../app/query/article";
+import { ArticleQueryServiceDynamoDB } from "../../infra/article-query";
 
 const Main = () => {
   configure({
@@ -37,13 +38,11 @@ const Main = () => {
     process.env.REACT_APP_S3_BUCKET!
   );
 
-  const articleRepository = new ArticleRepositoryDynamoDB(
-    new DynamoDB({
-      region: process.env.REACT_APP_AWS_REGION,
-      credentialProvider: credentialProvider,
-    }),
-    process.env.REACT_APP_DYNAMODB_ARTICLE_TABLE!
-  );
+  const dynamodbAPI = new DynamoDB({
+    region: process.env.REACT_APP_AWS_REGION,
+    credentialProvider: credentialProvider,
+  });
+  const dynamodbTable = process.env.REACT_APP_DYNAMODB_ARTICLE_TABLE!;
 
   return (
     <SiteContext.Provider value={{ name: process.env.REACT_APP_SITE_NAME! }}>
@@ -57,8 +56,13 @@ const Main = () => {
           value={{
             asset: new AsssetUsecase(assetStorage),
             article: {
-              command: new ArticleUsecase(articleRepository),
-              query: new ArticleQueryService(articleRepository),
+              command: new ArticleUsecase(
+                new ArticleRepositoryDynamoDB(dynamodbAPI, dynamodbTable)
+              ),
+              query: new ArticleQueryServiceDynamoDB(
+                dynamodbAPI,
+                dynamodbTable
+              ),
             },
           }}
         >

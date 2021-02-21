@@ -44,7 +44,7 @@ export const ArticleEditActionProvider = (props: {
   const initializeArticle = async () => {
     state.setBlocking(true);
     if (state.id) {
-      const data = await usecase.query.getArticle(state.id);
+      const data = await usecase.query.get(state.id);
       if (data) {
         state.setTitle(data.title);
         state.setBody(data.body);
