@@ -3,7 +3,7 @@ import {
   AssetStorage,
   PATH_DELIMITER,
   AssetObject,
-} from "../domain/model/asset";
+} from "../domain/asset";
 
 const STORAGE_DEMO_KEY = "console.storage-demo";
 
