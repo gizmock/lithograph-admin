@@ -1,10 +1,10 @@
 import { DynamoDB } from "aws-sdk";
-import { Article, ArticleWriteRepository } from "../domain/article";
+import { Article, ArticleRepository } from "../domain/article";
 import { ArticleID } from "../domain/article-value";
 
 const CROSS_SEARCH_VALUE_ALL = "all";
 
-export class ArticleRepositoryDynamoDB implements ArticleWriteRepository {
+export class ArticleRepositoryDynamoDB implements ArticleRepository {
   private readonly dynamodb: DynamoDB;
   private readonly table: string;
 
