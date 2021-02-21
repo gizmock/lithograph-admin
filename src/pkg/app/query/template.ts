@@ -1,12 +1,12 @@
 export type TemplateData = {
   readonly id: string;
-  readonly name: string;
-  readonly html: string;
+  readonly title: string;
+  readonly body: string;
 };
 
 export type TemplateSearchData = {
   readonly id: string;
-  readonly name: string;
+  readonly title: string;
   readonly sortKey: string;
 };
 

@@ -9,8 +9,8 @@ import { TemplateEditView } from "./edit-view";
 export const TemplateEditPage = () => {
   const params = useParams<TemplateEditPathParam>();
   const [id, setID] = useState(params.id);
-  const name = useRef({ value: "" } as HTMLInputElement);
-  const [html, setHTML] = useState("");
+  const title = useRef({ value: "" } as HTMLInputElement);
+  const [body, setBody] = useState("");
   const usecase = useContext(UsecaseContext).template.usecase;
   const query = useContext(UsecaseContext).template.query;
   const history = useHistory();
@@ -21,8 +21,8 @@ export const TemplateEditPage = () => {
     }
     const data = await query.get(id);
     if (data) {
-      name.current.value = data.name;
-      setHTML(data.html);
+      title.current.value = data.title;
+      setBody(data.body);
     }
   });
 
@@ -37,8 +37,8 @@ export const TemplateEditPage = () => {
     const saveID = id ? id : createID();
     await usecase.saveTemplate({
       id: saveID,
-      name: name.current.value,
-      html: html,
+      title: title.current.value,
+      body: body,
     });
   };
 
@@ -49,9 +49,9 @@ export const TemplateEditPage = () => {
   return (
     <TemplateEditView
       id={id}
-      name={name}
-      html={html}
-      setHTML={setHTML}
+      title={title}
+      body={body}
+      setBody={setBody}
       save={save}
       remove={remove}
     />

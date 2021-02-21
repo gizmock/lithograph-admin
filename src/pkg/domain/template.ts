@@ -1,20 +1,20 @@
-import { TemplateHTML, TemplateID, TemplateName } from "./template-values";
+import { TemplateBody, TemplateID, TemplateTitle } from "./template-values";
 
 export class Template {
   readonly id: TemplateID;
-  name: TemplateName;
-  html: TemplateHTML;
+  title: TemplateTitle;
+  body: TemplateBody;
 
   constructor(
     id: TemplateID,
     values: {
-      name: TemplateName;
-      html: TemplateHTML;
+      title: TemplateTitle;
+      body: TemplateBody;
     }
   ) {
     this.id = id;
-    this.name = values.name;
-    this.html = values.html;
+    this.title = values.title;
+    this.body = values.body;
   }
 }
 

@@ -1,5 +1,5 @@
 export type TemplateID = string;
 
-export type TemplateName = string;
+export type TemplateTitle = string;
 
-export type TemplateHTML = string;
+export type TemplateBody = string;

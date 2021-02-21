@@ -18,10 +18,10 @@ export class TemplateRepositoryDynamoDB implements TemplateRepository {
         TableName: this.table,
         Item: {
           id: { S: template.id },
-          name: { S: template.name },
-          html: { S: template.html },
+          title: { S: template.title },
+          body: { S: template.body },
           crossSearchId: { S: CROSS_SEARCH_VALUE_ARTICLE },
-          crossSearchSort: { S: template.name },
+          crossSearchSort: { S: template.title },
         },
       })
       .promise();

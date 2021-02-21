@@ -7,7 +7,7 @@ import {
 } from "../app/query/template";
 
 const GSI_NAME_CROSS_SEARCH = "CrossSearchGSI";
-const CROSS_SEARCH_VALUE_ARTICLE = "article";
+const CROSS_SEARCH_VALUE_ARTICLE = "template";
 
 export class TemplateQueryServiceDynamoDB implements TemplateQueryService {
   private readonly dynamodb: DynamoDB;
@@ -32,8 +32,8 @@ export class TemplateQueryServiceDynamoDB implements TemplateQueryService {
     }
     return {
       id: item["id"].S!,
-      name: item["name"].S!,
-      html: item["html"].S!,
+      title: item["title"].S!,
+      body: item["body"].S!,
     };
   }
 
@@ -76,13 +76,13 @@ export class TemplateQueryServiceDynamoDB implements TemplateQueryService {
     }
 
     const sorted =
-      option.direction === "before" ? res.Items : res.Items.reverse();
+      option.direction === "after" ? res.Items : res.Items.reverse();
 
     return {
       datas: sorted.map((item) => {
         return {
           id: item["id"].S!,
-          name: item["name"].S!,
+          title: item["title"].S!,
           sortKey: item["crossSearchSort"].S!,
         };
       }),

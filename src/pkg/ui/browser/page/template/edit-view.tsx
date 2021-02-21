@@ -1,18 +1,22 @@
 import { Button, H1, InputGroup, Intent } from "@blueprintjs/core";
 import pretty from "pretty";
+import { useHistory } from "react-router";
 import { HTMLEditor } from "../../common/html-editor";
 import { GlobalToaster } from "../../common/toaster";
+import { TemplateListPath } from "../../route-path";
 
 type Props = {
   id?: string;
-  name: React.MutableRefObject<HTMLInputElement>;
-  html: string;
-  setHTML: (html: string) => void;
+  title: React.MutableRefObject<HTMLInputElement>;
+  body: string;
+  setBody: (body: string) => void;
   save: () => Promise<void>;
   remove: () => Promise<void>;
 };
 
 export const TemplateEditView = (props: Props) => {
+  const history = useHistory();
+
   const onSaveClick = async () => {
     try {
       await props.save();
@@ -48,10 +52,15 @@ export const TemplateEditView = (props: Props) => {
       <H1>テンプレート編集</H1>
 
       <div>
-        <Button style={{ marginRight: "12px" }}>戻る</Button>
+        <Button
+          style={{ marginRight: "12px" }}
+          onClick={() => history.push(TemplateListPath.getURI())}
+        >
+          戻る
+        </Button>
 
         <Button
-          disabled={props.name.current.value === "" || props.html === ""}
+          disabled={props.title.current.value === "" || props.body === ""}
           intent={Intent.PRIMARY}
           onClick={onSaveClick}
           style={{ marginRight: "12px" }}
@@ -77,14 +86,14 @@ export const TemplateEditView = (props: Props) => {
         <></>
       )}
 
-      <h2>名前</h2>
-      <InputGroup inputRef={props.name} />
+      <h2>タイトル</h2>
+      <InputGroup inputRef={props.title} />
 
       <h2>HTML</h2>
-      <Button onClick={() => props.setHTML(pretty(props.html))}>
+      <Button onClick={() => props.setBody(pretty(props.body))}>
         HTML整形
       </Button>
-      <HTMLEditor body={props.html} setBody={props.setHTML} />
+      <HTMLEditor body={props.body} setBody={props.setBody} />
     </>
   );
 };

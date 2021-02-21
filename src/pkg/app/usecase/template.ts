@@ -9,12 +9,12 @@ export class TemplateUsecase {
 
   async saveTemplate(input: {
     id: string;
-    name: string;
-    html: string;
+    title: string;
+    body: string;
   }): Promise<void> {
     const template = new Template(input.id, {
-      name: input.name,
-      html: input.html,
+      title: input.title,
+      body: input.body,
     });
     await this.repository.put(template);
   }
