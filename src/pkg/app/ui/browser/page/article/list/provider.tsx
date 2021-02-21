@@ -40,7 +40,9 @@ export const ArticleListActionProvider = (props: {
       direction: "before",
       limit: LIMIT,
     });
-    state.setArticles(result.datas);
+    if (result.datas.length > 0) {
+      state.setArticles(result.datas);
+    }
   };
 
   const findByPublishedDateAfter = async () => {
@@ -50,7 +52,9 @@ export const ArticleListActionProvider = (props: {
       direction: "after",
       limit: LIMIT,
     });
-    state.setArticles(result.datas);
+    if (result.datas.length > 0) {
+      state.setArticles(result.datas);
+    }
   };
 
   const findByTitleBefore = async (title: string) => {
@@ -61,7 +65,9 @@ export const ArticleListActionProvider = (props: {
       direction: "before",
       limit: LIMIT,
     });
-    state.setArticles(result.datas);
+    if (result.datas.length > 0) {
+      state.setArticles(result.datas);
+    }
   };
 
   const findByTitleAfter = async (title: string, ignore?: boolean) => {
@@ -77,7 +83,9 @@ export const ArticleListActionProvider = (props: {
       direction: "after",
       limit: LIMIT,
     });
-    state.setArticles(result.datas);
+    if (result.datas.length > 0) {
+      state.setArticles(result.datas);
+    }
   };
 
   return (
