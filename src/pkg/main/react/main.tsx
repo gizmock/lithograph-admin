@@ -18,6 +18,7 @@ import { ArticleQueryService } from "../../app/query/article";
 import { ArticleQueryServiceDynamoDB } from "../../infra/article-query";
 import { TemplateUsecase } from "../../app/usecase/template";
 import { TemplateRepositoryDynamoDB } from "../../infra/template-repository";
+import { TemplateQueryServiceDynamoDB } from "../../infra/template-query";
 
 const Main = () => {
   configure({
@@ -69,6 +70,10 @@ const Main = () => {
             template: {
               usecase: new TemplateUsecase(
                 new TemplateRepositoryDynamoDB(dynamodbAPI, dynamodbTable)
+              ),
+              query: new TemplateQueryServiceDynamoDB(
+                dynamodbAPI,
+                dynamodbTable
               ),
             },
           }}

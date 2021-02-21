@@ -12,9 +12,19 @@ export const TemplateEditPage = () => {
   const name = useRef({ value: "" } as HTMLInputElement);
   const [html, setHTML] = useState("");
   const usecase = useContext(UsecaseContext).template.usecase;
+  const query = useContext(UsecaseContext).template.query;
   const history = useHistory();
 
-  useDidMount(async () => {});
+  useDidMount(async () => {
+    if (!id) {
+      return;
+    }
+    const data = await query.get(id);
+    if (data) {
+      name.current.value = data.name;
+      setHTML(data.html);
+    }
+  });
 
   const createID = () => {
     const newID = "template-" + uuidv4();
