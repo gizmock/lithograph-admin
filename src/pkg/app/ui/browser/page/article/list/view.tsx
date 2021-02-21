@@ -16,11 +16,12 @@ import { ArticleEditPath } from "../../../route-path";
 import { ArticleListActionContext, ArticleListStateContext } from "./context";
 
 export const ArticleListView = () => {
+  const state = useContext(ArticleListStateContext);
   const action = useContext(ArticleListActionContext);
   const history = useHistory();
 
-  useDidMount(async () => {
-    action.findFirst();
+  useDidMount(() => {
+    action.findByPublishedDateBefore();
   });
 
   return (
@@ -37,10 +38,20 @@ export const ArticleListView = () => {
       <Tabs animate id="TabsExample">
         <Tab
           id="published-date"
-          title="公開日で検索"
+          title="公開日順で検索"
           panel={<SearchPanelPublishedDate />}
+          onClickCapture={() => {
+            action.findByPublishedDateBefore(true);
+          }}
         />
-        <Tab id="title" title="タイトルで検索" panel={<SearchPanelTitle />} />
+        <Tab
+          id="title"
+          title="タイトルで検索"
+          panel={<SearchPanelTitle />}
+          onClickCapture={() => {
+            state.setArticles([]);
+          }}
+        />
       </Tabs>
 
       <ListArea />
@@ -75,26 +86,31 @@ const SearchPanelTitle = () => {
     <>
       <ControlGroup style={{ marginBottom: "16px" }}>
         <InputGroup
-          placeholder="タイトルで探す"
+          placeholder="タイトルの開始文字"
           inputRef={title}
-          onKeyPress={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              action.findFirst();
+          onChange={() => {
+            if (title.current.value !== "") {
+              action.findByTitleAfter(title.current.value, true);
             }
           }}
         />
-        <Button icon="arrow-right" onClick={() => action.findFirst()} />
+        <Button
+          icon="arrow-right"
+          disabled={title.current.value === ""}
+          onClick={() => action.findByTitleAfter(title.current.value, true)}
+        />
       </ControlGroup>
 
       <ButtonGroup>
         <Button
           icon="arrow-left"
-          onClick={() => action.findByPublishedDateAfter()}
+          disabled={title.current.value === ""}
+          onClick={() => action.findByTitleBefore(title.current.value)}
         />
         <Button
           icon="arrow-right"
-          onClick={() => action.findByPublishedDateBefore()}
+          disabled={title.current.value === ""}
+          onClick={() => action.findByTitleAfter(title.current.value)}
         />
       </ButtonGroup>
     </>

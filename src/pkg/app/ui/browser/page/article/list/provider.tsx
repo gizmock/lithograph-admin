@@ -20,7 +20,7 @@ export const ArticleListStateProvider = (props: {
   );
 };
 
-const LIMIT = 10;
+const LIMIT = 5;
 
 export const ArticleListActionProvider = (props: {
   children: React.ReactNode;
@@ -28,18 +28,15 @@ export const ArticleListActionProvider = (props: {
   const state = useContext(ArticleListStateContext);
   const query = useContext(UsecaseContext).article.query;
 
-  const findFirst = async () => {
-    const result = await query.findByPublishedDate({
-      direction: "before",
-      limit: LIMIT,
-    });
-    state.setArticles(result.datas);
-  };
-
-  const findByPublishedDateBefore = async () => {
+  const findByPublishedDateBefore = async (ignore?: boolean) => {
     const len = state.articles.length;
+    const boundaryKey = ignore
+      ? undefined
+      : len > 0
+      ? state.articles[len - 1].sortKey
+      : undefined;
     const result = await query.findByPublishedDate({
-      boundaryKey: len > 0 ? state.articles[len - 1].sortKey : undefined,
+      boundaryKey: boundaryKey,
       direction: "before",
       limit: LIMIT,
     });
@@ -56,12 +53,40 @@ export const ArticleListActionProvider = (props: {
     state.setArticles(result.datas);
   };
 
+  const findByTitleBefore = async (title: string) => {
+    const result = await query.findByTitle({
+      title: title,
+      boundaryKey:
+        state.articles.length > 0 ? state.articles[0].sortKey : undefined,
+      direction: "before",
+      limit: LIMIT,
+    });
+    state.setArticles(result.datas);
+  };
+
+  const findByTitleAfter = async (title: string, ignore?: boolean) => {
+    const len = state.articles.length;
+    const boundaryKey = ignore
+      ? undefined
+      : len > 0
+      ? state.articles[len - 1].sortKey
+      : undefined;
+    const result = await query.findByTitle({
+      title: title,
+      boundaryKey: boundaryKey,
+      direction: "after",
+      limit: LIMIT,
+    });
+    state.setArticles(result.datas);
+  };
+
   return (
     <ArticleListActionContext.Provider
       value={{
-        findFirst: findFirst,
         findByPublishedDateBefore: findByPublishedDateBefore,
         findByPublishedDateAfter: findByPublishedDateAfter,
+        findByTitleBefore: findByTitleBefore,
+        findByTitleAfter: findByTitleAfter,
       }}
     >
       {props.children}

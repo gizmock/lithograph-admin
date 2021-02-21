@@ -1,5 +1,4 @@
 import { DynamoDB } from "aws-sdk";
-import { title } from "process";
 import { Article, ArticleWriteRepository } from "../domain/model/article";
 import { ArticleID } from "../domain/model/article-value";
 import {
@@ -13,7 +12,6 @@ import {
 const GSI_NAME_TITLE_SEARCH = "TitleSearchGSI";
 const GSI_NAME_CROSS_SEARCH = "CrossSearchGSI";
 const CROSS_SEARCH_VALUE_ALL = "all";
-const DEFAULT_SEARCH_LIMIT = 5;
 
 export class ArticleRepositoryDynamoDB
   implements ArticleWriteRepository, ArticleReadRepository {
@@ -74,52 +72,49 @@ export class ArticleRepositoryDynamoDB
   }
 
   async findByTitle(option: TitleFindOption): Promise<ArticleSearchResult> {
-    const limit = option.limit ? option.limit : DEFAULT_SEARCH_LIMIT;
-    const items = [] as DynamoDB.AttributeMap[];
-    let boundaryKey = option.boundaryKey;
-    while (true) {
-      console.log(111);
-      let keyConditionExpression = "#titleInitial = :titleInitial";
-      const expressionAttributeNames: DynamoDB.ExpressionAttributeNameMap = {
-        "#titleInitial": "titleInitial",
-      };
-      const expressionAttributeValues: DynamoDB.ExpressionAttributeValueMap = {
-        ":titleInitial": { S: title.slice(0, 1) },
-      };
+    let keyConditionExpression = "#titleInitial = :titleInitial";
+    const expressionAttributeNames: DynamoDB.ExpressionAttributeNameMap = {
+      "#titleInitial": "titleInitial",
+    };
+    const expressionAttributeValues: DynamoDB.ExpressionAttributeValueMap = {
+      ":titleInitial": { S: option.title.slice(0, 1) },
+    };
 
-      if (boundaryKey) {
-        keyConditionExpression +=
-          " and #title " +
-          (option.direction === "before" ? "<" : ">") +
-          " :title";
-        expressionAttributeNames["#title"] = "title";
-        expressionAttributeValues[":title"] = {
-          S: boundaryKey,
-        };
-      }
-
-      const res = await this.dynamodb
-        .query({
-          TableName: this.table,
-          IndexName: GSI_NAME_TITLE_SEARCH,
-          ScanIndexForward: option.direction === "after",
-          KeyConditionExpression: keyConditionExpression,
-          ExpressionAttributeNames: expressionAttributeNames,
-          ExpressionAttributeValues: expressionAttributeValues,
-          Limit: limit - items.length,
-        })
-        .promise();
-      if (!res.Items) {
-        break;
-      }
-      items.push(...res.Items);
-      if (items.length === limit || !res.LastEvaluatedKey) {
-        break;
-      }
-      boundaryKey = res.LastEvaluatedKey["crossSearchSort"].S!;
+    if (option.boundaryKey) {
+      keyConditionExpression +=
+        " and #title " + (option.direction === "after" ? ">" : "<") + " :title";
+      expressionAttributeNames["#title"] = "title";
+      expressionAttributeValues[":title"] = {
+        S: option.boundaryKey,
+      };
+    } else {
+      keyConditionExpression += " and begins_with(#title, :title)";
+      expressionAttributeNames["#title"] = "title";
+      expressionAttributeValues[":title"] = {
+        S: option.title,
+      };
     }
 
-    const sorted = option.direction === "before" ? items : items.reverse();
+    const res = await this.dynamodb
+      .query({
+        TableName: this.table,
+        IndexName: GSI_NAME_TITLE_SEARCH,
+        ScanIndexForward: !option.boundaryKey || option.direction === "after",
+        KeyConditionExpression: keyConditionExpression,
+        ExpressionAttributeNames: expressionAttributeNames,
+        ExpressionAttributeValues: expressionAttributeValues,
+        Limit: option.limit,
+      })
+      .promise();
+    if (!res.Items) {
+      return {
+        datas: [],
+      };
+    }
+    const sorted =
+      !option.boundaryKey || option.direction === "after"
+        ? res.Items
+        : res.Items.reverse();
     return {
       datas: sorted.map((item) => {
         return {
@@ -135,51 +130,45 @@ export class ArticleRepositoryDynamoDB
   async findByPublishedDate(
     option: PublishedDateFindOption
   ): Promise<ArticleSearchResult> {
-    const limit = option.limit ? option.limit : DEFAULT_SEARCH_LIMIT;
-    const items = [] as DynamoDB.AttributeMap[];
     let boundaryKey = option.boundaryKey;
-    while (true) {
-      let keyConditionExpression = "#crossSearchId = :crossSearchId";
-      const expressionAttributeNames: DynamoDB.ExpressionAttributeNameMap = {
-        "#crossSearchId": "crossSearchId",
-      };
-      const expressionAttributeValues: DynamoDB.ExpressionAttributeValueMap = {
-        ":crossSearchId": { S: CROSS_SEARCH_VALUE_ALL },
-      };
+    let keyConditionExpression = "#crossSearchId = :crossSearchId";
+    const expressionAttributeNames: DynamoDB.ExpressionAttributeNameMap = {
+      "#crossSearchId": "crossSearchId",
+    };
+    const expressionAttributeValues: DynamoDB.ExpressionAttributeValueMap = {
+      ":crossSearchId": { S: CROSS_SEARCH_VALUE_ALL },
+    };
 
-      if (boundaryKey) {
-        keyConditionExpression +=
-          " and #crossSearchSort " +
-          (option.direction === "before" ? "<" : ">") +
-          " :crossSearchSort";
-        expressionAttributeNames["#crossSearchSort"] = "crossSearchSort";
-        expressionAttributeValues[":crossSearchSort"] = {
-          S: boundaryKey,
-        };
-      }
-
-      const res = await this.dynamodb
-        .query({
-          TableName: this.table,
-          IndexName: GSI_NAME_CROSS_SEARCH,
-          ScanIndexForward: option.direction === "after",
-          KeyConditionExpression: keyConditionExpression,
-          ExpressionAttributeNames: expressionAttributeNames,
-          ExpressionAttributeValues: expressionAttributeValues,
-          Limit: limit - items.length,
-        })
-        .promise();
-      if (!res.Items) {
-        break;
-      }
-      items.push(...res.Items);
-      if (items.length === limit || !res.LastEvaluatedKey) {
-        break;
-      }
-      boundaryKey = res.LastEvaluatedKey["crossSearchSort"].S!;
+    if (boundaryKey) {
+      keyConditionExpression +=
+        " and #crossSearchSort " +
+        (option.direction === "before" ? "<" : ">") +
+        " :crossSearchSort";
+      expressionAttributeNames["#crossSearchSort"] = "crossSearchSort";
+      expressionAttributeValues[":crossSearchSort"] = {
+        S: boundaryKey,
+      };
     }
 
-    const sorted = option.direction === "before" ? items : items.reverse();
+    const res = await this.dynamodb
+      .query({
+        TableName: this.table,
+        IndexName: GSI_NAME_CROSS_SEARCH,
+        ScanIndexForward: option.direction === "after",
+        KeyConditionExpression: keyConditionExpression,
+        ExpressionAttributeNames: expressionAttributeNames,
+        ExpressionAttributeValues: expressionAttributeValues,
+        Limit: option.limit,
+      })
+      .promise();
+    if (!res.Items) {
+      return {
+        datas: [],
+      };
+    }
+
+    const sorted =
+      option.direction === "before" ? res.Items : res.Items.reverse();
     return {
       datas: sorted.map((item) => {
         return {
