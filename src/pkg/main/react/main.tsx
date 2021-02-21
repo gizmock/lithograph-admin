@@ -3,18 +3,18 @@ import {
   InfraContext,
   SiteContext,
   UsecaseContext,
-} from "../../app/ui/browser/context";
-import { AuthorizedPage } from "../../app/ui/browser/page/authorized";
-import { ArticleUsecase } from "../../domain/usecase/article";
-import { AsssetUsecase } from "../../domain/usecase/asset";
+} from "../../presentation/browser/context";
+import { AuthorizedPage } from "../../presentation/browser/page/authorized";
+import { ArticleUsecase } from "../../app/command/article-usecase";
+import { AsssetUsecase } from "../../app/command/asset";
 import { AuthorizerCognito } from "../../infra/authorizer-cognito";
 import { AmplifyAuthCredentials } from "../../infra/aws_credentials";
 import { ArticleRepositoryDynamoDB } from "../../infra/article-repository";
 import { AssetStorageS3 } from "../../infra/asset-storage-s3";
-import { ArticleQueryService } from "../../query/service/article";
 import { configure } from "../config";
 import { WrapWithAuth } from "./wrap/auth";
 import { WrapWithTheme } from "./wrap/theme";
+import { ArticleQueryService } from "../../app/query/article";
 
 const Main = () => {
   configure({

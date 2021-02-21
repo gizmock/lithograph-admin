@@ -1,10 +1,6 @@
 import { S3 } from "aws-sdk";
 import mime from "mime-types";
-import {
-  AssetSaveProgress,
-  AssetStorage,
-  AssetObject,
-} from "../domain/model/asset";
+import { AssetSaveProgress, AssetStorage, AssetObject } from "../domain/asset";
 
 const S3_DELIMITER = "/";
 const UPLOAD_STORAGE_CLASS = "INTELLIGENT_TIERING";

@@ -1,11 +1,11 @@
 import { FocusStyleManager } from "@blueprintjs/core";
 import { useState } from "react";
-import { ThemeContext } from "../../../app/ui/browser/context";
-import { setDarkModeBodyClass } from "../../../app/ui/browser/dom";
+import { ThemeContext } from "../../../presentation/browser/context";
+import { setDarkModeBodyClass } from "../../../presentation/browser/dom";
 import {
   addConsoleSetting,
   loadConsoleSetting,
-} from "../../../app/ui/browser/local-storage";
+} from "../../../presentation/browser/local-storage";
 
 const DEFAULT_DARK_MODE = true;
 
