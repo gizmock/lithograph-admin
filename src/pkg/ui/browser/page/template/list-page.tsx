@@ -6,7 +6,7 @@ import { UsecaseContext } from "../../context";
 import { TemplateEditPath } from "../../route-path";
 import { TemplateListView } from "./list-view";
 
-const LIMIT = 5;
+const LIMIT = 10;
 
 export const TemplateListPage = () => {
   const query = useContext(UsecaseContext).template.query;

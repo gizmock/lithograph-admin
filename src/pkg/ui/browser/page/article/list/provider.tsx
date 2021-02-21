@@ -3,6 +3,8 @@ import { ArticleSearchData } from "../../../../../app/query/article";
 import { UsecaseContext } from "../../../context";
 import { ArticleListActionContext, ArticleListStateContext } from "./context";
 
+const LIMIT = 10;
+
 export const ArticleListStateProvider = (props: {
   children: React.ReactNode;
 }) => {
@@ -19,8 +21,6 @@ export const ArticleListStateProvider = (props: {
     </ArticleListStateContext.Provider>
   );
 };
-
-const LIMIT = 5;
 
 export const ArticleListActionProvider = (props: {
   children: React.ReactNode;
