@@ -1,7 +1,7 @@
 import commander from "commander";
 import { program } from "commander";
 import { Authorizer } from "../../app/authorizer";
-import { AuthConsole } from "../../presentation/console/auth";
+import { AuthConsole } from "../../ui/console/auth";
 
 export default async (authorizer: Authorizer) => {
   addAuthCommand(authorizer);

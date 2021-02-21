@@ -3,8 +3,8 @@ import {
   InfraContext,
   SiteContext,
   UsecaseContext,
-} from "../../presentation/browser/context";
-import { AuthorizedPage } from "../../presentation/browser/page/authorized";
+} from "../../ui/browser/context";
+import { AuthorizedPage } from "../../ui/browser/page/authorized";
 import { ArticleUsecase } from "../../app/command/article-usecase";
 import { AsssetUsecase } from "../../app/command/asset";
 import { AuthorizerCognito } from "../../infra/authorizer-cognito";
