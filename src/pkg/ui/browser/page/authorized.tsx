@@ -12,7 +12,7 @@ import { AssetListPage } from "./asset/list";
 import { AssetUploadPage } from "./asset/upload";
 import { DashboardMain } from "./dashboard";
 import { NotFoundMain } from "./not-found";
-import { TemplateEditPage } from "./template/edit";
+import { TemplateEditPage } from "./template";
 
 export const AuthorizedPage = () => {
   return (

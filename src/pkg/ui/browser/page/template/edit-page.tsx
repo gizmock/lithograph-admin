@@ -2,9 +2,9 @@ import { useDidMount } from "beautiful-react-hooks";
 import { useContext, useRef, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { v4 as uuidv4 } from "uuid";
-import { UsecaseContext } from "../../../context";
-import { TemplateEditPath, TemplateEditPathParam } from "../../../route-path";
-import { TemplateEditView } from "./view";
+import { UsecaseContext } from "../../context";
+import { TemplateEditPath, TemplateEditPathParam } from "../../route-path";
+import { TemplateEditView } from "./edit-view";
 
 export const TemplateEditPage = () => {
   const params = useParams<TemplateEditPathParam>();

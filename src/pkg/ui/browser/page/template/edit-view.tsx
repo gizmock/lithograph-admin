@@ -1,7 +1,7 @@
 import { Button, H1, InputGroup, Intent } from "@blueprintjs/core";
 import pretty from "pretty";
-import { HTMLEditor } from "../../../common/html-editor";
-import { GlobalToaster } from "../../../common/toaster";
+import { HTMLEditor } from "../../common/html-editor";
+import { GlobalToaster } from "../../common/toaster";
 
 type Props = {
   id?: string;

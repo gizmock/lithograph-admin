@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { InfraContext, SessionContext } from "../../../context";
+import { InfraContext, SessionContext } from "../../../../context";
 import { NewPasswordForm } from "./new-password-form";
 
 export const FirstPasswordView = () => {
