@@ -19,6 +19,9 @@ import { ArticleQueryServiceDynamoDB } from "../../infra/article-query";
 import { TemplateUsecase } from "../../app/usecase/template";
 import { TemplateRepositoryDynamoDB } from "../../infra/template-repository";
 import { TemplateQueryServiceDynamoDB } from "../../infra/template-query";
+import { CategoryRepositoryDynamoDB } from "../../infra/category-repository";
+import { CategoryUsecase } from "../../app/usecase/category";
+import { CategoryQueryServiceDynamoDB } from "../../infra/category-query";
 
 const Main = () => {
   configure({
@@ -72,6 +75,15 @@ const Main = () => {
                 new TemplateRepositoryDynamoDB(dynamodbAPI, dynamodbTable)
               ),
               query: new TemplateQueryServiceDynamoDB(
+                dynamodbAPI,
+                dynamodbTable
+              ),
+            },
+            category: {
+              usecase: new CategoryUsecase(
+                new CategoryRepositoryDynamoDB(dynamodbAPI, dynamodbTable)
+              ),
+              query: new CategoryQueryServiceDynamoDB(
                 dynamodbAPI,
                 dynamodbTable
               ),

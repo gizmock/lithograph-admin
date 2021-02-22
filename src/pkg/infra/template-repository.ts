@@ -1,7 +1,7 @@
 import { DynamoDB } from "aws-sdk";
 import { Template, TemplateRepository } from "../domain/template";
 
-const CROSS_SEARCH_VALUE_ARTICLE = "template";
+const CROSS_SEARCH_VALUE_TEMPLATE = "template";
 
 export class TemplateRepositoryDynamoDB implements TemplateRepository {
   private readonly dynamodb: DynamoDB;
@@ -20,7 +20,7 @@ export class TemplateRepositoryDynamoDB implements TemplateRepository {
           id: { S: template.id },
           title: { S: template.title },
           body: { S: template.body },
-          crossSearchId: { S: CROSS_SEARCH_VALUE_ARTICLE },
+          crossSearchId: { S: CROSS_SEARCH_VALUE_TEMPLATE },
           crossSearchSort: { S: template.title },
         },
       })
