@@ -77,14 +77,7 @@ export const TemplateEditView = (props: Props) => {
         </Button>
       </div>
 
-      {props.id ? (
-        <>
-          <h2>ID</h2>
-          {props.id}
-        </>
-      ) : (
-        <></>
-      )}
+      <ID id={props.id} />
 
       <h2>タイトル</h2>
       <InputGroup inputRef={props.title} />
@@ -94,6 +87,18 @@ export const TemplateEditView = (props: Props) => {
         HTML整形
       </Button>
       <HTMLEditor body={props.body} setBody={props.setBody} />
+    </>
+  );
+};
+
+const ID = (props: { id?: string }) => {
+  if (!props.id) {
+    return <></>;
+  }
+  return (
+    <>
+      <h2>ID</h2>
+      {props.id}
     </>
   );
 };
