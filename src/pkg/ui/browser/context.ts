@@ -6,6 +6,8 @@ import { ArticleUsecase } from "../../app/usecase/article";
 import { ArticleQueryService } from "../../app/query/article";
 import { TemplateUsecase } from "../../app/usecase/template";
 import { TemplateQueryService } from "../../app/query/template";
+import { CategoryUsecase } from "../../app/usecase/category";
+import { CategoryQueryService } from "../../app/query/category";
 
 type ThemeContextValue = {
   darkMode: boolean;
@@ -36,6 +38,10 @@ type UsecaseContextValue = {
   template: {
     usecase: TemplateUsecase;
     query: TemplateQueryService;
+  };
+  category: {
+    usecase: CategoryUsecase;
+    query: CategoryQueryService;
   };
 };
 

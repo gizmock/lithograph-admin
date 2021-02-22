@@ -10,6 +10,7 @@ import { AssetDeletePage } from "./asset/delete";
 import { AssetFilePage } from "./asset/file";
 import { AssetListPage } from "./asset/list";
 import { AssetUploadPage } from "./asset/upload";
+import { CategoryEditPage, CategoryListPage } from "./category";
 import { DashboardMain } from "./dashboard";
 import { NotFoundMain } from "./not-found";
 import { TemplateEditPage } from "./template";
@@ -56,6 +57,14 @@ export const AuthorizedPage = () => {
           <Route
             path={RoutePath.TemplateEditPath.getURIPattern()}
             component={TemplateEditPage}
+          />
+          <Route
+            path={RoutePath.CategoryListPath.getURI()}
+            component={CategoryListPage}
+          />
+          <Route
+            path={RoutePath.CategoryEditPath.getURIPattern()}
+            component={CategoryEditPage}
           />
           <Route
             path={RoutePath.ArticleListPath.getURI()}

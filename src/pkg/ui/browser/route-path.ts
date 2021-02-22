@@ -80,6 +80,17 @@ export type TemplateEditPathParam = {
   id?: string;
 };
 
+export const CategoryListPath = new PathProvider("/category-list");
+
+export const CategoryEditPath = new PathProviderWithParam(
+  "/category-edit",
+  "id"
+);
+
+export type CategoryEditPathParam = {
+  id?: string;
+};
+
 export const ArticleListPath = new PathProvider("/article-list");
 
 export const ArticleEditPath = new PathProviderWithParam("/article-edit", "id");

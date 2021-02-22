@@ -7,7 +7,7 @@ import {
 } from "../app/query/template";
 
 const GSI_NAME_CROSS_SEARCH = "CrossSearchGSI";
-const CROSS_SEARCH_VALUE_ARTICLE = "template";
+const CROSS_SEARCH_VALUE_TEMPLATE = "template";
 
 export class TemplateQueryServiceDynamoDB implements TemplateQueryService {
   private readonly dynamodb: DynamoDB;
@@ -43,7 +43,7 @@ export class TemplateQueryServiceDynamoDB implements TemplateQueryService {
       "#crossSearchId": "crossSearchId",
     };
     const expressionAttributeValues: DynamoDB.ExpressionAttributeValueMap = {
-      ":crossSearchId": { S: CROSS_SEARCH_VALUE_ARTICLE },
+      ":crossSearchId": { S: CROSS_SEARCH_VALUE_TEMPLATE },
     };
 
     const boundaryKey = option.boundaryKey;
